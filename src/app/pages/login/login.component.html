@@ -1,0 +1,104 @@
+<div class="columns is-mobile mt-6 pt-6">
+  <div class="column"></div>
+  <div class="column">
+    <form [formGroup]="login" class="field">
+      
+
+      <div class="field">
+        <label class="label">E-mail</label>
+        <div class="control has-icons-left has-icons-right">
+          <input
+            formControlName="email"
+            class="input"
+            type="email"
+            placeholder=""
+            value=""
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            [ngClass]="{
+              'is-danger':
+                login.get('email')?.touched && login.get('email')?.invalid
+            }"
+          />
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <div
+            *ngIf="
+              login.get('email')?.touched && login.get('email')?.invalid
+            "
+          >
+            <span class="icon is-small is-right">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+
+            <p class="help is-danger">Veuillez saisir un E-mail valide</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Mot de passe</label>
+        <div class="control has-icons-left has-icons-right">
+          <input
+            formControlName="password"
+            class="input"
+            type="password"
+            placeholder=""
+            value=""
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{12,}$"
+            [ngClass]="{
+              'is-danger':
+                login.get('password')?.touched &&
+                login.get('password')?.invalid
+            }"
+          />
+          <span class="icon is-small is-left">
+            <i class="fa-solid fa-key"></i>
+          </span>
+          <div *ngIf="login.get('password')?.valid">
+            <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </div>
+          <div
+            *ngIf="
+              login.get('password')?.touched &&
+              login.get('password')?.invalid
+            "
+          >
+            <span class="icon is-small is-right">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+
+            <p class="help is-danger">
+              Votre mot de passe doit contenir 12 caractères dont une
+              minuscules, une majuscule, un chiffre et un caractère spécial
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <button
+          class="button is-link p-4 m-4"
+          type="submit"
+          (click)="OnConnect()"
+          [disabled]="!login.valid"
+        >
+          Se connecter
+        </button>
+      </div>
+      
+    </div>
+  
+  </div><div class="column"></div></div>
+<div class="modal" id="alert">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <!-- Any other Bulma elements you want -->
+    Veuillez saisir des mots de passe identiques !
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>

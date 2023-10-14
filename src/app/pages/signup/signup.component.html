@@ -1,0 +1,190 @@
+<div class="columns is-mobile mt-6">
+  <div class="column"></div>
+  <div class="column">
+    <form [formGroup]="addUser" class="field">
+      <div class="field">
+        <label class="label">Prénom</label>
+        <div class="control has-icons-left has-icons-right">
+          <input
+            formControlName="name"
+            class="input"
+            type="text"
+            pattern="^(?!\s*$).+"
+            [ngClass]="{
+              'is-danger':
+                addUser.get('name')?.touched && addUser.get('name')?.invalid
+            }"
+          />
+          <span class="icon is-small is-left">
+            <i class="fas fa-user"></i>
+          </span>
+          <div *ngIf="addUser.get('name')?.valid">
+            <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </div>
+          <div
+            *ngIf="addUser.get('name')?.touched && addUser.get('name')?.invalid"
+          >
+            <span class="icon is-small is-right">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+            <p class="help is-danger">Veuillez saisir votre Prénom</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">E-mail</label>
+        <div class="control has-icons-left has-icons-right">
+          <input
+            formControlName="email"
+            class="input"
+            type="email"
+            placeholder=""
+            value=""
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            [ngClass]="{
+              'is-danger':
+                addUser.get('email')?.touched && addUser.get('email')?.invalid
+            }"
+          />
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+          
+          <div
+            *ngIf="
+              addUser.get('email')?.touched && addUser.get('email')?.invalid
+            "
+          >
+            <span class="icon is-small is-right">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+
+            <p class="help is-danger">Veuillez saisir un E-mail valide</p>
+          </div><div *ngIf="addUser.get('email')?.valid">
+            <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Mot de passe</label>
+        <div class="control has-icons-left has-icons-right">
+          <input
+            formControlName="password"
+            class="input"
+            type="password"
+            placeholder=""
+            value=""
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{12,}$"
+            [ngClass]="{
+              'is-danger':
+                addUser.get('password')?.touched &&
+                addUser.get('password')?.invalid
+            }"
+          />
+          <span class="icon is-small is-left">
+            <i class="fa-solid fa-key"></i>
+          </span>
+          <div *ngIf="addUser.get('password')?.valid">
+            <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </div>
+          <div
+            *ngIf="
+              addUser.get('password')?.touched &&
+              addUser.get('password')?.invalid
+            "
+          >
+            <span class="icon is-small is-right">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+
+            <p class="help is-danger">
+              Votre mot de passe doit contenir 12 caractères dont une
+              minuscules, une majuscule, un chiffre et un caractère spécial
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Confirmez votre mot de passe</label>
+        <div class="control has-icons-left has-icons-right">
+          <input
+            formControlName="password2"
+            class="input"
+            type="password"
+            placeholder=""
+            value=""
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{12,}$"
+            [ngClass]="{
+              'is-danger':
+                addUser.get('password2')?.touched &&
+                addUser.get('password2')?.invalid
+            }"
+          />
+          <span class="icon is-small is-left">
+            <i class="fa-solid fa-key"></i>
+          </span>
+<div *ngIf="addUser.get('password2')?.valid">
+            <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </div>
+          <div
+            *ngIf="
+              addUser.get('password2')?.touched &&
+                addUser.get('password2')?.invalid
+            "
+          >
+            <span class="icon is-small is-right">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+
+            <p class="help is-danger">Confirmation du mot de passe erronée</p>
+          </div>
+          
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Motivation</label>
+        <div class="control">
+          <textarea
+            formControlName="motivation"
+            class="textarea"
+            placeholder=""
+            value=""
+          ></textarea>
+        </div>
+      </div>
+    </form>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <button
+          class="button is-link p-4 m-4"
+          type="submit"
+          (click)="onCheckPassword()"
+          [disabled]="!addUser.valid"
+        >
+          Envoyer la demande d'inscription
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="column"></div>
+</div>
+<div class="modal" id="alert">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <!-- Any other Bulma elements you want -->
+    Veuillez saisir des mots de passe identiques !
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>

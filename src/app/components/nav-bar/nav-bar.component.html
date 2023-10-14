@@ -1,0 +1,57 @@
+<nav class="navbar is-transparent is-fixed-top">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="">
+      <img src="../../../assets/logo-transparent-png.png" alt="logo" />
+    </a>
+    <a role="button" (click)="toggleNavbar()" #navBurger class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navMenu" class="navbar-menu" #navMenu>
+    <div class="navbar-start">
+      <a class="navbar-item" href=""> Home </a></div>
+
+    <div class="navbar-end">
+    <div class="navbar-item has-dropdown is-hoverable">
+      
+      <a class="navbar-link" [routerLink]="['/login']"> Espace admin </a>
+      <div class="navbar-dropdown is-boxed">
+        <a class="navbar-item" [routerLink]="['/signup']"> Inscription </a>
+        <a class="navbar-item" [routerLink]="['/login']"> Connexion </a>
+        <a class="navbar-item" href=""> Mon espace </a>
+      </div></div>
+      
+        <div class="navbar-item">
+          <div class="field is-grouped">
+            <p class="control">
+              <a
+                class="bd-tw-button button social"
+                data-social-network="Instagram"
+                data-social-action="insta"
+                data-social-target=""
+                target="_blank"
+                href=""
+              >
+                <span class="icon">
+                  <i class="fab fa-instagram fa-beat"></i>
+                </span>
+                <span> Instagram </span>
+              </a>
+            </p>
+            <p class="control">
+              <a class="button is-primary" href="">
+                <span class="icon">
+                  <i class="fas fa-download"></i>
+                </span>
+                <span>Download</span>
+              </a>
+            </p>
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</nav>
