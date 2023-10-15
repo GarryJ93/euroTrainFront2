@@ -28,3 +28,25 @@
     color: white;
     font-weight: bold;
 }
+
+@media screen and (min-width: 1088px){
+ .navbar-center {
+    display:flex;
+    justify-content: stretch;
+    align-items: stretch;
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-direction: row;
+ }
+ .navbar-link,.navbar-item {
+    align-items: center;
+    display: flex;
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 0;
+    justify-content: center;
+ }
+ .navbar-dropdown .navbar-item {
+   justify-content:left;
+ }	
+}

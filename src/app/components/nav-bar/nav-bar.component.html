@@ -12,7 +12,10 @@
 
   <div id="navMenu" class="navbar-menu" #navMenu>
     <div class="navbar-start">
-      <a class="navbar-item" href=""> Home </a></div>
+      <a class="navbar-item" [routerLink]="(['/accueil'])"> Accueil </a>
+      <a class="navbar-item" [routerLink]="(['/itinerary'])"> Itinéraires </a>
+      <a class="navbar-item" href=""> Conditions de voyage </a>
+    </div>
 
     <div class="navbar-end">
     <div class="navbar-item has-dropdown is-hoverable">
