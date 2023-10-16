@@ -25,11 +25,11 @@ export class HomeComponent {
           this.itinerariesToDisplay = [...response];
           this.exampleOfWay =
             this.itinerariesToDisplay[
-              Math.floor(Math.random() * (response.length - 1))
+              Math.floor(Math.random() * (this.itinerariesToDisplay.length - 1))
             ];
 
           console.log(this.itinerariesToDisplay);
-          console.log(this.exampleOfWay);
+          console.log(this.exampleOfWay.destinationCity);
         }
       },
     });

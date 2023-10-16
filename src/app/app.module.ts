@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AccordionModule } from 'primeng/accordion'; 
+import { CascadeSelectModule } from 'primeng/cascadeselect';
+import { ButtonModule } from 'primeng/button';
+import { OrderListModule } from 'primeng/orderlist';
+import { CarouselModule } from 'primeng/carousel';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './pages/signup/signup.component';
@@ -16,6 +21,10 @@ import { ItineraryListComponent } from './components/itinerary-list/itinerary-li
 import { CardExampleComponent } from './components/card-example/card-example.component';
 import { ItineraryComponent } from './pages/itinerary/itinerary.component';
 import { BlobButtonComponent } from './components/blob-button/blob-button.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { CountryComponent } from './pages/country/country.component';
+import { CountryListComponent } from './components/country-list/country-list.component';
+import { AccordionComponent } from './components/accordion/accordion.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,12 +39,23 @@ import { BlobButtonComponent } from './components/blob-button/blob-button.compon
     CardExampleComponent,
     ItineraryComponent,
     BlobButtonComponent,
+    AdminComponent,
+    CountryComponent,
+    CountryListComponent,
+    AccordionComponent
+  
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    AccordionModule,
+    ButtonModule,
+    CarouselModule,
+    OrderListModule,
+    CascadeSelectModule,
   
   ],
   providers: [],

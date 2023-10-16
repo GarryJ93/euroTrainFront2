@@ -5,4 +5,5 @@ export interface Photo {
     mimetype: string,
     id_country: number,
     id_city: number,
+    picture: any;
 }

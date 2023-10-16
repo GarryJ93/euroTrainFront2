@@ -12,7 +12,8 @@
             pattern="^(?!\s*$).+"
             [ngClass]="{
               'is-danger':
-                addUser.get('name')?.touched && addUser.get('name')?.invalid
+                addUser.get('name')?.touched && addUser.get('name')?.invalid,
+                'is-success' : addUser.get('name')?.valid
             }"
           />
           <span class="icon is-small is-left">
@@ -46,7 +47,8 @@
             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
             [ngClass]="{
               'is-danger':
-                addUser.get('email')?.touched && addUser.get('email')?.invalid
+                addUser.get('email')?.touched && addUser.get('email')?.invalid,
+                'is-success' : addUser.get('email')?.valid
             }"
           />
           <span class="icon is-small is-left">
@@ -84,7 +86,8 @@
             [ngClass]="{
               'is-danger':
                 addUser.get('password')?.touched &&
-                addUser.get('password')?.invalid
+                addUser.get('password')?.invalid,
+                'is-success' : addUser.get('password')?.valid
             }"
           />
           <span class="icon is-small is-left">
@@ -126,7 +129,8 @@
             [ngClass]="{
               'is-danger':
                 addUser.get('password2')?.touched &&
-                addUser.get('password2')?.invalid
+                addUser.get('password2')?.invalid,
+                'is-success' : addUser.get('password2')?.valid
             }"
           />
           <span class="icon is-small is-left">
@@ -163,7 +167,7 @@
           ></textarea>
         </div>
       </div>
-    </form>
+    
 
     <div class="field is-grouped">
       <div class="control">
@@ -176,7 +180,7 @@
           Envoyer la demande d'inscription
         </button>
       </div>
-    </div>
+    </div></form>
   </div>
   <div class="column"></div>
 </div>

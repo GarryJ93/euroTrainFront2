@@ -1,14 +1,13 @@
-<div class="card ml-2 is-touch">
-  <div class="card-image">
+<div *ngIf="myExample" class="card is-touch ">
+  <div *ngIf="cityImage" class="card-image">
     <figure class="image is-4by3">
-      <img src="../../../assets/test.jpg" alt="Placeholder image">
+      <img src="{{cityImage.picture}}" alt="Placeholder image">
     </figure>
   </div>
   <div class="card-content">
 
     <div class="content">
-      {{myExample.originCity.name}} <a>@bulmaio</a>.
-      <a href="#">#css</a> <a href="#">#responsive</a>
+      {{myExample.destinationCity.name}}
     </div>
   </div>
 </div>

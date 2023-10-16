@@ -1,15 +1,17 @@
 <div class="card is-touch is-half block m-2">
-  <div class="card-image">
+  <div *ngIf="itineraries.destinationCity.photo[0]" class="card-image">
     <figure class="image is-4by3">
-      <img src="../../../assets/test.jpg" alt="Placeholder image">
+      <img src="{{itineraries.destinationCity.photo[0].picture}}" alt="Placeholder image">
     </figure>
   </div>
   <div class="card-content">
 
 
     <div class="content">
-      {{itineraries.originCity.name}} 
-      <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+      <p>{{itineraries.originCity.name}}</p> 
+      <p>{{itineraries.destinationCity.name}}</p>
+      <p>{{itineraries.company[0].name}}</p>
+      <p>{{itineraries.type[0].name}}</p>
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 <div class="columns is-mobile mt-6 pt-6">
   <div class="column"></div>
   <div class="column is-half-touch">
-    <form [formGroup]="login" class="field">
+    <form [formGroup]="login" (ngSubmit)="OnConnect()" class="field">
       
 
       <div class="field">
@@ -16,12 +16,18 @@
             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
             [ngClass]="{
               'is-danger':
-                login.get('email')?.touched && login.get('email')?.invalid
+                login.get('email')?.touched && login.get('email')?.invalid,
+                'is-success' : login.get('email')?.valid
             }"
           />
           <span class="icon is-small is-left">
             <i class="fas fa-envelope"></i>
           </span>
+          <div *ngIf="login.get('email')?.valid">
+            <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </div>
           <div
             *ngIf="
               login.get('email')?.touched && login.get('email')?.invalid
@@ -49,7 +55,8 @@
             [ngClass]="{
               'is-danger':
                 login.get('password')?.touched &&
-                login.get('password')?.invalid
+                login.get('password')?.invalid,
+                'is-success' : login.get('password')?.valid
             }"
           />
           <span class="icon is-small is-left">
@@ -77,21 +84,21 @@
           </div>
         </div>
       </div>
-    </form>
+    
 
     <div class="field is-grouped">
       <div class="control">
         <button
           class="button is-link p-4 m-4"
           type="submit"
-          (click)="OnConnect()"
+          
           [disabled]="!login.valid"
         >
           Se connecter
         </button>
       </div>
       
-    </div>
+    </div></form>
   
   </div><div class="column"></div></div>
 <div class="modal" id="alert">

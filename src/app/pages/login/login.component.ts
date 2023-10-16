@@ -42,6 +42,9 @@ export class LoginComponent {
           if (response && response.accessToken) {
             // Stocker le token dans le localStorage
             localStorage.setItem('access_token', response.accessToken);
+            localStorage.setItem('id', response.user.id);
+            localStorage.setItem('access', response.user.access);
+            localStorage.setItem('full_access', response.user.full_access);
             alert('Vous êtes connecté')
             console.log('Connexion réussie et token stocké!');
             this.router.navigate(['']);

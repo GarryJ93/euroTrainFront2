@@ -1,0 +1,52 @@
+<div>
+    <div>
+  <p-accordion class="m-2"><img src="https://flagsapi.com/{{country.initial}}/shiny/64.png"/>
+    <p-accordionTab header="{{ country.name }}">
+      <div *ngIf="country.photo[0]" class="container is-max-desktop">
+        <p-carousel
+          [value]="country.photo"
+          [numVisible]="1"
+          [numScroll]="1"
+          [autoplayInterval]="5000"
+          [circular]="true"
+        >
+          <ng-template let-photo pTemplate="item">
+            <div>
+              <figure class="image is-3by2 is-touch is-desktop">
+                <img class="has-ratio" src="{{ photo.picture }}" />
+              </figure>
+            </div>
+          </ng-template>
+        </p-carousel>
+      </div>
+
+      <div class="columns is-multiline is-centered block m-4">
+        <div class="column is-half has-text-centered is-narrow">
+          <span class="has-text-weight-bold">Monnaie : </span>
+          <p >
+            {{ country.currency.name }},
+            {{ country.currency.initial }}
+          </p>
+        </div>
+        <div class="column is-half has-text-centered is-narrow">
+          <span class="has-text-weight-bold">Espace Schengen : </span>
+          <p *ngIf="country.schengen" >OUI</p>
+          <p *ngIf="!country.schengen" >NON</p>
+        </div>
+        <div class="column is-half has-text-centered is-narrow">
+          <span class="has-text-weight-bold">Langue principale : </span>
+          <p >{{ country.language.name }}</p>
+        </div>
+        <div class="column is-half has-text-centered is-narrow">
+          <span class="has-text-weight-bold">Document de voyage : </span>
+          <p >{{ country.docs.name }}</p>
+        </div>
+        <div class="column is-full has-text-centered is-narrow">
+          <span class="has-text-weight-bold">Observation : </span>
+          <p >{{ country.observation }}</p>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+</div>
+</div>

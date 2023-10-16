@@ -1,4 +1,6 @@
 import { City } from "./city";
+import { TransportCompany } from "./transport-company";
+import { TransportType } from "./transport-type";
 
 export interface Itinerary {
     id_itinerary: number,
@@ -7,7 +9,7 @@ export interface Itinerary {
     id_user: number,
     originCity: City;
     destinationCity: City;
-    companyTab: object[],
-    transportType: object[],
+    company: TransportCompany[],
+    type: TransportType[],
     cityStop: City[]
 }
