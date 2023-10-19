@@ -47,7 +47,8 @@ export class LoginComponent {
             localStorage.setItem('full_access', response.user.full_access);
             alert('Vous êtes connecté')
             console.log('Connexion réussie et token stocké!');
-            this.router.navigate(['']);
+            this.router.navigate(['/admin']);
+            location.reload();
           } else {
             console.error('Token non reçu dans la réponse.');
           }

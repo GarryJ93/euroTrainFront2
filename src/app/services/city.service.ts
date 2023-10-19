@@ -10,17 +10,17 @@ export class CityService {
   constructor(private http: HttpClient) {}
 
   getAllCities(): Observable<City[]> {
-    return this.http.get<City[]>('http://localhost:3000/api/City');
+    return this.http.get<City[]>('http://localhost:3000/api/city');
   }
 
   getCityById(id: number): Observable<City> {
-    return this.http.get<City>(`http://localhost:3000/api/City/${id}`);
+    return this.http.get<City>(`http://localhost:3000/api/city/${id}`);
   }
 
-  addCity(City: City): Observable<City> {
+  addCity(city: City): Observable<City> {
     return this.http.post<City>(
-      'http://localhost:3000/api/City',
-      City
+      'http://localhost:3000/api/city',
+      city
     );
   }
 }

@@ -4,8 +4,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionModule } from 'primeng/accordion'; 
 import { CascadeSelectModule } from 'primeng/cascadeselect';
 import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
 import { OrderListModule } from 'primeng/orderlist';
 import { CarouselModule } from 'primeng/carousel';
+import { DialogModule } from 'primeng/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './pages/signup/signup.component';
@@ -25,6 +27,10 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { CountryComponent } from './pages/country/country.component';
 import { CountryListComponent } from './components/country-list/country-list.component';
 import { AccordionComponent } from './components/accordion/accordion.component';
+import { BtnConfirmSuppressionComponent } from './components/btn-confirm-suppression/btn-confirm-suppression.component';
+import { AddCountryComponent } from './components/add-country/add-country.component';
+import { AddCityComponent } from './components/add-city/add-city.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +48,11 @@ import { AccordionComponent } from './components/accordion/accordion.component';
     AdminComponent,
     CountryComponent,
     CountryListComponent,
-    AccordionComponent
+    AccordionComponent,
+    BtnConfirmSuppressionComponent,
+    AddCountryComponent,
+    AddCityComponent,
+  
   
   ],
   imports: [
@@ -56,6 +66,8 @@ import { AccordionComponent } from './components/accordion/accordion.component';
     CarouselModule,
     OrderListModule,
     CascadeSelectModule,
+    DropdownModule,
+    DialogModule,
   
   ],
   providers: [],

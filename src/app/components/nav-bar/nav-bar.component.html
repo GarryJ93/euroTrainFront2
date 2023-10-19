@@ -46,13 +46,10 @@
                 <span> Instagram </span>
               </a>
             </p>
-            <p class="control">
-              <a class="button is-primary" href="">
-                <span class="icon">
-                  <i class="fas fa-download"></i>
-                </span>
-                <span>Download</span>
-              </a>
+            <p *ngIf="access_token" class="control">
+              <button class="button is-danger" (click)="showDialog()">
+                Se déconnecter
+              </button>
             </p>
           </div>
         </div>
@@ -60,3 +57,29 @@
     </div>
   </div>
 </nav>
+
+
+    <p-dialog
+      header="Attention"
+      [(visible)]="visible"
+      [breakpoints]="{ '960px': '75vw' }"
+      [style]="{ width: '50vw' }"
+      [draggable]="false"
+      [resizable]="false"
+    >
+      <p>Vous allez vous déconnecter. Êtes-vous sûr(e) ?</p>
+      <div class="buttons m-4">
+        <button
+          class="button is-danger is-responsive"
+          (click)="onDisconnect()"
+        >
+          Oui
+        </button>
+        <button
+          class="button is-primary is-responsive"
+          (click)="closeDialog()"
+        >
+          Non
+        </button>
+      </div>
+    </p-dialog>

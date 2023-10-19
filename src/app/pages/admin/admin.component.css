@@ -1,0 +1,13 @@
+.border-left {
+    border-bottom: medium solid rgba(107, 104, 104, 0.662);
+    border-left: medium solid rgba(107, 104, 104, 0.662);
+    border-bottom-left-radius: 25px;
+}
+
+.border-right {
+    border-bottom: medium solid rgba(107, 104, 104, 0.662);
+    border-right: medium solid rgba(107, 104, 104, 0.662);
+    border-bottom-right-radius: 25px;
+}
+
+

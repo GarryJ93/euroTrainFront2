@@ -1,97 +1,222 @@
 <div class="columns is-multiline is-touch block m-4">
-  <div *ngIf="full_access" class="column is-touch is-half block has-background-danger">
+  <div class="column block">
+    <app-btn-confirm-suppression></app-btn-confirm-suppression>
+  </div>
+  <div *ngIf="full_access" class="column is-touch is-full block border-left">
     <div class="columns is-multiline">
-    <div *ngFor="let user of candidateUser" class="column is-half">
-<div *ngIf="!user.access" class="card m-4">
-    <header class="card-header">
-    <p class="card-header-title">
-      {{user.name}}
-    </p>
-    <button class="card-header-icon" aria-label="more options">
-      <span class="icon">
-        <i class="fas fa-user-pen" aria-hidden="true"></i>
-      </span>
-    </button>
-  </header>
-  <div class="card-content">
-    <div class="content">
-      {{user.motivation}}
-    </div>
-  </div>
-  <footer class="card-footer field is-grouped buttons has-addons">
-    <button class="card-footer-item button is-responsive is-primary ms-2 ml-2 block">Accepter</button>
-    <button class="card-footer-item button is-responsive is-danger ms-2 mr-2 block">Refuser</button>
-  </footer>
-</div></div>
-
-  </div></div>
-    
-  
-  <div *ngIf="full_access" class=" column is-touch is-half block has-background-info">
-<div class="columns is-multiline">
-    <div *ngFor="let user of adminUser" class="column is-half">
-<div *ngIf="user.access" class="card block m-4">
-    <header class="card-header">
-    <p class="card-header-title">
-      {{user.name}}
-    </p>
-    <button class="card-header-icon" aria-label="more options">
-      <span class="icon">
-        <i class="fas fa-user" aria-hidden="true"></i>
-      </span>
-    </button>
-  </header>
-  <div class="card-content">
-    <div class="content">
-      Liste des itinéraires crées par cet utilisateur (A faire)
-    </div>
-  </div>
-  <footer class="card-footer">
-    
-    <button class="card-footer-item button is-responsive is-danger m-2">Supprimer</button>
-  </footer>
-</div></div>
-
-  </div></div>
-    
-  </div>
-  <div *ngIf="access" class="column is-half block has-background-warning">
-<button class="button is-responsive is-primary m-4">Ajouter un pays</button>
-<p-orderList [value]="countriesToDisplay" [listStyle]="{ height: '25rem' }" header="Liste des pays" filterBy="name" filterPlaceholder="Filtrer par Nom" [dragdrop]="true">
-    <ng-template let-country pTemplate="countriesToDisplay">
-        <div class="flex flex-wrap p-2 align-items-center gap-3">
-            <img src="https://flagsapi.com/{{country.initial}}/shiny/64.png" class="w-4rem shadow-2 flex-shrink-0 border-round image is-24x24" />
-            <div class="flex-1 flex flex-column gap-2">
-                <span class="font-bold"></span>
-                <div class="flex align-items-center gap-2 columns is-multiline is-vcentered">
-                    <i class="pi pi-tag text-sm"></i>
-                    <span class="column ">{{country.name}}</span>
-                    <button class="button is-danger is-responsive column m-2"><span>Supprimer</span></button>
-                </div>
+      <h2 class="column is-full has-text-weight-bold is-size-4">
+        Utilisateurs en attente de validation
+      </h2>
+      <div
+        *ngFor="let user of candidateUser"
+        class="column is-half"
+        [id]="user.id"
+      >
+        <div *ngIf="!user.access" class="card m-4">
+          <header class="card-header">
+            <p class="card-header-title">
+              {{ user.name }}
+            </p>
+            <button class="card-header-icon" aria-label="more options">
+              <span class="icon">
+                <i class="fas fa-user-pen" aria-hidden="true"></i>
+              </span>
+            </button>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              {{ user.motivation }}
             </div>
-            <span class="font-bold text-900"></span>
+          </div>
+          <footer class="card-footer field is-grouped buttons has-addons">
+            <button
+              class="card-footer-item button is-responsive is-primary ms-2 ml-2 block"
+              (click)="OnAcceptNewAdmin(user.id)"
+            >
+              Accepter
+            </button>
+            <button
+              class="card-footer-item button is-responsive is-danger ms-2 mr-2 block"
+              (click)="OnDeleteAllDataUser(user.id)"
+            >
+              Refuser
+            </button>
+          </footer>
         </div>
-    </ng-template>
-</p-orderList>
-
-
-    
+      </div>
+    </div>
   </div>
-  <div *ngIf="access" class="column is-half block has-background-success">
-    <!-- <div **ngFor="let country of allCountries">
-<p-cascadeSelect [(ngModel)]="city" [options]="country" optionLabel="name" optionGroupLabel="name" [optionGroupChildren]="['city']" [style]="{ minWidth: '14rem' }" placeholder="Select a City"></p-cascadeSelect>
-  </div> -->
+
+  <div *ngIf="full_access" class="column is-touch is-full border-right">
+    <h2 class="column is-full has-text-weight-bold is-size-4 has-text-right">
+      Utilisateurs
+    </h2>
+    <div class="columns is-multiline">
+      <div *ngFor="let user of adminUser" class="column is-half">
+        <div *ngIf="user.access" class="card block m-4">
+          <header class="card-header">
+            <p class="card-header-title">
+              {{ user.name }}
+            </p>
+            <button class="card-header-icon" aria-label="more options">
+              <span class="icon">
+                <i class="fas fa-user" aria-hidden="true"></i>
+              </span>
+            </button>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              Liste des itinéraires crées par cet utilisateur (A faire)
+            </div>
+          </div>
+          <footer class="card-footer">
+            <button
+              class="card-footer-item button is-responsive is-danger m-2"
+              (click)="showDialog()"
+            >
+              Supprimer
+            </button>
+          </footer>
+        </div>
+        <p-dialog
+          header="Attention"
+          [(visible)]="visible"
+          [breakpoints]="{ '960px': '75vw' }"
+          [style]="{ width: '50vw' }"
+          [draggable]="false"
+          [resizable]="false"
+        >
+          <p>
+            Vous allez supprimer un utilisateur, voulez-vous effacer les
+            itinéraires créés par cet utilisateur également ?
+          </p>
+          <div class="buttons m-4">
+            <button
+              class="button is-danger is-responsive"
+              (click)="OnSoftDeleteUser(user.id)"
+            >
+              Supprimer et conserver les itinéraires
+            </button>
+            <button
+              class="button is-danger is-responsive"
+              (click)="OnDeleteAllDataUser(user.id)"
+            >
+              Tout supprimer
+            </button>
+            <button
+              class="button is-primary is-responsive"
+              (click)="closeDialog()"
+            >
+              Annuler
+            </button>
+          </div>
+        </p-dialog>
+      </div>
+    </div>
+  </div>
 </div>
-
-
-  <div *ngIf="access && !full_access" class="column is-full block has-background-link">
-    <app-itinerary-list
-      [itinerariesList]="itinerariesToDisplay"
-    ></app-itinerary-list>
+<div *ngIf="access" class="column is-full block border-left m-4">
+  <h2 class="column is-full has-text-weight-bold is-size-4">
+    Pays disponibles
+  </h2>
+  <div class="m-4">
+    <app-add-country
+      [languageList]="languagesToDisplay"
+      [currencyList]="currenciesToDisplay"
+      [travelDocumentList]="travelDocumentsToDisplay"
+    ></app-add-country>
   </div>
-  <div *ngIf="full_access" class="column is-full block has-background-link">
-    <app-itinerary-list
-      [itinerariesList]="allUsersItineraries"
-    ></app-itinerary-list>
-  </div>
+  <p-orderList
+    [value]="countriesToDisplay"
+    [listStyle]="{ height: '25rem' }"
+    header="Liste des pays"
+    filterBy="name"
+    filterPlaceholder="Filtrer par Nom"
+    [dragdrop]="true"
+  >
+    <ng-template let-country pTemplate="countriesToDisplay">
+      <div class="m-2">
+        <img
+          src="https://flagsapi.com/{{ country.initial }}/shiny/64.png"
+          class="image is-24x24"
+        />
+        <div class="columns is-multiline is-vcentered">
+          <div class="column">
+            <span class="has-text-weight-bold">{{ country.name }}</span>
+          </div>
+          <div class="column" (click)="getCountryId(country.id)">
+            <app-blob-button [idCountry]="idCountryForPicture"></app-blob-button>
+          </div>
+          <div *ngIf="full_access" class="column">
+            <button
+              class="button is-danger is-responsive m-2"
+              (click)="OnDeleteCountry(country.id)"
+            >
+              <span>Supprimer</span>
+            </button>
+          </div>
+        </div>
+        <a class=""
+          >Découvre les itinéraires déjà existants pour ce pays et partage les
+          tiens avec nos visiteurs !</a
+        >
+      </div>
+    </ng-template>
+  </p-orderList>
+</div>
+<div *ngIf="access" class="column is-quarter block border-right m-4">
+  <h2 class="column is-full has-text-weight-bold is-size-4 has-text-right">
+    Villes Proposées
+  </h2>
+  <div class="m-4">
+  <app-add-city [countries]="countriesToDisplay"></app-add-city>
+</div>
+  <div>
+    <form [formGroup]="select" (ngSubmit)="onChange()" class="field">
+      <div class="control has-icons-left">
+        <div class="select is-medium">
+          <select formControlName="country">
+            <option selected value="">Pays</option>
+            <option
+              *ngFor="let country of countriesToDisplay"
+              value="{{ country.id }}"
+            >
+              {{ country.name }}
+            </option>
+          </select>
+        </div>
+        <span class="icon is-medium is-left">
+          <i class="fas fa-globe"></i>
+        </span>
+      </div>
 
+      <button type="submit" class="button is-responsive is-primary m-2">
+        Voir les villes
+      </button>
+    </form>
+    <div *ngFor="let city of citiesByCountry">
+      <div>
+      <a href="">{{ city.name }}</a></div>
+      <div (click)="getCityId(city.id.toString())">
+        <app-blob-button [idCity]="idCityForPicture" [idCountry]="idCountryForPicture"></app-blob-button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  *ngIf="access && !full_access"
+  class="column is-full block border-left m-4"
+>
+  <h2 class="column is-full has-text-weight-bold is-size-4">Mes itinéraires</h2>
+  <app-itinerary-list
+    [itinerariesList]="itinerariesToDisplay"
+  ></app-itinerary-list>
+</div>
+<div *ngIf="full_access" class="column is-full block border-left m-4">
+  <h2 class="column is-full has-text-weight-bold is-size-4">
+    Tous les itinéraires
+  </h2>
+  <app-itinerary-list
+    [itinerariesList]="allUsersItineraries"
+  ></app-itinerary-list>
+</div>

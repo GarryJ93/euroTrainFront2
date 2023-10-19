@@ -1,5 +1,6 @@
 import { Country } from "./country";
 import { Photo } from "./photo";
+import { StayCat } from "./stay-cat";
 
 export interface City {
     id: number,
@@ -7,7 +8,7 @@ export interface City {
     id_country: number,
     id_stay_cat: number,
     country: Country;
-    cat: object;
+    category: StayCat;
     photo: Photo[];
     picture: any;
 }

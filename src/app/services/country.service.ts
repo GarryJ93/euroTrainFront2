@@ -23,4 +23,14 @@ export class CountryService {
       country
     );
   }
+
+  updateCountry(id: number, updateData: Partial<Country>): Observable<Partial<Country>> {
+    return this.http.patch<Country>(
+      `http://localhost:3000/api/country/${id}`,
+      updateData )
+  }
+
+  deleteCountry(id: number): Observable<Country>{
+    return this.http.delete<Country>(`http://localhost:3000/api/country/${id}`);
+  }
 }

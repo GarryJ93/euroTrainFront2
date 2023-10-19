@@ -24,16 +24,11 @@ export class PhotoService {
     });
   }
 
-  postImage(formData: FormData) {
-    return this.http.post('http://localhost:3000/api/photo', formData);
+  postImage(formData: FormData, idCity: number, idCountry: number) {
+    formData.append('idCity', idCity.toString());
+    formData.append('idCountry', idCountry.toString());
+    return this.http.post('http://localhost:3000/api/photo',formData);
   }
 
-  deletePhotos(id: number) {
-    const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-    });
-    return this.http.delete(`http://localhost:3000/api/photo/${id}`, {
-      headers: headers,
-    });
-  }
+  
 }

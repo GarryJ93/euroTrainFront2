@@ -1,0 +1,133 @@
+<button class="button is-primary is-responsive" (click)="showDialog()">
+  Ajouter un pays
+</button>
+<p-dialog
+  header="Ajouter un nouveau pays"
+  [(visible)]="visible"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="columns is-mobile">
+    <div class="column is-full-touch">
+      <form [formGroup]="addCountry" (ngSubmit)="onAddCountry()" class="field">
+        <div class="field">
+          <label class="label">Nom</label>
+          <div class="control has-icons-left has-icons-right">
+            <input
+              formControlName="name"
+              class="input"
+              type="text"
+              placeholder=""
+              value=""
+            />
+            <span class="icon is-small is-left">
+              <i class="fas fa-earth-europe"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Initiales</label>
+          <div class="control has-icons-left has-icons-right">
+            <input
+              formControlName="initial"
+              class="input"
+              type="text"
+              placeholder=""
+              value=""
+            />
+            <span class="icon is-small is-left">
+              <i class="fa-solid fa-font"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Langue</label>
+          <div class="control has-icons-left">
+            <div class="select">
+              <select formControlName="language">
+                <option
+                  *ngFor="let language of languageList"
+                  value="{{ language.id }}"
+                  id="option"
+                >
+                  {{ language.name }}
+                </option>
+              </select>
+            </div>
+            <div class="icon is-small is-left">
+              <i class="fas fa-language"></i>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Monnaie</label>
+          <div class="control has-icons-left my-2">
+            <div class="select">
+              <select formControlName="currency">
+                <option
+                  *ngFor="let currency of currencyList"
+                  value="{{ currency.id }}"
+                >
+                  {{ currency.name }}
+                </option>
+              </select>
+            </div>
+            <div class="icon is-small is-left">
+              <i class="fas fa-wallet"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Document de voyage</label>
+
+          <div class="control has-icons-left my-2">
+            <div class="select">
+              <select formControlName="docs">
+                <option
+                  *ngFor="let doc of travelDocumentList"
+                  value="{{ doc.id }}"
+                >
+                  {{ doc.name }}
+                </option>
+              </select>
+            </div>
+            <div class="icon is-small is-left">
+              <i class="fas fa-passport"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Espace Schengen</label>
+          <div class="control has-icons-left has-icons-right">
+        
+  <input type="checkbox" formControlName="schengen">
+  
+          </div></div>
+
+        <div class="field">
+          <label class="label">Observations particulières</label>
+          <div class="control has-icons-left has-icons-right">
+            <textarea
+              formControlName="observation"
+              class="textarea"
+              placeholder=""
+              value=""
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-primary is-responsive p-4 m-4" type="submit" [disabled]="!addCountry.valid">
+              Enregistrer
+            </button>
+          </div>
+        </div>
+      </form>
+  </div></div></p-dialog>    
+

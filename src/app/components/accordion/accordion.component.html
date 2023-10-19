@@ -7,7 +7,6 @@
           [value]="country.photo"
           [numVisible]="1"
           [numScroll]="1"
-          [autoplayInterval]="5000"
           [circular]="true"
         >
           <ng-template let-photo pTemplate="item">
@@ -24,8 +23,8 @@
         <div class="column is-half has-text-centered is-narrow">
           <span class="has-text-weight-bold">Monnaie : </span>
           <p >
-            {{ country.currency.name }},
-            {{ country.currency.initial }}
+            {{ country.currency.name }}, <a href="https://www.xe.com/fr/currencyconverter/" target="_blank">
+            {{ country.currency.initial }}</a>
           </p>
         </div>
         <div class="column is-half has-text-centered is-narrow">
@@ -41,7 +40,7 @@
           <span class="has-text-weight-bold">Document de voyage : </span>
           <p >{{ country.docs.name }}</p>
         </div>
-        <div class="column is-full has-text-centered is-narrow">
+        <div *ngIf="country.observation !== ''" class="column is-full has-text-centered is-narrow">
           <span class="has-text-weight-bold">Observation : </span>
           <p >{{ country.observation }}</p>
         </div>

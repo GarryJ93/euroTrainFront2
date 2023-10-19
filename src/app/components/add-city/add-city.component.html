@@ -1,0 +1,84 @@
+<button class="button is-primary is-responsive" (click)="showDialog()">
+  Ajouter une ville
+</button>
+<p-dialog
+  header="Ajouter un nouvelle ville"
+  [(visible)]="visible"
+  [breakpoints]="{ '960px': '75vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="columns is-mobile">
+    <div class="column is-full-touch">
+      <form [formGroup]="addCity" (ngSubmit)="onAddCity()" class="field">
+        <div class="field">
+          <label class="label">Nom</label>
+          <div class="control has-icons-left has-icons-right">
+            <input
+              formControlName="name"
+              class="input"
+              type="text"
+              placeholder=""
+              value=""
+            />
+            <span class="icon is-small is-left">
+              <i class="fas fa-tree-city"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Pays</label>
+          <div class="control has-icons-left">
+            <div class="select">
+              <select formControlName="country">
+                <option
+                  *ngFor="let country of countries"
+                  value="{{ country.id }}"
+                  id="option"
+                >
+                  {{ country.name }}
+                </option>
+              </select>
+            </div>
+            <div class="icon is-small is-left">
+              <i class="fas fa-earth-europe"></i>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="field">
+          <label class="label">Catégorie</label>
+
+          <div class="control has-icons-left my-2">
+            <div class="select">
+              <select formControlName="category">
+                <option
+                  *ngFor="let category of categoriesToDisplay"
+                  value="{{ category.id }}"
+                >
+                  {{ category.name }}
+                </option>
+              </select>
+            </div>
+            <div class="icon is-small is-left">
+              <i class="fas fa-passport"></i>
+            </div>
+          </div>
+        </div>
+
+        
+
+        
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-primary is-responsive p-4 m-4" type="submit" [disabled]="!addCity.valid">
+              Enregistrer
+            </button>
+          </div>
+        </div>
+      </form>
+  </div></div></p-dialog> 
