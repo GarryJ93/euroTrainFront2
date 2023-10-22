@@ -168,9 +168,7 @@
   <h2 class="column is-full has-text-weight-bold is-size-4 has-text-right">
     Villes Proposées
   </h2>
-  <div class="m-4">
-  <app-add-city [countries]="countriesToDisplay"></app-add-city>
-</div>
+  
   <div>
     <form [formGroup]="select" (ngSubmit)="onChange()" class="field">
       <div class="control has-icons-left">
@@ -188,19 +186,13 @@
         <span class="icon is-medium is-left">
           <i class="fas fa-globe"></i>
         </span>
-      </div>
+      
 
       <button type="submit" class="button is-responsive is-primary m-2">
         Voir les villes
-      </button>
+      </button></div>
     </form>
-    <div *ngFor="let city of citiesByCountry">
-      <div>
-      <a href="">{{ city.name }}</a></div>
-      <div (click)="getCityId(city.id.toString())">
-        <app-blob-button [idCity]="idCityForPicture" [idCountry]="idCountryForPicture"></app-blob-button>
-      </div>
-    </div>
+    <app-city-list [cityList]="citiesByCountry" [countriesToDisplay]="countriesToDisplay"></app-city-list>
   </div>
 </div>
 <div

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { City } from 'src/app/models/city';
 import { Country } from 'src/app/models/country';
@@ -20,7 +20,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit{
   access!: Boolean;
   full_access!: Boolean;
   allItineraries!: Itinerary[];
@@ -47,8 +47,7 @@ export class AdminComponent {
   allTravelDocuments!: TravelDocument[]
   travelDocumentsToDisplay!: TravelDocument[];
   idCountryForPicture!: number;
-  idCityForPicture!: number;
-  city!: City;
+  
 
   constructor(
     private itineraryService: ItineraryService,
@@ -164,6 +163,10 @@ export class AdminComponent {
       this.citiesByCountry = [
         ...this.citiesToDisplay.filter((city) => city.id_country === countryId),
       ];
+      this.citiesByCountry = this.citiesByCountry.map((city) => ({
+        ...city,
+        isVisible: false,
+      }));
       console.log(this.citiesByCountry);
     }
   }
@@ -232,15 +235,4 @@ export class AdminComponent {
     return this.idCountryForPicture;
   }
 
-  getCityId(id: string) {
-    this.idCityForPicture = +id;
-    this.cityService.getCityById(this.idCityForPicture).subscribe({
-      next: (response) => {
-        this.city = response;
-        this.idCountryForPicture = this.city.id_country
-      }
-    });
-console.log(this.city)
-    
-  }
 }

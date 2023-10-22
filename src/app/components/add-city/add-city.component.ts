@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { City } from 'src/app/models/city';
 import { Country } from 'src/app/models/country';
 import { StayCat } from 'src/app/models/stay-cat';
@@ -21,7 +22,9 @@ export class AddCityComponent {
 
   constructor(private fb: FormBuilder,
     private cityService: CityService,
-  private stayCatService: StayCatService) { }
+    private stayCatService: StayCatService,
+    private messageService: MessageService,
+  ) { }
 
   ngOnInit(): void {
     this.initialForm();
@@ -68,7 +71,12 @@ export class AddCityComponent {
     }
     this.cityService.addCity(newCity).subscribe({
       next: () => {
-        alert('Ville ajoutée avec succès !');
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Opération réussie',
+          detail: 'Ville ajoutée avec succès',
+        });
+      
         this.addCity.reset();
         this.closeDialog()
       },

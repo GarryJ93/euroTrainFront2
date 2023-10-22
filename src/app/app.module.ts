@@ -3,10 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionModule } from 'primeng/accordion'; 
 import { CascadeSelectModule } from 'primeng/cascadeselect';
+import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { GalleriaModule } from 'primeng/galleria';
 import { DropdownModule } from 'primeng/dropdown';
 import { OrderListModule } from 'primeng/orderlist';
 import { CarouselModule } from 'primeng/carousel';
+import { MessagesModule } from 'primeng/messages';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,6 +36,10 @@ import { AccordionComponent } from './components/accordion/accordion.component';
 import { BtnConfirmSuppressionComponent } from './components/btn-confirm-suppression/btn-confirm-suppression.component';
 import { AddCountryComponent } from './components/add-country/add-country.component';
 import { AddCityComponent } from './components/add-city/add-city.component';
+import { CityListComponent } from './components/city-list/city-list.component';
+import { MessageService } from 'primeng/api';
+import { GalleriaComponent } from './components/galleria/galleria.component';
+
 
 @NgModule({
   declarations: [
@@ -52,6 +62,9 @@ import { AddCityComponent } from './components/add-city/add-city.component';
     BtnConfirmSuppressionComponent,
     AddCountryComponent,
     AddCityComponent,
+    CityListComponent,
+    GalleriaComponent,
+   
   
   
   ],
@@ -68,9 +81,15 @@ import { AddCityComponent } from './components/add-city/add-city.component';
     CascadeSelectModule,
     DropdownModule,
     DialogModule,
+    TableModule,
+    ToastModule,
+    ToolbarModule,
+    CheckboxModule,
+    MessagesModule,
+    GalleriaModule
   
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

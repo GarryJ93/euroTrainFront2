@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { AuthInterceptorService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -9,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   email!: string;
   password!: string;
   login!: FormGroup;
@@ -18,7 +19,8 @@ export class LoginComponent {
     private userService: UserService,
     private router: Router,
     private authService: AuthInterceptorService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -26,14 +28,14 @@ export class LoginComponent {
   }
   private initialForm() {
     this.login = this.fb.group({
-      email: ['', [Validators.required, Validators.email] ],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }
 
   OnConnect() {
     if (this.login.valid) {
-      //rajouter un findoneby email pour checker l'accès 
+      //rajouter un findoneby email pour checker l'accès
       let email = this.login.value.email;
       let password = this.login.value.password;
       this.authService.login(email, password).subscribe({
@@ -45,19 +47,37 @@ export class LoginComponent {
             localStorage.setItem('id', response.user.id);
             localStorage.setItem('access', response.user.access);
             localStorage.setItem('full_access', response.user.full_access);
-            alert('Vous êtes connecté')
+            this.showMessageLogIn();
             console.log('Connexion réussie et token stocké!');
-            this.router.navigate(['/admin']);
-            location.reload();
+            setTimeout(() => {
+              this.router.navigate(['/admin']);
+            }, 2000);
+            
           } else {
             console.error('Token non reçu dans la réponse.');
           }
         },
         error: (error: any) => {
           console.error('Erreur lors de la connexion:', error);
-          alert('E-mail ou mot de passe incorrect')
+          this.showMessageError();
         },
       });
     }
+  }
+
+  showMessageLogIn() {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Félicitations',
+      detail: 'Vous êtes connecté, Bienvenue.',
+    });
+  }
+
+  showMessageError() {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: 'E-mail ou mot de passe incorrect',
+    });
   }
 }

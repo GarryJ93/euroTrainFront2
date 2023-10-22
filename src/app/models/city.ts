@@ -11,4 +11,5 @@ export interface City {
     category: StayCat;
     photo: Photo[];
     picture: any;
+    isVisible: boolean;
 }

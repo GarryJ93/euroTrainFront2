@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { Country } from 'src/app/models/country';
 import { Currency } from 'src/app/models/currency';
 import { Language } from 'src/app/models/language';
@@ -19,7 +20,9 @@ export class AddCountryComponent {
   @Input() travelDocumentList!: TravelDocument[];
 
   constructor(private fb: FormBuilder,
-  private countryService: CountryService) { }
+    private countryService: CountryService,
+    private messageService: MessageService,
+  ) { }
 
   ngOnInit(): void {
     this.initialForm();
@@ -64,7 +67,11 @@ export class AddCountryComponent {
     }
     this.countryService.addCountry(newCountry).subscribe({
       next: () => {
-        alert('Pays ajouté avec succès !');
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Opération réussie',
+          detail: 'Pays ajouté avec succès',
+        });
         this.addCountry.reset();
         this.closeDialog()
       },

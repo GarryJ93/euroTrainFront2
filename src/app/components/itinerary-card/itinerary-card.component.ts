@@ -40,7 +40,6 @@ export class ItineraryCardComponent {
     const currentPicture = this.itineraries.destinationCity.photo.find((x) => x.id === id);
 
     reader.addEventListener('load', () => {
-      console.log('ma photo', currentPicture);
       if (currentPicture) currentPicture.picture = reader.result;
     });
   }

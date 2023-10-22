@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Country } from 'src/app/models/country';
 import { CountryService } from 'src/app/services/country.service';
 
@@ -7,7 +7,7 @@ import { CountryService } from 'src/app/services/country.service';
   templateUrl: './country.component.html',
   styleUrls: ['./country.component.css']
 })
-export class CountryComponent {
+export class CountryComponent implements OnInit{
 allCountries!: Country[];
 countryToDisplay!: Country[];
 

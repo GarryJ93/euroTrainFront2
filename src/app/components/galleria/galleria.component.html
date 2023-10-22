@@ -1,0 +1,34 @@
+
+
+<p-galleria
+  *ngIf="idCity && city && city.photo && city.photo.length > 0"
+  class="galleria"
+  [value]="city.photo"
+  [showIndicators]="true"
+  [showThumbnails]="false"
+  [containerStyle]="{ 'max-width': '640px' }"
+  [numVisible]="5"
+  [circular]="true"
+>
+  <ng-template pTemplate="item" let-photo>
+    <div><div id="conteneur_slider">
+        <button class="button is-danger" (click)="onDeletePicture(photo.id)">
+          <span class="icon is-small">
+            <i class="fas fa-trash-can"></i>
+          </span>
+        </button>
+      </div>
+      <img [src]="photo.picture" style="width: 100%" loading="lazy" />
+      
+    </div>
+  </ng-template>
+  <!-- <ng-template pTemplate="thumbnail" let-item>
+    <div class="grid grid-nogutter justify-content-center">
+      <img
+        [src]="item.picture"
+        class="image is-64x64 is-responsive"
+        loading="lazy"
+      />
+    </div>
+  </ng-template> -->
+</p-galleria>

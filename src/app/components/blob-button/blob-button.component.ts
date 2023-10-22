@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Photo } from 'src/app/models/photo';
 import { PhotoService } from 'src/app/services/photo.service';
 
@@ -13,7 +14,8 @@ export class BlobButtonComponent {
   @Input() idCity!: number;
 
   constructor(
-    private photoService: PhotoService
+    private photoService: PhotoService,
+    private messageService: MessageService,
   ) {}
   onChange(e: any) {
     if (!this.idCity) {
@@ -30,7 +32,12 @@ export class BlobButtonComponent {
       this.photoService
         .postImage(formData, this.idCity, this.idCountry)
         .subscribe((photo: Partial<Photo>) => {
-          alert('image postée');
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Opération réussie',
+            detail: 'Photo ajoutée avec succès',
+          });
+          
         });
     }
   }

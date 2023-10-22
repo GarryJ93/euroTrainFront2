@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Country } from 'src/app/models/country';
 import { PhotoService } from 'src/app/services/photo.service';
 
@@ -7,7 +7,7 @@ import { PhotoService } from 'src/app/services/photo.service';
   templateUrl: './accordion.component.html',
   styleUrls: ['./accordion.component.css'],
 })
-export class AccordionComponent {
+export class AccordionComponent implements OnInit{
   @Input() country!: Country;
   countryBlob!: Blob;
   countryImage!: any;

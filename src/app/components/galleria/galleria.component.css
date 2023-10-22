@@ -1,0 +1,11 @@
+#conteneur_slider{
+ 
+position:absolute;
+z-index:2;
+
+}
+
+.galleria {
+    background-color: black;
+    color: white;
+}

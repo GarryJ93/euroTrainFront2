@@ -1,0 +1,120 @@
+<!-- <div *ngFor="let city of cityList">
+      <div>
+      <a href="">{{ city.name }}</a></div>
+      <div (click)="getCityId(city.id.toString())">
+        <app-blob-button [idCity]="idCityForPicture" [idCountry]="idCountryForPicture"></app-blob-button>
+      </div>
+    </div> -->
+
+<p-toast
+  [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"
+></p-toast>
+<p-toolbar styleClass="mb-4 gap-2">
+  <ng-template pTemplate="left">
+    <div class="m-4">
+      <app-add-city [countries]="countriesToDisplay"></app-add-city>
+    </div>
+  </ng-template>
+</p-toolbar>
+
+<p-table
+  #dt
+  [value]="cityList"
+  [rows]="10"
+  [paginator]="true"
+  [globalFilterFields]="['Nom', 'Photo', 'Ajout photo', 'Catégorie']"
+  [tableStyle]="{ 'min-width': '75rem' }"
+  [(selection)]="city"
+  dataKey="city.id"
+  [rowHover]="true"
+  currentPageReportTemplate="Montre de {first} à {last} sur {totalRecords} entrées"
+  [showCurrentPageReport]="true"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <h5 class="m-0">Gestion des villes</h5>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="dt.filterGlobal($event.target, 'contains')"
+          placeholder="Recherche"
+        />
+      </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="name" style="min-width: 15rem">
+        Nom <p-sortIcon field="name"></p-sortIcon>
+      </th>
+      <th>Images</th>
+      <th pColumn="addPicture" style="min-width: 10rem">Ajout photo</th>
+      <th pSortableColumn="category" style="min-width: 10rem">
+        Catégorie <p-sortIcon field="category"></p-sortIcon>
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-city>
+    <tr>
+      <td>{{ city.name }}</td>
+      <td *ngIf="city.photo && city.photo.length > 0">
+        <div>
+          <button
+            class="button is-primary"
+            (click)="showModalGalleria(city)"
+            
+          >
+            Voir la galerie</button
+          >
+        </div><p-dialog *ngIf="city.photo"
+        class="galleria"
+            header="{{ city.name }}"
+            [modal]="true"
+            [(visible)]="city.isVisible"
+            [breakpoints]="{ '960px': '75vw' }"
+            [style]="{ width: '50vw' }"
+            [draggable]="false"
+            [resizable]="false"
+            (onHide)="closeModalGalleria(city)"
+          >
+            <app-galleria [idCity]="idCityForPicture"></app-galleria>
+          </p-dialog>
+      </td>
+
+      <td *ngIf="!city.photo || city.photo.length === 0">
+        Pas encore de photo
+      </td>
+      <td>
+        <app-blob-button
+          (click)="getCityId(city.id.toString())"
+          [idCity]="idCityForPicture"
+          [idCountry]="idCountryForPicture"
+        ></app-blob-button>
+      </td>
+      <td>{{ city.cat.name }}</td>
+
+      <td>
+        <button
+          pButton
+          pRipple
+          icon="fa-solid fa-pencil"
+          class="button is-primary mr-2"
+        ></button>
+        <button
+          pButton
+          pRipple
+          icon="fa-solid fa-trash-can"
+          class="button is-danger"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="flex align-items-center justify-content-between">
+      Il y a au total {{ cityList ? cityList.length : 0 }} villes.
+    </div>
+  </ng-template>
+</p-table>
