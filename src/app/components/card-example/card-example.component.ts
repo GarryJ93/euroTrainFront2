@@ -19,8 +19,14 @@ export class CardExampleComponent implements OnChanges {
 
   ngOnChanges() {
     console.log('myExample card',this.myExample)
-    if (this.myExample && this.myExample.destinationCity.photo[0]) {
-      for (let picture of this.myExample.destinationCity.photo) {
+    if (this.myExample && this.myExample.destinationCity.photo.length > 0) {
+      // for (let picture of this.myExample.destinationCity.photo) {
+      let picture =
+        this.myExample.destinationCity.photo[
+          Math.round(
+            Math.random() * (this.myExample.destinationCity.photo.length - 1)
+          )
+        ];
         if (this.myExample.destinationCity.id === picture.id_city)
           this.photoService.getImageById(picture.id).subscribe({
             next: (data: Blob) => {
@@ -30,7 +36,7 @@ export class CardExampleComponent implements OnChanges {
           });
       }
     }
-  }
+  
 
   createCityImageFromBlob(image: Blob, id: number) {
     console.log('Blob', this.cityBlob)

@@ -19,7 +19,7 @@ import { AppComponent } from './app.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './pages/login/login.component';
 import { Page404Component } from './pages/page404/page404.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -39,6 +39,8 @@ import { AddCityComponent } from './components/add-city/add-city.component';
 import { CityListComponent } from './components/city-list/city-list.component';
 import { MessageService } from 'primeng/api';
 import { GalleriaComponent } from './components/galleria/galleria.component';
+import { AddItineraryComponent } from './components/add-itinerary/add-itinerary.component';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 
 @NgModule({
@@ -64,6 +66,7 @@ import { GalleriaComponent } from './components/galleria/galleria.component';
     AddCityComponent,
     CityListComponent,
     GalleriaComponent,
+    AddItineraryComponent,
    
   
   
@@ -86,7 +89,9 @@ import { GalleriaComponent } from './components/galleria/galleria.component';
     ToolbarModule,
     CheckboxModule,
     MessagesModule,
-    GalleriaModule
+    GalleriaModule,
+    FormsModule,
+    InputSwitchModule,
   
   ],
   providers: [MessageService],

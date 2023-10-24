@@ -2,3 +2,8 @@
     background-color: black;
     color: white;
 }
+
+.p-dialog-titlebar{
+    font-size: 3rem;
+    font-weight: bold;
+}

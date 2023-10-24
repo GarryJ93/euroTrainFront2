@@ -11,7 +11,7 @@ import { PhotoService } from 'src/app/services/photo.service';
 })
 export class GalleriaComponent implements OnChanges {
   city!: City;
-  @Input() idCity!: number;
+  @Input() idCity!: number | null;
   cityBlob!: Blob;
   cityPicture!: any;
 

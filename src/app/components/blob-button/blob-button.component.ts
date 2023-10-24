@@ -11,7 +11,7 @@ import { PhotoService } from 'src/app/services/photo.service';
 export class BlobButtonComponent {
   myFile!: File;
   @Input() idCountry!: number;
-  @Input() idCity!: number;
+  @Input() idCity!: number | null;
 
   constructor(
     private photoService: PhotoService,

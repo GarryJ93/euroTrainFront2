@@ -22,7 +22,6 @@
   [value]="cityList"
   [rows]="10"
   [paginator]="true"
-  [globalFilterFields]="['Nom', 'Photo', 'Ajout photo', 'Catégorie']"
   [tableStyle]="{ 'min-width': '75rem' }"
   [(selection)]="city"
   dataKey="city.id"
@@ -38,7 +37,8 @@
         <input
           pInputText
           type="text"
-          (input)="dt.filterGlobal($event.target, 'contains')"
+          [(ngModel)]="searchValue"
+          (input)="handleInputChange($event)"
           placeholder="Recherche"
         />
       </span>
@@ -46,12 +46,22 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="name" style="min-width: 15rem">
+      <th
+        pSortableColumn="name"
+        field="name"
+        header="name"
+        style="min-width: 15rem"
+      >
         Nom <p-sortIcon field="name"></p-sortIcon>
       </th>
       <th>Images</th>
       <th pColumn="addPicture" style="min-width: 10rem">Ajout photo</th>
-      <th pSortableColumn="category" style="min-width: 10rem">
+      <th
+        pSortableColumn="category"
+        field="category"
+        header="category"
+        style="min-width: 10rem"
+      >
         Catégorie <p-sortIcon field="category"></p-sortIcon>
       </th>
       <th></th>
@@ -59,18 +69,15 @@
   </ng-template>
   <ng-template pTemplate="body" let-city>
     <tr>
-      <td>{{ city.name }}</td>
+      <td class="is-size-4 has-text-weight-bold">{{ city.name }}</td>
       <td *ngIf="city.photo && city.photo.length > 0">
         <div>
-          <button
-            class="button is-primary"
-            (click)="showModalGalleria(city)"
-            
-          >
-            Voir la galerie</button
-          >
-        </div><p-dialog *ngIf="city.photo"
-        class="galleria"
+          <button class="button is-primary" (click)="showModalGalleria(city)">
+            Voir la galerie
+          </button>
+          <p-dialog
+            *ngIf="city.photo"
+            class="galleria"
             header="{{ city.name }}"
             [modal]="true"
             [(visible)]="city.isVisible"
@@ -82,6 +89,7 @@
           >
             <app-galleria [idCity]="idCityForPicture"></app-galleria>
           </p-dialog>
+        </div>
       </td>
 
       <td *ngIf="!city.photo || city.photo.length === 0">
@@ -94,20 +102,59 @@
           [idCountry]="idCountryForPicture"
         ></app-blob-button>
       </td>
-      <td>{{ city.cat.name }}</td>
+      <td>
+        <div *ngIf="isEditing">
+          <form
+            [formGroup]="select"
+            (ngSubmit)="onSubmit(city.id)"
+            class="field"
+          >
+            <div class="control has-icons-left">
+              <div class="select">
+                <select formControlName="category">
+                  <option selected value="">
+                    {{ city.category }}
+                  </option>
+                  <option
+                    *ngFor="let category of categoryList"
+                    value="{{ category.id }}"
+                  >
+                    {{ category.name }}
+                  </option>
+                </select>
+              </div>
+              <span class="icon is-medium is-left">
+                <i class="fas fa-hotel"></i>
+              </span>
+
+              <button
+                pButton
+                pRipple
+                icon="fa-solid fa-pencil"
+                class="button is-primary is-right"
+              ></button>
+            </div>
+          </form>
+        </div>
+        <div *ngIf="!isEditing"><button
+            pButton
+            pRipple
+            icon="fa-solid fa-pencil"
+            class="button is-primary mr-2"
+            (click)="onEditing()"
+          ></button>
+          {{ city.cat.name }}
+          
+        </div>
+      </td>
 
       <td>
         <button
           pButton
           pRipple
-          icon="fa-solid fa-pencil"
-          class="button is-primary mr-2"
-        ></button>
-        <button
-          pButton
-          pRipple
           icon="fa-solid fa-trash-can"
           class="button is-danger"
+          (click)="OnDeleteCity(city.id)"
         ></button>
       </td>
     </tr>

@@ -170,7 +170,7 @@
   </h2>
   
   <div>
-    <form [formGroup]="select" (ngSubmit)="onChange()" class="field">
+    <form [formGroup]="select" (ngSubmit)="onSubmit()" class="field">
       <div class="control has-icons-left">
         <div class="select is-medium">
           <select formControlName="country">
@@ -200,14 +200,18 @@
   class="column is-full block border-left m-4"
 >
   <h2 class="column is-full has-text-weight-bold is-size-4">Mes itinéraires</h2>
+  <app-add-itinerary [cityList]="citiesToDisplay"></app-add-itinerary>
   <app-itinerary-list
     [itinerariesList]="itinerariesToDisplay"
   ></app-itinerary-list>
 </div>
 <div *ngIf="full_access" class="column is-full block border-left m-4">
+  
+  
   <h2 class="column is-full has-text-weight-bold is-size-4">
     Tous les itinéraires
   </h2>
+  <app-add-itinerary [cityList]="citiesToDisplay"></app-add-itinerary>
   <app-itinerary-list
     [itinerariesList]="allUsersItineraries"
   ></app-itinerary-list>

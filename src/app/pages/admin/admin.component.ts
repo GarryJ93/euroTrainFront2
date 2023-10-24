@@ -156,7 +156,7 @@ export class AdminComponent implements OnInit{
     });
   }
 
-  onChange() {
+  onSubmit() {
     console.log(this.citiesToDisplay);
     if (this.select.valid) {
       let countryId: number = +this.select.value.country;

@@ -1,0 +1,152 @@
+<button class="button is-responsive is-primary" (click)="showDialog()" >Ajouter un itinéraire</button>
+
+<p-dialog header="Ajouter un itinéraire" [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [breakpoints]="{ '960px': '75vw' }" (onHide)="closeDialog()">
+    
+<div class="card flex justify-content-center">
+    
+    <!-- <select [(ngModel)]="selectedCity">
+  <ng-container *ngFor="let country of uniqueCountries()">
+    <optgroup [label]="country.name">
+      <option *ngFor="let city of sortedCitiesByCountry(country)" [ngValue]="city.id">
+        {{ city.name }}
+      </option>
+    </optgroup>
+  </ng-container>
+</select> -->
+
+<form [formGroup]="itineraryForm" class="section is-full">
+  <!-- Ville de départ -->
+  <div class="field is-full">
+    <label class="label">Ville de départ:</label>
+    <div class="control">
+      <div class="select">
+        <select formControlName="selectedDepartureCity" class="input">
+          <ng-container *ngFor="let country of uniqueCountries()">
+            <optgroup [label]="country.name">
+              <option *ngFor="let city of sortedCitiesByCountry(country)" [ngValue]="city.id">
+                {{ city.name }}
+              </option>
+            </optgroup>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ville d'arrivée -->
+  <div class="field">
+    <label class="label">Ville d'arrivée:</label>
+    <div class="control">
+      <div class="select">
+        <select formControlName="selectedArrivalCity" class="input">
+          <ng-container *ngFor="let country of uniqueCountries()">
+            <optgroup [label]="country.name">
+              <option *ngFor="let city of sortedCitiesByCountry(country)" [ngValue]="city.id">
+                {{ city.name }}
+              </option>
+            </optgroup>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+  </div>
+  <label class="label">Trajet direct:</label>
+<p-inputSwitch [(ngModel)]="checked" [ngModelOptions]="{standalone: true}">Trajet direct</p-inputSwitch>
+<div *ngIf="checked">
+  <!-- Type de transport -->
+  <div class="field" *ngIf="checked">
+    <label class="label">Type de transport:</label>
+    <div class="control">
+      <div class="select">
+        <select formControlName="selectedTransportType" class="input">
+          <option *ngFor="let type of allTypes" [ngValue]="type.id">
+            {{ type.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compagnie -->
+  <div class="field" *ngIf="checked">
+    <label class="label">Compagnie:</label>
+    <div class="control">
+      <div class="select">
+        <select formControlName="selectedCompany" class="input">
+          <option *ngFor="let company of allCompanies" [ngValue]="company.id">
+            {{ company.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div></div>
+<div *ngIf="!checked">
+  <!-- Champs dynamiques -->
+  <div formArrayName="dynamicFields">
+  <div *ngFor="let fieldGroup of dynamicFieldsFormArray.controls; let i = index" class="field" [formGroupName]="i">
+      <!-- Début du trajet -->
+      <label class="label">Début du trajet:</label>
+      <div class="control">
+        <div class="select">
+          <select formControlName="departureId" class="input">
+          <ng-container *ngFor="let country of uniqueCountries()">
+            <optgroup [label]="country.name">
+              <option *ngFor="let city of sortedCitiesByCountry(country)" [ngValue]="city.id">
+                {{ city.name }}
+              </option>
+            </optgroup>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+
+    <label class="label">Escale:</label>
+      <div class="control">
+        <div class="select">
+          <select formControlName="stopId" class="input">
+          <ng-container *ngFor="let country of uniqueCountries()">
+            <optgroup [label]="country.name">
+              <option *ngFor="let city of sortedCitiesByCountry(country)" [ngValue]="city.id">
+                {{ city.name }}
+              </option>
+            </optgroup>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+
+    <label class="label">Type de transport:</label>
+      <div class="control">
+        <div class="select">
+          <select formControlName="transportId" class="input">
+            <option *ngFor="let type of allTypes" [ngValue]="type.id">
+              {{ type.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+    <label class="label">Compagnie:</label>
+      <div class="control">
+        <div class="select">
+          <select formControlName="companyId" class="input">
+            <option *ngFor="let company of allCompanies" [ngValue]="company.id">
+              {{ company.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+    <button type="button" (click)="removeField(i)" class="button is-danger mt-2">Supprimer</button>
+  </div></div>
+
+  <button type="button" (click)="addField()" class="button is-success mt-2">Ajouter un trajet</button></div>
+  <button type="submit" class="button is-primary mt-2" (click)="onSubmit()">Soumettre</button>
+</form>
+
+
+
+  
+
+</div>
+</p-dialog>

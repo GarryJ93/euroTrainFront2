@@ -18,9 +18,17 @@ export class CityService {
   }
 
   addCity(city: City): Observable<City> {
-    return this.http.post<City>(
-      'http://localhost:3000/api/city',
-      city
+    return this.http.post<City>('http://localhost:3000/api/city', city);
+  }
+
+  updateCity(id: number, updateData: Partial<City>): Observable<Partial<City>> {
+    return this.http.patch<City>(
+      `http://localhost:3000/api/city/${id}`,
+      updateData
     );
+  }
+
+  deleteCity(id: number): Observable<City> {
+    return this.http.delete<City>(`http://localhost:3000/api/city/${id}`);
   }
 }

@@ -4,7 +4,7 @@ import { TransportType } from "./transport-type";
 import { User } from "./user";
 
 export interface Itinerary {
-    id_itinerary: number,
+    id_itinerary?: number,
     id_origin_city: number,
     id_destination_city: number,
     id_user: number,
@@ -12,6 +12,6 @@ export interface Itinerary {
     destinationCity: City;
     company: TransportCompany[],
     type: TransportType[],
-    cityStop: City[],
+    cityStop: Partial<City>[],
     creator: User,
 }
