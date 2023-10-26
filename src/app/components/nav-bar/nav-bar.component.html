@@ -22,7 +22,7 @@
       
       <a class="navbar-link" [routerLink]="['/login']"><span class="icon is-small is-left">
               <i class="fas fa-lock"></i>
-            </span> <span>Espace admin</span> </a>
+            </span> <span id="admin" class="m-1">Espace admin</span> </a>
       <div class="navbar-dropdown is-boxed">
         <a class="navbar-item" [routerLink]="['/signup']"> Inscription </a>
         <a class="navbar-item" [routerLink]="['/login']"> Connexion </a>
@@ -47,7 +47,7 @@
               </a>
             </p>
             <p *ngIf="access_token" class="control">
-              <button class="button is-danger" (click)="showDialog()">
+              <button class="button disconnect" (click)="showDialog()">
                 Se déconnecter
               </button>
             </p>

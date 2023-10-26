@@ -1,3 +1,22 @@
+.navbar, .navbar-dropdown, .navbar-menu {
+    background: rgb(8, 8, 88);
+}
+
+.navbar-item, #admin {
+  color: white;
+}
+
+.navbar-item:hover, .navbar-item .navbar-dropdown a:hover, #admin:hover, .navbar-link i:hover {
+  color: rgb(253, 253, 0);
+}
+
+.disconnect {
+  background-color: rgb(159, 4, 92);
+    font-size: 1rem;
+    font-weight: bold; 
+    color: white;
+    border: none; 
+}
 .social {
   background: radial-gradient(
       circle farthest-corner at 35% 90%,

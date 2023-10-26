@@ -1,0 +1,26 @@
+
+<div>
+<p-sidebar [(visible)]="sidebarVisible" styleClass="w-30rem">
+    
+    <div class="column has-text-weight-semibold mb-2">
+        Rechercher une ville :
+        <app-search-bar (inputUser)="onEnterSearch($event)"></app-search-bar>
+  <h3 class="has-text-weight-semibold mb-2">Filtrer par contributeur :</h3>
+  <div class="form-check" *ngFor="let user of usersToFilter">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        value="{{ user.id }}"
+        id="{{ user.id }}"
+        (change)="onCheckUser($event)"
+      />
+      <label class="form-check-label" for="{{ user.id }}">
+        {{ user.name }}
+      </label>
+    </div></div>
+
+</p-sidebar>
+<button *ngIf="full_access" (click)="sidebarVisible = true"  class="button is-primary is-responsive ml-3"><span><i class="fa-solid fa-arrow-right"></i></span><span class="m-1"> Filtrer</span></button>
+<div class="columns is-multiline column is-touch p-6">
+<app-admin-itinerary-card *ngFor="let itineraries of itinerariesList" [itineraries]="itineraries" class="column is-half"></app-admin-itinerary-card>
+</div>

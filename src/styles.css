@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+/* * {
+    box-sizing: content-box;
+} */
+
+html {
+    background-color: rgb(245, 243, 243);
+}

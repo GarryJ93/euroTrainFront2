@@ -2,13 +2,14 @@
 
 <p-galleria
   *ngIf="idCity && city && city.photo && city.photo.length > 0"
-  class="galleria"
+  class="galleria centered-galleria"
   [value]="city.photo"
-  [showIndicators]="true"
-  [showThumbnails]="false"
+  [showIndicators]="false"
+  [showThumbnails]="true"
   [containerStyle]="{ 'max-width': '640px' }"
-  [numVisible]="5"
+  [numVisible]="2"
   [circular]="true"
+  [showItemNavigators]="true"
 >
   <ng-template pTemplate="item" let-photo>
     <div><div id="conteneur_slider">
@@ -18,11 +19,12 @@
           </span>
         </button>
       </div>
-      <img [src]="photo.picture" style="width: 100%" loading="lazy" />
       
+      <img [src]="photo.picture" style="width: 100%" loading="lazy"  />
+     
     </div>
   </ng-template>
-  <!-- <ng-template pTemplate="thumbnail" let-item>
+  <ng-template pTemplate="thumbnail" let-item>
     <div class="grid grid-nogutter justify-content-center">
       <img
         [src]="item.picture"
@@ -30,5 +32,5 @@
         loading="lazy"
       />
     </div>
-  </ng-template> -->
+  </ng-template>
 </p-galleria>

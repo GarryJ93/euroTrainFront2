@@ -19,9 +19,7 @@ export class AccordionComponent implements OnInit{
 
   ngOnInit() {
     
-
-    console.log(this.country)
-    if (this.country.photo[0]) {
+    if (this.country.photo.length > 0) {
       for (let picture of this.country.photo) {
 
         if (this.country.id === picture.id_country)
@@ -48,7 +46,6 @@ export class AccordionComponent implements OnInit{
     );
 
     reader.addEventListener('load', () => {
-      console.log('ma photo' ,reader)
       if (currentPicture) currentPicture.picture = reader.result;
     });
   }

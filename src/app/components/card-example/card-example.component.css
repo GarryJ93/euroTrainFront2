@@ -1,0 +1,24 @@
+.departure {
+  position: absolute;
+  
+  margin: 0.5rem;
+  z-index: 2;
+  padding: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.61);
+  border-radius: 25px;
+  
+  color: black;
+}
+
+li {
+    list-style: none;
+}
+
+.type-icon {
+    display: flex;
+    flex-direction: row;
+}
+
+/* .card {
+    height: 100%;
+} */

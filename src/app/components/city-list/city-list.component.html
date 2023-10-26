@@ -31,10 +31,11 @@
 >
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
-      <h5 class="m-0">Gestion des villes</h5>
+      <h2 class="m-2 has-text-weight-semibold is-size-5">Gestion des villes</h2>
       <span class="p-input-icon-left">
         <i class="pi pi-search"></i>
         <input
+        class="input mt-2"
           pInputText
           type="text"
           [(ngModel)]="searchValue"
@@ -82,10 +83,11 @@
             [modal]="true"
             [(visible)]="city.isVisible"
             [breakpoints]="{ '960px': '75vw' }"
-            [style]="{ width: '50vw' }"
+            [style]="{ 'width': '50vw', 'background-color': 'black' }"
             [draggable]="false"
             [resizable]="false"
             (onHide)="closeModalGalleria(city)"
+            
           >
             <app-galleria [idCity]="idCityForPicture"></app-galleria>
           </p-dialog>

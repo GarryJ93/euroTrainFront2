@@ -41,7 +41,11 @@ import { MessageService } from 'primeng/api';
 import { GalleriaComponent } from './components/galleria/galleria.component';
 import { AddItineraryComponent } from './components/add-itinerary/add-itinerary.component';
 import { InputSwitchModule } from 'primeng/inputswitch';
-
+import { AdminItinerariesListComponent } from './components/admin-itineraries-list/admin-itineraries-list.component';
+import { AdminItineraryCardComponent } from './components/admin-itinerary-card/admin-itinerary-card.component';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { SidebarModule } from 'primeng/sidebar';
 
 @NgModule({
   declarations: [
@@ -67,7 +71,10 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     CityListComponent,
     GalleriaComponent,
     AddItineraryComponent,
-   
+    AdminItinerariesListComponent,
+    AdminItineraryCardComponent,
+    SearchBarComponent,
+    
   
   
   ],
@@ -92,7 +99,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     GalleriaModule,
     FormsModule,
     InputSwitchModule,
-  
+    SelectButtonModule,
+    SidebarModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

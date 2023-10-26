@@ -7,3 +7,14 @@
     font-size: 3rem;
     font-weight: bold;
 }
+
+:host ::ng-deep .p-dialog .p-dialog-content .galleria { 
+  padding: 0 !important;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header .galleria {
+    color: white !important;
+    background: black !important;
+}
+
+ 

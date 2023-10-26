@@ -85,6 +85,7 @@
           [style]="{ width: '50vw' }"
           [draggable]="false"
           [resizable]="false"
+          [modal]="true"
         >
           <p>
             Vous allez supprimer un utilisateur, voulez-vous effacer les
@@ -145,7 +146,9 @@
             <span class="has-text-weight-bold">{{ country.name }}</span>
           </div>
           <div class="column" (click)="getCountryId(country.id)">
-            <app-blob-button [idCountry]="idCountryForPicture"></app-blob-button>
+            <app-blob-button
+              [idCountry]="idCountryForPicture"
+            ></app-blob-button>
           </div>
           <div *ngIf="full_access" class="column">
             <button
@@ -168,7 +171,7 @@
   <h2 class="column is-full has-text-weight-bold is-size-4 has-text-right">
     Villes Proposées
   </h2>
-  
+
   <div>
     <form [formGroup]="select" (ngSubmit)="onSubmit()" class="field">
       <div class="control has-icons-left">
@@ -186,13 +189,16 @@
         <span class="icon is-medium is-left">
           <i class="fas fa-globe"></i>
         </span>
-      
 
-      <button type="submit" class="button is-responsive is-primary m-2">
-        Voir les villes
-      </button></div>
+        <button type="submit" class="button is-responsive is-primary m-2">
+          Voir les villes
+        </button>
+      </div>
     </form>
-    <app-city-list [cityList]="citiesByCountry" [countriesToDisplay]="countriesToDisplay"></app-city-list>
+    <app-city-list
+      [cityList]="citiesByCountry"
+      [countriesToDisplay]="countriesToDisplay"
+    ></app-city-list>
   </div>
 </div>
 <div
@@ -201,18 +207,25 @@
 >
   <h2 class="column is-full has-text-weight-bold is-size-4">Mes itinéraires</h2>
   <app-add-itinerary [cityList]="citiesToDisplay"></app-add-itinerary>
-  <app-itinerary-list
-    [itinerariesList]="itinerariesToDisplay"
-  ></app-itinerary-list>
+  <app-admin-itineraries-list
+    [itinerariesList]="itinerariesToDisplay" [full_access]="full_access"
+  ></app-admin-itineraries-list>
 </div>
 <div *ngIf="full_access" class="column is-full block border-left m-4">
-  
-  
   <h2 class="column is-full has-text-weight-bold is-size-4">
     Tous les itinéraires
   </h2>
-  <app-add-itinerary [cityList]="citiesToDisplay"></app-add-itinerary>
-  <app-itinerary-list
-    [itinerariesList]="allUsersItineraries"
-  ></app-itinerary-list>
+  <app-add-itinerary
+    class="m-2"
+    [cityList]="citiesToDisplay"
+  ></app-add-itinerary>
+  
+  <app-admin-itineraries-list
+    [itinerariesList]="itinerariesToDisplay"
+    [usersToFilter]="adminUser"
+    (userIdsTab)="onFilterItineraries($event)"
+    (userInput)="onSearch($event)"
+    [full_access]="full_access"
+    class="column"
+  ></app-admin-itineraries-list>
 </div>

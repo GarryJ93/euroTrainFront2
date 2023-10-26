@@ -1,0 +1,57 @@
+.welcome {
+    color: white;
+    background: rgba(8, 8, 88, 0.733);
+    border-radius: 25px;
+    margin: 0;
+    transition: 2s;
+}
+
+.about {
+    color: white;
+    background: rgb(8, 8, 88);
+    border-radius: 25px; 
+}
+
+.welcome:hover{
+    transform : rotateZ(2deg);
+}
+.hero {
+    border: 5px solid rgb(253, 253, 0);
+    border-radius: 25px;
+    padding: 0;
+    
+}
+
+.introduction {
+    border: 5px solid rgb(253, 253, 0);
+    border-radius: 25px;
+}
+
+.home {
+    background-image: url(../../../assets/plan-moyen-femme-voyageant-train.jpg);
+    background-size: cover;
+    
+}
+
+.itinerary {
+    background-color: rgb(253, 253, 0);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.divBtn {
+    background-color: rgb(8, 8, 88);
+    display: flex;
+    justify-content: center;
+}
+
+.contributor {
+    display: flex;
+    justify-content: center;
+}
+
+.signupBtn {
+    background-color: rgb(253, 253, 0);
+    font-size: 1rem;
+    font-weight: bold;
+}

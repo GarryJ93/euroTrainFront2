@@ -1,0 +1,47 @@
+.form {
+    /* display: flex;
+    justify-content: center; */
+    color: white;
+    background: rgb(8, 8, 88);
+    border-radius: 25px; 
+}
+
+.title {
+    color: white;
+}
+
+.border {
+    border: 5px solid rgb(253, 253, 0);
+    border-radius: 25px;
+}
+
+.search {
+   background-color: rgb(253, 253, 0);
+    font-size: 1rem;
+    font-weight: bold; 
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vertical-center-text {
+  display: flex;
+  align-items: center;
+}
+
+.reset {
+   background-color: rgb(159, 4, 92);
+    font-size: 1rem;
+    font-weight: bold; 
+    color: white;
+    border: none; 
+}
+
+
+
+
+
+

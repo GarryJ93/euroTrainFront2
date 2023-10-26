@@ -1,7 +1,8 @@
 import { Type } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { Observable, firstValueFrom } from 'rxjs';
 import { City } from 'src/app/models/city';
 import { Country } from 'src/app/models/country';
 import { DynamicField } from 'src/app/models/dynamic-field';
@@ -52,7 +53,8 @@ export class AddItineraryComponent implements OnInit {
     private itineraryService: ItineraryService,
     private userService: UserService,
     private cityService: CityService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private messageService: MessageService,
   ) {
     this.itineraryForm = this.formBuilder.group({
       selectedDepartureCity: ['', Validators.required],
@@ -238,34 +240,35 @@ export class AddItineraryComponent implements OnInit {
       cityStopIdArray.pop();
 
       // Utiliser Promise.all pour attendre toutes les promesses
-      await Promise.all(
-        companyIdArray.map(async (id: number) => {
-          const company = await this.companyService
-            .getCompanyById(id)
-            .toPromise();
-          newItinerary.company!.push(company!);
-        })
-      );
 
-      await Promise.all(
-        typeIdArray.map(async (id: number) => {
-          const type = await this.typeService.getTypeById(id).toPromise();
-          newItinerary.type!.push(type!);
-        })
-      );
+       await Promise.all(
+         companyIdArray.map(async (id: number) => {
+           const company = await firstValueFrom(
+             this.companyService.getCompanyById(id)
+           );
+           newItinerary.company!.push(company);
+         })
+       );
 
-      await Promise.all(
-        cityStopIdArray.map(async (id: number) => {
-          const city = await this.cityService.getCityById(id).toPromise();
-          const newCity: Partial<City> = {
-            id: city!.id,
-            name: city!.name,
-            id_stay_cat: city!.id_stay_cat,
-            id_country: city!.id_country,
-          };
-          newItinerary.cityStop!.push(newCity);
-        })
-      );
+       await Promise.all(
+         typeIdArray.map(async (id: number) => {
+           const type = await firstValueFrom(this.typeService.getTypeById(id));
+           newItinerary.type!.push(type);
+         })
+       );
+
+       await Promise.all(
+         cityStopIdArray.map(async (id: number) => {
+           const city = await firstValueFrom(this.cityService.getCityById(id));
+           const newCity: Partial<City> = {
+             id: city.id,
+             name: city.name,
+             id_stay_cat: city.id_stay_cat,
+             id_country: city.id_country,
+           };
+           newItinerary.cityStop!.push(newCity);
+         })
+       );
 
       await this.createItinerary(newItinerary);
     }
@@ -275,9 +278,19 @@ export class AddItineraryComponent implements OnInit {
     this.itineraryService.createItinerary(newItinerary).subscribe({
       next: (createdItinerary) => {
         console.log('Itinerary created successfully:', createdItinerary);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Opération réussie',
+          detail: 'Itinéraire ajouté'
+        })
       },
       error: (error) => {
         console.error('Error creating itinerary:', error);
+        this.messageService.add({
+          severity: 'danger',
+          summary: 'Opération inaboutie',
+          detail: "Impossible d'ajouter l'itinéraire",
+        });
       },
     });
   }

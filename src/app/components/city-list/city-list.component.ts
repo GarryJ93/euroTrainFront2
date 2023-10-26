@@ -13,7 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './city-list.component.html',
   styleUrls: ['./city-list.component.css'],
 })
-export class CityListComponent {
+export class CityListComponent implements OnChanges {
   @Input() cityList!: City[];
   @Input() countriesToDisplay!: Country[];
   city!: City;
@@ -28,6 +28,7 @@ export class CityListComponent {
   categoryList!: StayCat[];
   select!: FormGroup;
   isEditing: boolean = false;
+  
 
   constructor(
     private cityService: CityService,
@@ -48,6 +49,7 @@ export class CityListComponent {
 
     this.initialForm();
   }
+  
   getCityId(id: number) {
     this.idCityForPicture = +id;
     this.cityService.getCityById(this.idCityForPicture).subscribe({
@@ -127,4 +129,6 @@ export class CityListComponent {
   onEditing() {
     this.isEditing = true;
   }
+
+  
 }

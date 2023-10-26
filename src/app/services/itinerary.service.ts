@@ -22,18 +22,23 @@ export class ItineraryService {
     );
   }
 
- createItinerary(newItinerary: Partial<Itinerary>): Observable<Itinerary> {
+  createItinerary(newItinerary: Partial<Itinerary>): Observable<Itinerary> {
     console.log(newItinerary);
 
-    return this.http.post<Itinerary>('http://localhost:3000/api/itinerary', newItinerary)
+    return this.http
+      .post<Itinerary>('http://localhost:3000/api/itinerary', newItinerary)
       .pipe(
         // Utiliser un opérateur pour mettre à jour le subject avec la nouvelle valeur
-        tap(createdItinerary => this.itinerarySubject.next(createdItinerary))
+        tap((createdItinerary) => this.itinerarySubject.next(createdItinerary))
       );
   }
 
   getItineraryUpdates(): Observable<Itinerary | null> {
     return this.itinerarySubject.asObservable();
+  }
+
+  deleteItinerary(id: number): Observable<Itinerary> {
+    return this.http.delete<Itinerary>(`http://localhost:3000/api/itinerary/${id}`);
   }
 }
 

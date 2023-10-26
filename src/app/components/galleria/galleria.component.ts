@@ -68,7 +68,7 @@ export class GalleriaComponent implements OnChanges {
       next: (response) => {
         this.messageService.add({
           severity: 'warn',
-          summary: 'Opération',
+          summary: 'Opération réussie',
           detail: 'Photo supprimé',
         });
         this.ngOnChanges();

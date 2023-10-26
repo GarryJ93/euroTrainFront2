@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { City } from 'src/app/models/city';
 import { Country } from 'src/app/models/country';
 import { Currency } from 'src/app/models/currency';
@@ -20,7 +20,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
 })
-export class AdminComponent implements OnInit{
+export class AdminComponent implements OnInit {
   access!: Boolean;
   full_access!: Boolean;
   allItineraries!: Itinerary[];
@@ -44,9 +44,11 @@ export class AdminComponent implements OnInit{
   languagesToDisplay!: Language[];
   allCurrencies!: Currency[];
   currenciesToDisplay!: Currency[];
-  allTravelDocuments!: TravelDocument[]
+  allTravelDocuments!: TravelDocument[];
   travelDocumentsToDisplay!: TravelDocument[];
   idCountryForPicture!: number;
+  idsChecked!: number[];
+  userInput!: string;
   
 
   constructor(
@@ -77,7 +79,7 @@ export class AdminComponent implements OnInit{
           this.itinerariesToDisplay = [...response];
           this.itinerariesToDisplay = [
             ...this.itinerariesToDisplay.filter(
-              (itinerary) => itinerary.id_user === +localStorage.getItem('id')!
+              (itinerary) => itinerary.id_user === this.currentId
             ),
           ];
           this.allUsersItineraries = [...this.itinerariesToDisplay];
@@ -90,6 +92,7 @@ export class AdminComponent implements OnInit{
         {
           this.allUsers = [...response];
           this.usersToDisplay = [...response];
+
           this.candidateUser = [
             ...this.usersToDisplay.filter((user) => !user.access),
           ];
@@ -135,7 +138,7 @@ export class AdminComponent implements OnInit{
           this.allTravelDocuments = [...response];
           this.travelDocumentsToDisplay = [...response];
 
-          console.log(this.travelDocumentsToDisplay)
+          console.log(this.travelDocumentsToDisplay);
         }
       },
     });
@@ -235,4 +238,50 @@ export class AdminComponent implements OnInit{
     return this.idCountryForPicture;
   }
 
+  onFilterItineraries(userIdsTab: number[]) {
+    this.idsChecked = userIdsTab;
+    
+    
+    this.onUserInteractionFiltre();
+  }
+
+  onSearch(searchInput: string) {
+    this.userInput = searchInput;
+    
+    this.onUserInteractionFiltre();
+  }
+
+  onUserInteractionFiltre() {
+    this.itinerariesToDisplay = [...this.allItineraries];
+    if (this.userInput) {
+      this.itinerariesToDisplay = this.itinerariesToDisplay.filter((way) => {
+        const originCityName = way.originCity.name.toLowerCase();
+        const destinationCityName = way.destinationCity.name.toLowerCase();
+
+        // Check if originCity or destinationCity includes userInput
+        const isOriginMatch = originCityName.includes(
+          this.userInput.toLowerCase()
+        );
+        const isDestinationMatch = destinationCityName.includes(
+          this.userInput.toLowerCase()
+        );
+
+        // Check if any cityStop name includes userInput
+        const isCityStopMatch = way.cityStop.some((stop) => {
+          return (
+            stop.name &&
+            stop.name.toLowerCase().includes(this.userInput.toLowerCase())
+          );
+        });
+
+        // Include the itinerary if any of the conditions are true
+        return isOriginMatch || isDestinationMatch || isCityStopMatch;
+      });
+    }
+    if (this.idsChecked && this.idsChecked.length > 0) {
+      this.itinerariesToDisplay = this.itinerariesToDisplay.filter((way) =>
+        this.idsChecked.includes(way.id_user)
+      );
+    }
+  }
 }

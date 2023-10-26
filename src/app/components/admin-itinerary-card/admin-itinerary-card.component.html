@@ -1,9 +1,17 @@
-<div class="card is-touch block m-4">
+<div class="card is-touch block m-2">
   <div *ngIf="itineraries.destinationCity.photo[0]" class="card-image">
-    <div class="is-touch is-responsive">
-      <div id="conteneur_slider" class="is-responsive is-touch">
+    <div class="is-until-widescreen is-responsive">
+      <div id="conteneur_slider" class="is-responsive is-until-widescreen">
+        <button
+          class="button is-danger"
+          (click)="onDeleteItinerary(itineraries.id!)"
+        >
+          <span class="icon is-small">
+            <i class="fas fa-trash-can"></i>
+          </span>
+        </button>
       </div>
-      <div class="departure is-touch is-size-7">
+      <div class="departure is-size-7">
         <p>
           Depuis :
           <span class="has-text-weight-semibold"

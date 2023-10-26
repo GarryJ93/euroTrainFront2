@@ -2,7 +2,7 @@
     <div>
   <p-accordion class="m-2"><img src="https://flagsapi.com/{{country.initial}}/shiny/64.png"/>
     <p-accordionTab header="{{ country.name }}">
-      <div *ngIf="country.photo[0]" class="container is-max-desktop">
+      <div *ngIf="country.photo.length > 0" class="container is-max-desktop">
         <p-carousel
           [value]="country.photo"
           [numVisible]="1"

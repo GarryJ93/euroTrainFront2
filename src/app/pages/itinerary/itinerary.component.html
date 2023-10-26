@@ -1,2 +1,24 @@
-
-<app-itinerary-list [itinerariesList]="itinerariesToDisplay" ></app-itinerary-list>
+<div class="columns is-multiline border m-4 p-4">
+    <div class="columns column is-vcentered is-multiline block p-6 form">
+    <h3 class="title column is-full is-touch is-size-6-mobile block">Recherchez un itinéraire</h3>
+    <form [formGroup]="searchItinerary" (ngSubmit)="onSearchItinerary()" class="columns is-vcentered is-multiline column is-centered is-full block">
+        <div class="column is-5 block field">
+    <label class="m-2" for="departure">Départ :</label>
+    <input formControlName="departure" class="input" type="text" id="departure"></div>
+    <div class="column is-2 block field swap is-flex is-justify-content-center">
+        <button class="button  mt-5" (click)="swapValues()"><i class="fa-solid fa-right-left"></i></button>
+    </div>
+    <div class="column is-5 block field">
+    <label class="m-2" for="arrival">Arrivée : </label>
+    <input formControlName="arrival" class="input" type="text" id="arrival"></div>
+    
+    <button type="submit" class="button is-responsive m-2 search">Rechercher</button></form>
+    <button *ngIf="filtered" class="button is-responsive m-2 reset" (click)="reinitialize()">Réinitialiser</button>
+    
+</div></div> 
+<div *ngIf="itinerariesToDisplay && itinerariesToDisplay.length === 0" class="columns is-multiline is-centered p-4 m-4">
+    <h3 class="has-text-weight-semibold has-text-centered is-size-3-desktop is-size-6-touch column is-full block"> Pas encore d'itinéraire disponible !</h3>
+    <p class="column is-full has-text-centered">N'hésitez pas à nous rejoindre pour proposer votre itinéraire à nos prochains visiteurs.</p>
+    <button class="button is-responsive search p-4 m-2 column is-one-fifth has-text-centered" [routerLink]="['/signup']"><span class="vertical-center-text p-4 m-4">Rejoignez-nous</span></button>
+</div>
+<app-itinerary-list class="p-6" [itinerariesList]="itinerariesToDisplay" ></app-itinerary-list>

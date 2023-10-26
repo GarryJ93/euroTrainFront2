@@ -1,13 +1,64 @@
-<div *ngIf="myExample" class="card is-touch ">
-  <div *ngIf="cityImage" class="card-image">
-    <figure class="image is-4by3">
-      <img src="{{cityImage.picture}}" alt="Placeholder image">
-    </figure>
+<div class="card is-touch is-half block m-2">
+  <div *ngIf="myExample && myExample.destinationCity && myExample.destinationCity.photo && myExample.destinationCity.photo.length > 0" class="card-image">
+    <div class="is-touch is-responsive">
+      <div id="conteneur_slider" class="is-responsive is-touch">
+      </div>
+      <div class="departure is-touch is-size-7">
+        <p>
+          Au départ de :
+          <span class="has-text-weight-semibold"
+            >{{ myExample.originCity.name }},
+            {{ myExample.originCity.country.name }}</span
+          >
+        </p>
+      </div>
+      <img
+        [src]="myExample.destinationCity.photo[0].picture"
+        style="width: 100%"
+        loading="lazy"
+      />
+    </div>
   </div>
   <div class="card-content">
+    <!-- <button class="button is-danger" (click)="onDeleteItinerary(myExample.id!)">
+          <span class="icon is-small">
+            <i class="fas fa-trash-can"></i>
+          </span>
+        </button> -->
 
-    <div class="content">
-      {{myExample.destinationCity.name}}
-    </div>
+    <div *ngIf="myExample && myExample.destinationCity" class="content">
+      <p>
+        À destination de :
+        <span class="title has-text-weight-bold is-size-4-desktop is-size-5-touch"
+          >{{ myExample.destinationCity.name }},
+          {{ myExample.destinationCity.country.name }}</span
+        >
+      </p>
+      <div *ngIf="myExample.cityStop.length > 0">
+        Possibilité de faire escale à :
+        <ul>
+          <li *ngFor="let stop of myExample.cityStop">
+            {{ stop.name }},
+            <span *ngIf="stop.country">{{ stop.country.name }}</span>
+          </li>
+        </ul>
+      </div>
+      <div>
+      <p *ngFor="let company of myExample.company">Compagnie(s) empruntée(s) : <a href="{{company.link_url}}">{{ company.name }}<span *ngIf="myExample.company.indexOf(company) !== myExample.company.length -1"></span></a></p></div>
+      <div class="type-icon">
+      <div *ngFor="let type of myExample.type">
+      <div *ngIf="type.name === 'Train'" >
+        <span class="icon is-large">
+        <i class="fas fa-train fa-2x"></i></span>
+      </div>
+      <div *ngIf="type.name === 'Bus'">
+        <span class="icon is-large">
+        <i class="fas fa-bus fa-2x"></i></span>
+      </div>
+      <div *ngIf="type.name === 'Bateau'" >
+        <span class="icon is-large">
+        <i class="fas fa-ferry fa-2x"></i></span>
+      </div>
+    </div></div></div>
   </div>
 </div>
