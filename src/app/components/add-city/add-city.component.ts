@@ -39,8 +39,9 @@ export class AddCityComponent {
   private initialForm() {
     this.addCity = this.fb.group({
       name: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
       country: new FormControl(''),
-      category: new FormControl(''),
+      cat: new FormControl(''),
     });
   }
   showDialog() {
@@ -57,7 +58,7 @@ export class AddCityComponent {
     };
 
     newCity.id_country = +(newCity.country);
-    newCity.id_stay_cat = +(newCity.category);
+    newCity.id_stay_cat = +(newCity.cat);
     
 
     console.log(newCity);

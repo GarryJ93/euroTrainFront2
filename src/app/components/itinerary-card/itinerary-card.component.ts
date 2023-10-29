@@ -13,6 +13,7 @@ import { PhotoService } from 'src/app/services/photo.service';
 export class ItineraryCardComponent {
   @Input() itineraries!: Itinerary;
   @Input() country!: Country;
+  
 
   cityBlob!: Blob;
   cityImage!: any;

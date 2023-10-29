@@ -9,7 +9,7 @@
 <p-toast
   [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"
 ></p-toast>
-<p-toolbar styleClass="mb-4 gap-2">
+<p-toolbar styleClass="mb-4 gap-2 is-touch">
   <ng-template pTemplate="left">
     <div class="m-4">
       <app-add-city [countries]="countriesToDisplay"></app-add-city>
@@ -30,7 +30,7 @@
   [showCurrentPageReport]="true"
 >
   <ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
+    <div class="flex align-items-center justify-content-between is-touch">
       <h2 class="m-2 has-text-weight-semibold is-size-5">Gestion des villes</h2>
       <span class="p-input-icon-left">
         <i class="pi pi-search"></i>
@@ -73,7 +73,7 @@
       <td class="is-size-4 has-text-weight-bold">{{ city.name }}</td>
       <td *ngIf="city.photo && city.photo.length > 0">
         <div>
-          <button class="button is-primary" (click)="showModalGalleria(city)">
+          <button class="button accept" (click)="showModalGalleria(city)">
             Voir la galerie
           </button>
           <p-dialog
@@ -133,7 +133,7 @@
                 pButton
                 pRipple
                 icon="fa-solid fa-pencil"
-                class="button is-primary is-right"
+                class="button accept is-right"
               ></button>
             </div>
           </form>
@@ -142,7 +142,7 @@
             pButton
             pRipple
             icon="fa-solid fa-pencil"
-            class="button is-primary mr-2"
+            class="button accept mr-2"
             (click)="onEditing()"
           ></button>
           {{ city.cat.name }}
@@ -155,7 +155,7 @@
           pButton
           pRipple
           icon="fa-solid fa-trash-can"
-          class="button is-danger"
+          class="button deleteBtn"
           (click)="OnDeleteCity(city.id)"
         ></button>
       </td>

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Itinerary } from 'src/app/models/itinerary';
+import { StayCat } from 'src/app/models/stay-cat';
 import { ItineraryService } from 'src/app/services/itinerary.service';
+import { StayCatService } from 'src/app/services/stay-cat.service';
 
 @Component({
   selector: 'app-itinerary',
@@ -11,14 +13,18 @@ import { ItineraryService } from 'src/app/services/itinerary.service';
 export class ItineraryComponent implements OnInit {
   allItineraries!: Itinerary[];
   itinerariesToDisplay!: Itinerary[];
+  allCategories!: StayCat[];
+  categoriesToDisplay!: StayCat[];
   exampleOfWay!: Itinerary;
   searchItinerary!: FormGroup;
   departure!: string;
   arrival!: string;
   filtered: Boolean = false;
+  categoriesChecked!: number[];
 
   constructor(
     private itineraryService: ItineraryService,
+    private categoryService: StayCatService,
     private fb: FormBuilder
   ) {}
 
@@ -33,6 +39,13 @@ export class ItineraryComponent implements OnInit {
         }
       },
     });
+
+    this.categoryService.getAllStayCats().subscribe({
+      next: (response) => {
+        this.allCategories = [...response];
+        this.categoriesToDisplay = [...response];
+      },
+    });
   }
 
   initialForm() {
@@ -43,6 +56,11 @@ export class ItineraryComponent implements OnInit {
   }
 
   onSearchItinerary() {
+    this.itinerariesToDisplay = [...this.allItineraries];
+    this.filtered = true;
+    this.onUserInteractionFiltre();
+  }
+  onUserInteractionFiltre() {
     this.itinerariesToDisplay = [...this.allItineraries];
     this.filtered = true;
     if (this.searchItinerary.valid) {
@@ -67,6 +85,11 @@ export class ItineraryComponent implements OnInit {
 
         return isOriginMatch && isDestinationMatch;
       });
+    }
+    if (this.categoriesChecked && this.categoriesChecked.length > 0) {
+      this.itinerariesToDisplay = this.itinerariesToDisplay.filter((way) =>
+        this.categoriesChecked.includes(way.destinationCity.id_stay_cat)
+      );
     }
   }
 
@@ -94,6 +117,14 @@ export class ItineraryComponent implements OnInit {
 
     this.searchItinerary.get('arrival')!.setValue(currentDeparture);
     this.searchItinerary.get('departure')!.setValue(currentArrival);
+  }
+
+  onCheckedCategories(categoriesTab: number[]) {
+    this.categoriesChecked = categoriesTab;
+    console.log(this.categoriesChecked);
+  
+
+    this.onUserInteractionFiltre();
   }
 }
 

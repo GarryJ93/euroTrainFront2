@@ -1,0 +1,29 @@
+
+
+input {
+    background-color: rgb(245, 243, 243);
+}
+
+.validate, .validate:hover {
+    background: rgb(253, 253, 0);
+    color: black;
+}
+
+.close {
+    background: rgb(159, 4, 92);
+    border: none;
+    color: rgb(255, 255, 255);
+}
+
+form {
+    background: rgb(8, 8, 88);
+
+}
+
+label {
+    color: rgb(206, 206, 206);
+}
+
+input, select {
+    background: rgb(206, 206, 206);
+}

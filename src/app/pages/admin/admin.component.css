@@ -14,4 +14,66 @@ h2 {
     color: rgb(8, 8, 88);
 }
 
+.custom-card {
+  background-color: rgba(8, 8, 88, 0.626);
+  
+}
+
+.custom-card-header {
+  background-color: rgba(8, 8, 88, 0.626);
+   
+  border-bottom:2px solid rgb(253, 253, 0);
+}
+
+.custom-card-content {
+  color: #333;
+  border-bottom:2px solid rgb(253, 253, 0);
+}
+
+.custom-card-footer {
+  background-color: #080858a0;
+}
+
+.custom-card-header-title {
+    color: #ffffff !important;
+}
+
+.accept {
+    background: rgb(253, 253, 0);
+    color: black;
+}
+
+.accept:hover, .accept:active, .accept:checked {
+    background: rgb(253, 253, 0);
+    color: black;
+}
+
+
+.refuse {
+    background: rgb(159, 4, 92);
+    border: none;
+    color: rgb(255, 255, 255);
+}
+
+::ng-deep .p-orderlist-header {
+  background-color: rgba(8, 8, 88);
+  color: #ffffff;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+::ng-deep .p-orderlist-list, ::ng-deep .p-orderlist-filter-container {
+  background-color: rgba(201, 201, 201, 0.758);
+  color: #ffffff;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.content {
+    color: whitesmoke;
+}
+
+
 

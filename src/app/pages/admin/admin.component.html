@@ -1,4 +1,4 @@
-<div class="columns is-multiline is-touch block m-4">
+<div class="columns is-multiline is-touch block mx-4 p-4">
   <div class="column block">
     <app-btn-confirm-suppression></app-btn-confirm-suppression>
   </div>
@@ -12,70 +12,62 @@
         class="column is-half"
         [id]="user.id"
       >
-        <div *ngIf="!user.access" class="card m-4">
-          <header class="card-header">
-            <p class="card-header-title">
+        <div *ngIf="!user.access" class="card m-4 custom-card">
+          <header class="card-header custom-card-header">
+            <p class="card-header-title custom-card-header-title">
               {{ user.name }}
             </p>
-            <button class="card-header-icon" aria-label="more options">
-              <span class="icon">
-                <i class="fas fa-user-pen" aria-hidden="true"></i>
-              </span>
-            </button>
           </header>
-          <div class="card-content">
+          <div class="card-content custom-card-content">
             <div class="content">
               {{ user.motivation }}
             </div>
           </div>
-          <footer class="card-footer field is-grouped buttons has-addons">
+          <footer class="card-footer field  custom-card-footer">
+            <div class="is-grouped buttons has-addons m-2">
             <button
-              class="card-footer-item button is-responsive is-primary ms-2 ml-2 block"
+              class="card-footer-item button is-responsive accept mt-4  block"
               (click)="OnAcceptNewAdmin(user.id)"
             >
               Accepter
             </button>
             <button
-              class="card-footer-item button is-responsive is-danger ms-2 mr-2 block"
+              class="card-footer-item button is-responsive refuse mt-4  block"
               (click)="OnDeleteAllDataUser(user.id)"
             >
               Refuser
-            </button>
+            </button></div>
           </footer>
         </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="full_access" class="column is-touch is-full border-right">
+  <div *ngIf="full_access" class="column is-touch is-full border-right mb-2">
     <h2 class="column is-full has-text-weight-bold is-size-4 has-text-right">
       Utilisateurs
     </h2>
     <div class="columns is-multiline">
       <div *ngFor="let user of adminUser" class="column is-half">
-        <div *ngIf="user.access" class="card block m-4">
-          <header class="card-header">
-            <p class="card-header-title">
+        <div *ngIf="user.access" class="card block m-4 custom-card">
+          <header class="card-header custom-card-header">
+            <p class="card-header-title custom-card-header-title">
               {{ user.name }}
             </p>
-            <button class="card-header-icon" aria-label="more options">
-              <span class="icon">
-                <i class="fas fa-user" aria-hidden="true"></i>
-              </span>
-            </button>
           </header>
-          <div class="card-content">
-            <div class="content">
-              Liste des itinéraires crées par cet utilisateur (A faire)
+          <div class="card-content custom-card-content">
+            <div *ngIf="itinerariesCountByAdmin" class="content">
+              {{user.name}} a proposé {{itinerariesCountByAdmin[user.id]}} itinéraire(s).
             </div>
           </div>
-          <footer class="card-footer">
+          <footer class="card-footer custom-card-footer">
+            <div class="m-2">
             <button
-              class="card-footer-item button is-responsive is-danger m-2"
+              class="card-footer-item button is-responsive refuse m-2"
               (click)="showDialog()"
             >
               Supprimer
-            </button>
+            </button></div>
           </footer>
         </div>
         <p-dialog
@@ -93,19 +85,19 @@
           </p>
           <div class="buttons m-4">
             <button
-              class="button is-danger is-responsive"
+              class="button refuse is-responsive"
               (click)="OnSoftDeleteUser(user.id)"
             >
               Supprimer et conserver les itinéraires
             </button>
             <button
-              class="button is-danger is-responsive"
+              class="button refuse is-responsive"
               (click)="OnDeleteAllDataUser(user.id)"
             >
               Tout supprimer
             </button>
             <button
-              class="button is-primary is-responsive"
+              class="button accept is-responsive"
               (click)="closeDialog()"
             >
               Annuler
@@ -115,8 +107,8 @@
       </div>
     </div>
   </div>
-</div>
-<div *ngIf="access" class="column is-full block border-left m-4">
+
+<div *ngIf="access" class="column is-full block border-left mt-4">
   <h2 class="column is-full has-text-weight-bold is-size-4">
     Pays disponibles
   </h2>
@@ -134,6 +126,7 @@
     filterBy="name"
     filterPlaceholder="Filtrer par Nom"
     [dragdrop]="true"
+    class="custom-orderlist-header"
   >
     <ng-template let-country pTemplate="countriesToDisplay">
       <div class="m-2">
@@ -152,7 +145,7 @@
           </div>
           <div *ngIf="full_access" class="column">
             <button
-              class="button is-danger is-responsive m-2"
+              class="button refuse is-responsive m-2"
               (click)="OnDeleteCountry(country.id)"
             >
               <span>Supprimer</span>
@@ -167,7 +160,7 @@
     </ng-template>
   </p-orderList>
 </div>
-<div *ngIf="access" class="column is-quarter block border-right m-4">
+<div *ngIf="access" class="column is-full is-touch block border-right m-4">
   <h2 class="column is-full has-text-weight-bold is-size-4 has-text-right">
     Villes Proposées
   </h2>
@@ -190,7 +183,7 @@
           <i class="fas fa-globe"></i>
         </span>
 
-        <button type="submit" class="button is-responsive is-primary m-2">
+        <button type="submit" class="button accept m-2">
           Voir les villes
         </button>
       </div>
@@ -203,12 +196,12 @@
 </div>
 <div
   *ngIf="access && !full_access"
-  class="column is-full block border-left m-4"
+  class="column is-full block border-left m-4 p-6"
 >
   <h2 class="column is-full has-text-weight-bold is-size-4">Mes itinéraires</h2>
   <app-add-itinerary [cityList]="citiesToDisplay"></app-add-itinerary>
   <app-admin-itineraries-list
-    [itinerariesList]="itinerariesToDisplay" [full_access]="full_access"
+    [itinerariesList]="itinerariesToDisplayUser" [full_access]="full_access"
   ></app-admin-itineraries-list>
 </div>
 <div *ngIf="full_access" class="column is-full block border-left m-4">
@@ -222,10 +215,11 @@
   
   <app-admin-itineraries-list
     [itinerariesList]="itinerariesToDisplay"
+    [allItineraries]="allItineraries"
     [usersToFilter]="adminUser"
     (userIdsTab)="onFilterItineraries($event)"
     (userInput)="onSearch($event)"
     [full_access]="full_access"
     class="column"
   ></app-admin-itineraries-list>
-</div>
+</div></div>

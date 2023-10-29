@@ -7,12 +7,18 @@ import { HomeComponent } from './pages/home/home.component';
 import { ItineraryComponent } from './pages/itinerary/itinerary.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { CountryComponent } from './pages/country/country.component';
+import { DestinationsComponent } from './pages/destinations/destinations.component';
+import { CityViewComponent } from './pages/city-view/city-view.component';
+import { ItineraryViewComponent } from './pages/itinerary-view/itinerary-view.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'itinerary', component: ItineraryComponent },
-  { path: 'country', component: CountryComponent},
+  { path: 'itinerary/:id', component: ItineraryViewComponent},
+  { path: 'country', component: CountryComponent },
+  { path: 'destinations', component: DestinationsComponent },
+  { path: 'destinations/:id', component: CityViewComponent},
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
   { path: 'admin', component: AdminComponent},

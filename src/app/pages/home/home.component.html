@@ -29,8 +29,9 @@
   <img src="../../../assets/Capture d'écran 2023-10-25 201700.png" alt=""></div>
 </div></section>
 <section class="columns is-centered column is-full is-multiline is-touch block mx-4 p-4 ">
-<div class="column is-4 block about mx-2">
-  <h3 class="has-text-centered is-size-3-desktop is-size-5-touch has-text-weight-semibold p-4 mb-2">Pourquoi EuroTrain ?</h3>
+<div class="column is-4 block mx-2">
+  <div class="about">
+  <h3 class="has-text-centered is-size-3-desktop is-size-5-touch has-text-weight-semibold p-4 mb-2 why">Pourquoi EuroTrain ?</h3>
   <div class=" p-4">
 <p class="mt-2" > 
 Chez EuroTrain, nous comprenons que chaque voyageur a ses propres motivations, qu'il s'agisse de choisir des alternatives écologiques, de surmonter une phobie de l'avion ou simplement de vivre l'expérience du voyage d'une manière nouvelle et enrichissante. C'est pourquoi nous avons créé une plateforme dédiée à la découverte de l'Europe à travers des itinéraires ferroviaires soigneusement sélectionnés.
@@ -43,7 +44,7 @@ EuroTrain est bien plus qu'un simple guide de voyage. Nous encourageons la commu
 <p class="mt-2">
 Explorez nos itinéraires préconçus, trouvez l'inspiration, et si l'aventure vous appelle, créez votre propre itinéraire personnalisé. Chez EuroTrain, chaque trajet est une invitation à élargir vos horizons, à vivre des expériences authentiques et à contribuer à une communauté passionnée.
 </p></div>
-</div>
+</div></div>
 <div class="column is-3-offset-2 block p-4">
   <h3 class="has-text-centered is-size-3-desktop is-size-5-touch has-text-weight-semibold mb-2">Rejoignez-nous</h3>
   <div class="p-4 introduction">
@@ -61,5 +62,24 @@ Explorez nos itinéraires préconçus, trouvez l'inspiration, et si l'aventure v
 </div>
   </div>
 </div></div>
-<div class="has-background-success column is-2 block p-4 ml-4">BITCH</div></section>
+<div class="columns is-multiline is-centered is-touch column block is-2">
+  <h3 class="has-text-centered column is-full is-size-3-desktop is-size-5-touch has-text-weight-semibold">
+    Pour acheter vos billets
+  </h3>
+  <div class="column is-full company">
+  <div *ngFor="let company of companiesToDisplay" class="m-2">
+    
+    <a href="{{company.link_url}}" target="_blank">
+      <img src="{{company.logo_url}}" width="100%" style="max-width: 85px;">
+    </a>
+  </div></div></div>
+
+
+
+
+
+
+
+
+</section>
 </div>

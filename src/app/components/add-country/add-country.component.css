@@ -1,0 +1,15 @@
+label {
+    color: rgb(206, 206, 206);
+}
+
+input, select, textarea {
+    background: rgb(206, 206, 206);
+}
+
+.icon-black {
+    color: rgb(8, 8, 88) !important;
+}
+
+.validate {
+    background: rgb(253, 253, 0);
+}

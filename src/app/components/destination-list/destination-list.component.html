@@ -1,0 +1,4 @@
+<div class="columns is-multiline m-4">
+    <app-search-bar class="column is-full" (inputUser)="onEnterSearch($event)"></app-search-bar>
+<app-city-card *ngFor="let city of citiesList" [city]="city" class="column is-one-third block"></app-city-card>
+</div>

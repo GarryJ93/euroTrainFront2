@@ -4,5 +4,31 @@
 } */
 
 html {
-    background-color: rgb(245, 243, 243);
+    background-color: rgb(196, 194, 194);
+}
+
+.p-dialog-titlebar{
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+/* styles.scss or styles.css */
+
+p-dialog .p-dialog-content {
+  background-color: rgb(8, 8, 88) !important;
+  color: white !important;
+  padding-top: 10px;
+}
+
+p-dialog .p-dialog-header {
+  color: rgb(253, 253, 0);
+  background-color: rgb(8, 8, 88) !important;
+  border-bottom: 2px solid rgb(253, 253, 0);
+  
+}
+
+p-dialog .p-dialog-header .p-dialog-header-close {
+    background: rgb(159, 4, 92);
+    border: none;
+    color: rgb(255, 255, 255);
 }

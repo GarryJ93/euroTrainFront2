@@ -1,9 +1,9 @@
 <div class="card is-touch block m-2">
-  <div *ngIf="itineraries.destinationCity.photo[0]" class="card-image">
+  <div *ngIf="itineraries.destinationCity.photo.length > 0" class="card-image">
     <div class="is-until-widescreen is-responsive">
       <div id="conteneur_slider" class="is-responsive is-until-widescreen">
         <button
-          class="button is-danger"
+          class="button deleteWay"
           (click)="onDeleteItinerary(itineraries.id!)"
         >
           <span class="icon is-small">
@@ -11,6 +11,7 @@
           </span>
         </button>
       </div>
+      
       <div class="departure is-size-7">
         <p>
           Depuis :
@@ -52,21 +53,24 @@
         </ul>
       </div>
       <div>
-      <p *ngFor="let company of itineraries.company">Compagnie(s) empruntée(s) : <a href="{{company.link_url}}">{{ company.name }}<span *ngIf="itineraries.company.indexOf(company) !== itineraries.company.length -1"></span></a></p></div>
-      <div class="type-icon">
-      <div *ngFor="let type of itineraries.type">
-      <div *ngIf="type.name === 'Train'" >
+      <p *ngFor="let company of itineraries.company"><a href="{{company.link_url}}"><img src="{{ company.logo_url }}" width="100px" alt=""><span *ngIf="itineraries.company.indexOf(company) !== itineraries.company.length -1"></span></a></p></div>
+      <div class="columns">
+      <div *ngFor="let type of itineraries.type" class="type-icon column">
         <span class="icon is-large">
-        <i class="fas fa-train fa-2x"></i></span>
+          <i class="{{type.icon_code}}"></i>
+        </span>
+      </div><div *ngIf="itineraries.destinationCity.photo.length === 0">
+    <div class="is-until-widescreen is-responsive">
+      <div class="is-responsive is-until-widescreen">
+        <button
+          class="button deleteWay"
+          (click)="onDeleteItinerary(itineraries.id!)"
+        >
+          <span class="icon is-small">
+            <i class="fas fa-trash-can"></i>
+          </span>
+        </button>
       </div>
-      <div *ngIf="type.name === 'Bus'">
-        <span class="icon is-large">
-        <i class="fas fa-bus fa-2x"></i></span>
-      </div>
-      <div *ngIf="type.name === 'Bateau'" >
-        <span class="icon is-large">
-        <i class="fas fa-ferry fa-2x"></i></span>
-      </div>
-    </div></div></div>
-  </div>
-</div>
+    </div></div></div></div>
+  
+

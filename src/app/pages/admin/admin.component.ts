@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { City } from 'src/app/models/city';
 import { Country } from 'src/app/models/country';
 import { Currency } from 'src/app/models/currency';
@@ -25,6 +26,7 @@ export class AdminComponent implements OnInit {
   full_access!: Boolean;
   allItineraries!: Itinerary[];
   itinerariesToDisplay!: Itinerary[];
+  itinerariesToDisplayUser!: Itinerary[];
   allUsers!: User[];
   usersToDisplay!: User[];
   candidateUser!: User[];
@@ -49,7 +51,7 @@ export class AdminComponent implements OnInit {
   idCountryForPicture!: number;
   idsChecked!: number[];
   userInput!: string;
-  
+  itinerariesCountByAdmin: Record<number, number> = {};
 
   constructor(
     private itineraryService: ItineraryService,
@@ -59,6 +61,7 @@ export class AdminComponent implements OnInit {
     private userService: UserService,
     private countryService: CountryService,
     private cityService: CityService,
+    private messageService: MessageService,
     private fb: FormBuilder
   ) {}
   ngOnInit() {
@@ -77,7 +80,7 @@ export class AdminComponent implements OnInit {
         {
           this.allItineraries = [...response];
           this.itinerariesToDisplay = [...response];
-          this.itinerariesToDisplay = [
+          this.itinerariesToDisplayUser = [
             ...this.itinerariesToDisplay.filter(
               (itinerary) => itinerary.id_user === this.currentId
             ),
@@ -102,6 +105,8 @@ export class AdminComponent implements OnInit {
             ),
           ];
         }
+        if(this.full_access) {
+        this.onCount();}
       },
     });
 
@@ -159,6 +164,21 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  onCount() {
+
+    this.adminUser.forEach((admin) => {
+      // Filtrer les itinéraires créés par l'administrateur actuel
+      const adminItineraries = [...this.allItineraries.filter(
+        (itinerary) => itinerary.id_user === admin.id
+      )];
+
+      // Compter le nombre d'itinéraires pour cet administrateur
+      this.itinerariesCountByAdmin[admin.id] = adminItineraries.length;
+    });
+
+    console.log('Itineraries Count By Admin:', this.itinerariesCountByAdmin);
+  }
+
   onSubmit() {
     console.log(this.citiesToDisplay);
     if (this.select.valid) {
@@ -181,7 +201,11 @@ export class AdminComponent implements OnInit {
     };
     this.userService.updateAdminStatus(idUser, updateUser).subscribe({
       next: (response) => {
-        console.log('Admin validé', response);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Félicitations',
+          detail: 'Utilisateur accepté.',
+        });
         location.reload();
       },
       error: (error) => {
@@ -193,8 +217,11 @@ export class AdminComponent implements OnInit {
   OnDeleteAllDataUser(idUser: number) {
     this.userService.deleteUserAndData(idUser).subscribe({
       next: (response) => {
-        alert('Opération réussie');
-        location.reload();
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Supprimé',
+          detail: 'Données effacées',
+        });
       },
       error: (error) => {
         console.error('Erreur lors de la suppression', error);
@@ -205,9 +232,12 @@ export class AdminComponent implements OnInit {
   OnSoftDeleteUser(idUser: number) {
     this.userService.softDeleteUser(idUser).subscribe({
       next: (response) => {
-        alert('Utilisateur supprimé');
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Supprimé',
+          detail: 'Utilisateur supprimé et itinéraires conservés.',
+        });
         this.closeDialog();
-        location.reload();
       },
       error: (error) => {
         console.error('Erreur lors de la suppression', error);
@@ -218,8 +248,11 @@ export class AdminComponent implements OnInit {
   OnDeleteCountry(idCountry: number) {
     this.countryService.deleteCountry(idCountry).subscribe({
       next: (response) => {
-        alert('Pays supprimé');
-        location.reload();
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Supprimé',
+          detail: 'Pays et itinéraires associés supprimés',
+        });
       },
     });
   }
@@ -240,21 +273,21 @@ export class AdminComponent implements OnInit {
 
   onFilterItineraries(userIdsTab: number[]) {
     this.idsChecked = userIdsTab;
-    
-    
+console.log(this.idsChecked);
+
     this.onUserInteractionFiltre();
   }
 
   onSearch(searchInput: string) {
     this.userInput = searchInput;
-    
+
     this.onUserInteractionFiltre();
   }
 
   onUserInteractionFiltre() {
     this.itinerariesToDisplay = [...this.allItineraries];
     if (this.userInput) {
-      this.itinerariesToDisplay = this.itinerariesToDisplay.filter((way) => {
+      this.itinerariesToDisplay = [...this.itinerariesToDisplay.filter((way) => {
         const originCityName = way.originCity.name.toLowerCase();
         const destinationCityName = way.destinationCity.name.toLowerCase();
 
@@ -276,12 +309,14 @@ export class AdminComponent implements OnInit {
 
         // Include the itinerary if any of the conditions are true
         return isOriginMatch || isDestinationMatch || isCityStopMatch;
-      });
+      })];
     }
     if (this.idsChecked && this.idsChecked.length > 0) {
-      this.itinerariesToDisplay = this.itinerariesToDisplay.filter((way) =>
+      console.log(this.idsChecked);
+      
+      this.itinerariesToDisplay = [...this.itinerariesToDisplay.filter((way) =>
         this.idsChecked.includes(way.id_user)
-      );
+      )];
     }
   }
 }

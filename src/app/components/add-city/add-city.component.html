@@ -1,8 +1,8 @@
-<button class="button is-primary is-responsive" (click)="showDialog()">
+<button class="button validate is-responsive" (click)="showDialog()">
   Ajouter une ville
 </button>
 <p-dialog
-  header="Ajouter un nouvelle ville"
+  header="Ajouter une nouvelle ville"
   [(visible)]="visible"
   [modal]="true"
   [breakpoints]="{ '960px': '75vw' }"
@@ -23,9 +23,25 @@
               placeholder=""
               value=""
             />
-            <span class="icon is-small is-left">
+            <span class="icon is-small is-left icon-black">
               <i class="fas fa-tree-city"></i>
             </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Description</label>
+          <div class="control has-icons-left has-icons-right">
+            <textarea
+              formControlName="description"
+              class="textarea"
+              type="text"
+              placeholder=""
+              value=""
+            >
+            <span class="icon is-small is-left icon-black">
+              <i class="fa-regular fa-file-lines"></i>
+            </span></textarea>
           </div>
         </div>
 
@@ -43,7 +59,7 @@
                 </option>
               </select>
             </div>
-            <div class="icon is-small is-left">
+            <div class="icon is-small is-left icon-black">
               <i class="fas fa-earth-europe"></i>
             </div>
           </div>
@@ -55,7 +71,7 @@
 
           <div class="control has-icons-left my-2">
             <div class="select">
-              <select formControlName="category">
+              <select formControlName="cat">
                 <option
                   *ngFor="let category of categoriesToDisplay"
                   value="{{ category.id }}"
@@ -64,7 +80,7 @@
                 </option>
               </select>
             </div>
-            <div class="icon is-small is-left">
+            <div class="icon is-small is-left icon-black">
               <i class="fas fa-passport"></i>
             </div>
           </div>
@@ -76,7 +92,7 @@
 
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-primary is-responsive p-4 m-4" type="submit" [disabled]="!addCity.valid">
+            <button class="button is-responsive p-4 m-4 validate" type="submit" [disabled]="!addCity.valid">
               Enregistrer
             </button>
           </div>

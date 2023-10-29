@@ -1,0 +1,67 @@
+<button class="button is-responsive back m-4" [routerLink]="['/destinations']">
+  Retour
+</button>
+<div class="columns is-multiline is-touch p-4 m-2">
+  <div *ngIf="city && city.photo.length > 0" class="column is-half block">
+    <p-galleria
+      *ngIf="city && city.photo && city.photo.length > 0"
+      class="galleria centered-galleria"
+      [value]="city.photo"
+      [showIndicators]="false"
+      [showThumbnails]="true"
+      [containerStyle]="{ 'max-width': '640px' }"
+      [numVisible]="2"
+      [circular]="true"
+      [showItemNavigators]="true"
+    >
+      <ng-template pTemplate="item" let-photo>
+        <div>
+          <img [src]="photo.picture" style="width: 100%" loading="lazy" />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="thumbnail" let-item>
+        <div class="grid grid-nogutter justify-content-center">
+          <img
+            [src]="item.picture"
+            class="image is-64x64 is-responsive"
+            loading="lazy"
+          />
+        </div>
+      </ng-template>
+    </p-galleria>
+  </div>
+  <div
+    *ngIf="city"
+    class="columns is-multiline column is-half block city-view ml-2 mt-2 rounded"
+  >
+    <div
+      class="column is-full has-text-centered has-text-weight-bold is-size-4-desktop is-size-5-touch"
+    >
+      {{ city.name }}, {{ city.country.name }}
+    </div>
+    <div class="column is-full mt-4">
+      <span>Type de séjour: </span><i class="{{ city.cat.icon_code }} ml-2"></i
+      ><span class="mx-4">{{ city.cat.name }}</span>
+    </div>
+    <div class="column is-full">
+      Intérêts: <span class="ml-4"> {{ city.description }} </span>
+    </div>
+  </div>
+  <div
+    *ngIf="itinerariesByCity && itinerariesByCity.length > 0"
+    class="column is-full ways has-text-centered has-text-weight-semibold is-size-5-desktop is-size-6-touch"
+  >
+  <div class="way">
+    Itinéraires proposées vers {{ city.name }}
+  </div></div>
+  <div
+    *ngFor="let itinerary of itinerariesByCity"
+    class="columns is-multiline column is-one-third block"
+  >
+    <app-itinerary-card
+      [itineraries]="itinerary"
+      class="column is-full block"
+      [routerLink]="['/itinerary/', itinerary.id]"
+    ></app-itinerary-card>
+  </div>
+</div>

@@ -15,6 +15,7 @@
       <a class="navbar-item" [routerLink]="(['/home'])"> Accueil </a>
       <a class="navbar-item" [routerLink]="(['/itinerary'])"> Itinéraires </a>
       <a class="navbar-item" [routerLink]="(['/country'])"> Conditions de voyage </a>
+      <a class="navbar-item" [routerLink]="(['/destinations'])"> Destinations </a>
     </div>
 
     <div class="navbar-end">
@@ -71,13 +72,13 @@
       <p>Vous allez vous déconnecter. Êtes-vous sûr(e) ?</p>
       <div class="buttons m-4">
         <button
-          class="button is-danger is-responsive"
+          class="button disconnect is-responsive"
           (click)="onDisconnect()"
         >
           Oui
         </button>
         <button
-          class="button is-primary is-responsive"
+          class="button connect is-responsive"
           (click)="closeDialog()"
         >
           Non

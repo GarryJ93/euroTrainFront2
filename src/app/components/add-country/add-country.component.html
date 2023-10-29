@@ -1,4 +1,4 @@
-<button class="button is-primary is-responsive" (click)="showDialog()">
+<button class="button validate is-responsive" (click)="showDialog()">
   Ajouter un pays
 </button>
 <p-dialog
@@ -23,7 +23,7 @@
               placeholder=""
               value=""
             />
-            <span class="icon is-small is-left">
+            <span class="icon is-small is-left icon-black">
               <i class="fas fa-earth-europe"></i>
             </span>
           </div>
@@ -39,7 +39,7 @@
               placeholder=""
               value=""
             />
-            <span class="icon is-small is-left">
+            <span class="icon is-small is-left icon-black">
               <i class="fa-solid fa-font"></i>
             </span>
           </div>
@@ -58,7 +58,7 @@
                 </option>
               </select>
             </div>
-            <div class="icon is-small is-left">
+            <div class="icon is-small is-left icon-black">
               <i class="fas fa-language"></i>
             </div>
           </div>
@@ -76,7 +76,7 @@
                 </option>
               </select>
             </div>
-            <div class="icon is-small is-left">
+            <div class="icon is-small is-left icon-black">
               <i class="fas fa-wallet"></i>
             </div>
           </div>
@@ -96,7 +96,7 @@
                 </option>
               </select>
             </div>
-            <div class="icon is-small is-left">
+            <div class="icon is-small is-left icon-black">
               <i class="fas fa-passport"></i>
             </div>
           </div>
@@ -124,7 +124,7 @@
 
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-primary is-responsive p-4 m-4" type="submit" [disabled]="!addCountry.valid">
+            <button class="button validate is-responsive p-4 m-4" type="submit" [disabled]="!addCountry.valid">
               Enregistrer
             </button>
           </div>

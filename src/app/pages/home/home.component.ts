@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Itinerary } from 'src/app/models/itinerary';
+import { TransportCompany } from 'src/app/models/transport-company';
+import { CompanyService } from 'src/app/services/company.service';
 import { ItineraryService } from 'src/app/services/itinerary.service';
 
 
@@ -12,9 +14,13 @@ export class HomeComponent implements OnInit {
   allItineraries!: Itinerary[];
   itinerariesToDisplay!: Itinerary[];
   exampleOfWay!: Itinerary;
-  
+  allCompanies!: TransportCompany[];
+  companiesToDisplay!: TransportCompany[];
 
-  constructor(private itineraryService: ItineraryService) { }
+  constructor(
+    private itineraryService: ItineraryService,
+    private companyService: CompanyService
+  ) {}
 
   ngOnInit() {
     this.itineraryService.getAllItineraries().subscribe({
@@ -32,7 +38,12 @@ export class HomeComponent implements OnInit {
         }
       },
     });
-  }
 
-  
+    this.companyService.getAllCompanies().subscribe({
+      next: (response) => {
+        this.allCompanies = [...response];
+        this.companiesToDisplay = [...response];
+      },
+    });
+  }
 }

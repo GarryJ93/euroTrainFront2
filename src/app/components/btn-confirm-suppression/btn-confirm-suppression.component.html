@@ -1,5 +1,5 @@
 <button
-      class="button is-danger is-responsive"
+      class="button deleteBtn is-responsive"
       (click)="showDialogConfirm()"
     >
       Me désinscrire
@@ -13,19 +13,26 @@
       [draggable]="false"
       [resizable]="false"
     >
-      <p>Êtes-vous sûr(e) de vouloir supprimer votre compte ?</p>
+      <p>Vous allez nous quitter !</p>
+      <p>Vous pouvez supprimer votre profil en nous permettant de conserver vos itinéraires pour nos prochains visiteurs.</p>
       <div class="buttons m-4">
         <button
-          class="button is-danger is-responsive"
+          class="button deleteBtn is-responsive"
           (click)="OnDeleteAllDataUser(currentId)"
         >
-          Oui
+          Tout supprimer
         </button>
         <button
-          class="button is-primary is-responsive"
+          class="button deleteBtn is-responsive"
+          (click)="OnSoftDeleteUser(currentId)"
+        >
+          Supprimer et conserver les itinéraires
+        </button>
+        <button
+          class="button cancel is-responsive"
           (click)="closeDialogConfirm()"
         >
-          Non
+          Annuler
         </button>
       </div>
     </p-dialog>

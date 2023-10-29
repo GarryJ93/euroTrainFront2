@@ -46,6 +46,13 @@ import { AdminItineraryCardComponent } from './components/admin-itinerary-card/a
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { SidebarModule } from 'primeng/sidebar';
+import { CategoryFilterComponent } from './components/category-filter/category-filter.component';
+import { DestinationsComponent } from './pages/destinations/destinations.component';
+import { CityCardComponent } from './components/city-card/city-card.component';
+import { DestinationListComponent } from './components/destination-list/destination-list.component';
+import { CityViewComponent } from './pages/city-view/city-view.component';
+import { ItineraryViewComponent } from './pages/itinerary-view/itinerary-view.component';
+
 
 @NgModule({
   declarations: [
@@ -74,6 +81,12 @@ import { SidebarModule } from 'primeng/sidebar';
     AdminItinerariesListComponent,
     AdminItineraryCardComponent,
     SearchBarComponent,
+    CategoryFilterComponent,
+    DestinationsComponent,
+    CityCardComponent,
+    DestinationListComponent,
+    CityViewComponent,
+    ItineraryViewComponent,
     
   
   
@@ -101,6 +114,8 @@ import { SidebarModule } from 'primeng/sidebar';
     InputSwitchModule,
     SelectButtonModule,
     SidebarModule,
+  
+    
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

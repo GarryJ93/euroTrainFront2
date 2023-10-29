@@ -1,0 +1,19 @@
+<div class=" column is-narrow is-10 is-offset-1 checkicon scroll-container">
+
+    <div *ngFor="let category of categoriesToDisplay" class="mx-6 scroll-item">
+        <label class="custom-checkbox">
+    <input type="checkbox"
+    (change)="onCategoriesFilter($event)" value="{{category.id}}">
+    <span class="checkmark"><i class="{{category.icon_code}}"></i></span>
+  </label>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

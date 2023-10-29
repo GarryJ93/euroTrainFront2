@@ -10,12 +10,21 @@
   color: rgb(253, 253, 0);
 }
 
+.navbar-item:focus, .navbar-item .navbar-dropdown:focus, #admin:focus, .navbar-list:focus {
+  color: rgb(159, 4, 92) !important;
+  font-weight: bold;
+}
+
 .disconnect {
   background-color: rgb(159, 4, 92);
     font-size: 1rem;
     font-weight: bold; 
     color: white;
     border: none; 
+}
+
+.connect {
+  background-color: rgb(253, 253, 0);
 }
 .social {
   background: radial-gradient(

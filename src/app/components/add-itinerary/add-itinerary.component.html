@@ -1,4 +1,4 @@
-<button class="button is-responsive is-primary m-4" (click)="showDialog()">
+<button class="button validate is-primary m-4" (click)="showDialog()">
   Ajouter un itinéraire
 </button>
 
@@ -188,7 +188,7 @@
             <button
               type="button"
               (click)="removeField(i)"
-              class="button is-danger mt-2"
+              class="button close mt-2"
             >
               Supprimer
             </button>
@@ -198,12 +198,12 @@
         <button
           type="button"
           (click)="addField()"
-          class="button is-success mt-2"
+          class="button validate mt-2"
         >
           Ajouter un trajet
         </button>
       </div>
-      <button type="submit" class="button is-primary mt-2">Soumettre</button>
+      <button type="submit" class="button validate mt-2">Soumettre</button>
     </form>
   </div>
 </p-dialog>
