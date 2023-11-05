@@ -3,32 +3,20 @@
 </button>
 <div class="columns is-multiline is-touch p-4 m-2">
   <div *ngIf="city && city.photo.length > 0" class="column is-half block">
-    <p-galleria
-      *ngIf="city && city.photo && city.photo.length > 0"
-      class="galleria centered-galleria"
-      [value]="city.photo"
-      [showIndicators]="false"
-      [showThumbnails]="true"
-      [containerStyle]="{ 'max-width': '640px' }"
-      [numVisible]="2"
-      [circular]="true"
-      [showItemNavigators]="true"
-    >
-      <ng-template pTemplate="item" let-photo>
-        <div>
-          <img [src]="photo.picture" style="width: 100%" loading="lazy" />
-        </div>
-      </ng-template>
-      <ng-template pTemplate="thumbnail" let-item>
-        <div class="grid grid-nogutter justify-content-center">
-          <img
-            [src]="item.picture"
-            class="image is-64x64 is-responsive"
-            loading="lazy"
-          />
-        </div>
-      </ng-template>
-    </p-galleria>
+    <p-carousel
+          [value]="city.photo"
+          [numVisible]="1"
+          [numScroll]="1"
+          [circular]="true"
+        >
+          <ng-template let-photo pTemplate="item">
+            <div>
+              <figure class="image is-3by2 is-touch is-desktop mt-2">
+                <img *ngIf="photo && photo.picture" class="has-ratio" [src]="sanitizeImageUrl(photo.picture)" loading="lazy"/>
+              </figure>
+            </div>
+          </ng-template>
+        </p-carousel>
   </div>
   <div
     *ngIf="city"
@@ -48,12 +36,13 @@
     </div>
   </div>
   <div
-    *ngIf="itinerariesByCity && itinerariesByCity.length > 0"
-    class="column is-full ways has-text-centered has-text-weight-semibold is-size-5-desktop is-size-6-touch"
+    *ngIf="city && itinerariesByCity && itinerariesByCity.length > 0"
+    class="column columns is-multiline is-centered is-full ways has-text-centered has-text-weight-semibold is-size-5-desktop is-size-6-touch mt-2"
   >
-  <div class="way">
+  <div class="way column is-full">
     Itinéraires proposées vers {{ city.name }}
   </div></div>
+  <div class="column is-centered columns is-multiline">
   <div
     *ngFor="let itinerary of itinerariesByCity"
     class="columns is-multiline column is-one-third block"
@@ -63,5 +52,5 @@
       class="column is-full block"
       [routerLink]="['/itinerary/', itinerary.id]"
     ></app-itinerary-card>
-  </div>
+  </div></div>
 </div>

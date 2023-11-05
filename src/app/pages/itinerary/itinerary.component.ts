@@ -105,7 +105,6 @@ export class ItineraryComponent implements OnInit {
       .replace(/[\u0300-\u0309\u036f]/g, '')
       .toLowerCase();
 
-    // Remplacez le "o" normal par "ø" dans la chaîne normalisée
     const oWithSlash = 'ø';
     const oNormal = 'o';
     return normalizedString.replace(new RegExp(oNormal, 'g'), oWithSlash);

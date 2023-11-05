@@ -1,8 +1,8 @@
-import { Type } from '@angular/compiler';
+
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { Observable, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { City } from 'src/app/models/city';
 import { Country } from 'src/app/models/country';
 import { DynamicField } from 'src/app/models/dynamic-field';
@@ -24,7 +24,6 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class AddItineraryComponent implements OnInit {
   visible: boolean = false;
-  // countryWithCities: CountryWithCities[] = [];
   @Input() cityList!: City[];
   itineraryForm!: FormGroup;
   dynamicFields: DynamicField[] = [];
@@ -51,7 +50,6 @@ export class AddItineraryComponent implements OnInit {
     private companyService: CompanyService,
     private typeService: TypeService,
     private itineraryService: ItineraryService,
-    private userService: UserService,
     private cityService: CityService,
     private formBuilder: FormBuilder,
     private messageService: MessageService,
@@ -85,20 +83,10 @@ export class AddItineraryComponent implements OnInit {
       .getItineraryUpdates()
       .subscribe((updatedItinerary) => {
         if (updatedItinerary) {
-          // Faire quelque chose avec la nouvelle valeur de l'itinéraire
         }
       });
   }
 
-  // if (this.countryList && this.cityList) {
-  // this.countryWithCities = this.countryList.map((country) => ({
-  //   country,
-  //   cities: this.cityList.filter((city) => city.id_country === country.id),
-  // }));
-  //   console.log(this.countryWithCities);
-  //   console.log(this.cityList);
-
-  // }}
   uniqueCountries(): Country[] {
     const uniqueCountries: Country[] = [];
     const countryIds: Set<number> = new Set();
@@ -176,7 +164,7 @@ export class AddItineraryComponent implements OnInit {
         type: [],
       };
 
-      // Fetch company information
+      
       if (formValue.selectedCompany) {
         this.companyService
           .getCompanyById(+formValue.selectedCompany)
@@ -184,7 +172,7 @@ export class AddItineraryComponent implements OnInit {
             next: (response) => {
               newItinerary.company!.push(response);
 
-              // Call the next async operation here if needed
+              
               this.handleNextOperation(newItinerary, formValue);
             },
             error: (error) => {
@@ -192,21 +180,19 @@ export class AddItineraryComponent implements OnInit {
             },
           });
       } else {
-        // Call the next async operation here if needed
+       
         await this.handleNextOperation(newItinerary, formValue);
       }
     }
   }
 
-  // This method can be used for additional async operations
   async handleNextOperation(newItinerary: Partial<Itinerary>, formValue: any) {
-    // Fetch type information
+   
     if (formValue.selectedTransportType) {
       this.typeService.getTypeById(+formValue.selectedTransportType).subscribe({
         next: (response) => {
           newItinerary.type!.push(response);
-          // Continue with other async operations if needed
-          // Finally, create the itinerary
+        
           this.handleDynamicFieldsOperation(newItinerary, formValue);
         },
         error: (error) => {
@@ -214,8 +200,7 @@ export class AddItineraryComponent implements OnInit {
         },
       });
     } else {
-      // Continue with other async operations if needed
-      // Finally, create the itinerary
+      
       await this.handleDynamicFieldsOperation(newItinerary, formValue);
     }
   }
@@ -224,7 +209,7 @@ export class AddItineraryComponent implements OnInit {
     newItinerary: Partial<Itinerary>,
     formValue: any
   ) {
-    // Fetch type information
+    
     if (formValue.dynamicFields) {
       const companyIdArray = formValue.dynamicFields.map(
         (data: { companyId: number }) => data.companyId
@@ -236,10 +221,10 @@ export class AddItineraryComponent implements OnInit {
         (data: { stopId: number }) => data.stopId
       );
 
-      // Exclude the last value for cityStopId
+     
       cityStopIdArray.pop();
 
-      // Utiliser Promise.all pour attendre toutes les promesses
+      
 
        await Promise.all(
          companyIdArray.map(async (id: number) => {
@@ -260,17 +245,11 @@ export class AddItineraryComponent implements OnInit {
        await Promise.all(
          cityStopIdArray.map(async (id: number) => {
            const city = await firstValueFrom(this.cityService.getCityById(id));
-           const newCity: Partial<City> = {
-             id: city.id,
-             name: city.name,
-             id_stay_cat: city.id_stay_cat,
-             id_country: city.id_country,
-           };
-           newItinerary.cityStop!.push(newCity);
+           newItinerary.cityStop!.push(city);
          })
        );
 
-      await this.createItinerary(newItinerary);
+      this.createItinerary(newItinerary);
     }
   }
 
@@ -283,6 +262,7 @@ export class AddItineraryComponent implements OnInit {
           summary: 'Opération réussie',
           detail: 'Itinéraire ajouté'
         })
+        this.closeDialog();
       },
       error: (error) => {
         console.error('Error creating itinerary:', error);

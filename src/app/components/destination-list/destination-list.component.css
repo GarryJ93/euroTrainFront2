@@ -1,0 +1,10 @@
+.head {
+    border: 2px solid rgb(253, 253, 0);
+    border-radius: 25px;
+}
+
+.head-title {
+    background-color: rgb(8, 8, 88);
+    color: white;
+    border-radius: 25px;
+}

@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
   login!: FormGroup;
 
   constructor(
-    private userService: UserService,
     private router: Router,
     private authService: AuthInterceptorService,
     private fb: FormBuilder,
@@ -35,19 +34,20 @@ export class LoginComponent implements OnInit {
 
   OnConnect() {
     if (this.login.valid) {
-      //rajouter un findoneby email pour checker l'accès
+      
       let email = this.login.value.email;
       let password = this.login.value.password;
       this.authService.login(email, password).subscribe({
         next: (response: any) => {
           console.log('Réponse complète du serveur :', response);
           if (response && response.accessToken) {
-            // Stocker le token dans le localStorage
+            
             localStorage.setItem('access_token', response.accessToken);
             localStorage.setItem('id', response.user.id);
             localStorage.setItem('access', response.user.access);
             localStorage.setItem('full_access', response.user.full_access);
             this.showMessageLogIn();
+            this.authService.isConnected$.next(localStorage.getItem('access_token'));
             console.log('Connexion réussie et token stocké!');
             setTimeout(() => {
               this.router.navigate(['/admin']);

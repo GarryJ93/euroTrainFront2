@@ -21,13 +21,13 @@
     <div class="navbar-end">
     <div class="navbar-item has-dropdown is-hoverable">
       
-      <a class="navbar-link" [routerLink]="['/login']"><span class="icon is-small is-left">
+      <a class="navbar-link" [routerLink]="['/admin']"><span class="icon is-small is-left">
               <i class="fas fa-lock"></i>
             </span> <span id="admin" class="m-1">Espace admin</span> </a>
       <div class="navbar-dropdown is-boxed">
-        <a class="navbar-item" [routerLink]="['/signup']"> Inscription </a>
-        <a class="navbar-item" [routerLink]="['/login']"> Connexion </a>
-        <a class="navbar-item" [routerLink]="['/admin']"> Mon espace </a>
+        <a *ngIf="!access_token" class="navbar-item" [routerLink]="['/signup']"> Inscription </a>
+        <a *ngIf="!access_token" class="navbar-item" [routerLink]="['/login']"> Connexion </a>
+        <a *ngIf="access_token" class="navbar-item" [routerLink]="['/admin']"> Mon espace </a>
       </div></div>
       
         <div class="navbar-item">

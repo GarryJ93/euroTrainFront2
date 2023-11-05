@@ -7,7 +7,7 @@
   [showIndicators]="false"
   [showThumbnails]="true"
   [containerStyle]="{ 'max-width': '640px' }"
-  [numVisible]="2"
+  [numVisible]="3"
   [circular]="true"
   [showItemNavigators]="true"
 >
@@ -20,14 +20,14 @@
         </button>
       </div>
       
-      <img [src]="photo.picture" style="width: 100%" loading="lazy"  />
+      <img *ngIf="photo && photo.picture" [src]="sanitizeImageUrl(photo.picture)" style="width: 100%" loading="lazy" alt="{{city.name}}" />
      
     </div>
   </ng-template>
   <ng-template pTemplate="thumbnail" let-item>
     <div class="grid grid-nogutter justify-content-center">
-      <img
-        [src]="item.picture"
+      <img *ngIf="item && item.picture"
+        [src]="sanitizeImageUrl(item.picture)"
         class="image is-64x64 is-responsive"
         loading="lazy"
       />

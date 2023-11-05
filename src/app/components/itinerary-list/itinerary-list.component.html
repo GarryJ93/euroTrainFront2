@@ -1,3 +1,3 @@
 <div class="columns is-multiline">
-<app-itinerary-card *ngFor="let itineraries of itinerariesList" [itineraries]="itineraries" class="column is-one-third"></app-itinerary-card>
+<app-itinerary-card *ngFor="let itineraries of itinerariesList" [itineraries]="itineraries" class="column is-one-third" [routerLink]="[('/itinerary/'), itineraries.id]"></app-itinerary-card>
 </div>

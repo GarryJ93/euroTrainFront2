@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
-
+import * as emailjs from 'emailjs-com';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -56,6 +56,29 @@ export class SignupComponent implements OnInit {
     this.userService.addUser(newUser).subscribe({
       next: () => {
         this.showMessageSignIn();
+        if (newUser) {
+          const templateParams = {
+            to_email: newUser.email,
+            user_name: newUser.name,
+            from_name: 'EuroTrain',
+            message:
+              'Votre demande pour rejoindre nos contributeurs est bien prise en compte, vous recevrez un E-mail une fois votre demande acceptée.',
+          };
+
+          emailjs
+            .send(
+              'service_73hokvk',
+              'template_uxjaxkd',
+              templateParams,
+              '4cxfky9LnJQXAKYwU'
+            )
+            .then((response) => {
+              console.log('Email sent successfully:', response);
+            })
+            .catch((error) => {
+              console.error('Error sending email:', error);
+            });
+        }
         setTimeout(() => {
           this.addUser.reset();
           this.router.navigate(['']);

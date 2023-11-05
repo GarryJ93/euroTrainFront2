@@ -6,7 +6,7 @@ import {
   HttpEvent,
   HttpClient,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Connection } from '../models/connection';
 
 @Injectable({
@@ -14,14 +14,15 @@ import { Connection } from '../models/connection';
 })
 export class AuthInterceptorService implements HttpInterceptor {
   private bddURL = 'http://localhost:3000/api/auth';
-  isConnected: boolean = false;
+  // isConnected: boolean = false;
+  public isConnected$ = new BehaviorSubject(localStorage.getItem('access_token'));
 
   constructor(private http: HttpClient) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     if (token) {
       const cloned = req.clone({
         headers: req.headers.set('authorization', `Bearer ${token}`),
@@ -37,8 +38,8 @@ export class AuthInterceptorService implements HttpInterceptor {
     return this.http.post<Connection>(this.bddURL + '/login', body);
   }
 
-  checkConnexion(): boolean {
-    this.isConnected = !!localStorage.getItem('access_token');
-    return this.isConnected;
-  }
+  // checkConnexion(): boolean {
+  //   this.isConnected = !!localStorage.getItem('access_token');
+  //   return this.isConnected;
+  // }
 }

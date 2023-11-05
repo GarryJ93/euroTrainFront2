@@ -1,4 +1,17 @@
+<div class="column full is-touch block m-6 head">
+  <div class="is-size-4-desktop is-size-6-touch p-4 has-text-centered has-text-weight-bold head-title">
+    Explorez nos destinations et choisissez votre prochain voyage en consultant
+    les itinéraires proposés.
+  </div>
+</div>
 <div class="columns is-multiline m-4">
-    <app-search-bar class="column is-full" (inputUser)="onEnterSearch($event)"></app-search-bar>
-<app-city-card *ngFor="let city of citiesList" [city]="city" class="column is-one-third block"></app-city-card>
+  <app-search-bar
+    class="column is-full"
+    (inputUser)="onEnterSearch($event)"
+  ></app-search-bar>
+  <app-city-card
+    *ngFor="let city of citiesList"
+    [city]="city"
+    class="column is-one-third block"
+  ></app-city-card>
 </div>

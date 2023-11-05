@@ -8,7 +8,6 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 })
 export class ItineraryService {
   private itinerarySubject = new BehaviorSubject<Itinerary | null>(null);
-  // itinerary: Itinerary[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -28,7 +27,6 @@ export class ItineraryService {
     return this.http
       .post<Itinerary>('http://localhost:3000/api/itinerary', newItinerary)
       .pipe(
-        // Utiliser un opérateur pour mettre à jour le subject avec la nouvelle valeur
         tap((createdItinerary) => this.itinerarySubject.next(createdItinerary))
       );
   }

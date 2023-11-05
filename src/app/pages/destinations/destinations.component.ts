@@ -32,9 +32,13 @@ constructor(private cityService: CityService) {}
       a.name.localeCompare(b.name)
     );;
     if (this.userInput) {
-      this.sortedCities= [...this.sortedCities.filter((city) =>
-        city.name.toLowerCase().includes(this.userInput.toLowerCase())
-      )];
+      this.sortedCities = [
+        ...this.sortedCities.filter(
+          (city) =>
+            city.name.toLowerCase().includes(this.userInput.toLowerCase()) ||
+            city.country.name.toLowerCase().includes(this.userInput.toLowerCase())
+        ),
+      ];
       
     }
     

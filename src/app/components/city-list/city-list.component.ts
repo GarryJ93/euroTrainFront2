@@ -1,7 +1,6 @@
-import { Component, Inject, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { City } from 'src/app/models/city';
 import { CityService } from 'src/app/services/city.service';
-import { PhotoService } from 'src/app/services/photo.service';
 import { MessageService } from 'primeng/api';
 import { Country } from 'src/app/models/country';
 import { Table } from 'primeng/table';
@@ -106,6 +105,9 @@ export class CityListComponent implements OnChanges {
           summary: 'Mise à jour',
           detail: 'Donnée mise à jour !',
         });
+        setTimeout(() => {
+          this.isEditing = false;
+        }, 2000);
       },
       error: (error) => {
         console.error('Erreur lors de la mise à jour', error);

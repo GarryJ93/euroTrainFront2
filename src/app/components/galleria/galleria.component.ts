@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
+import { lastValueFrom } from 'rxjs';
 import { City } from 'src/app/models/city';
 import { CityService } from 'src/app/services/city.service';
 import { PhotoService } from 'src/app/services/photo.service';
@@ -18,31 +20,31 @@ export class GalleriaComponent implements OnChanges {
   constructor(
     private cityService: CityService,
     private photoService: PhotoService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnChanges() {
-
     if (this.idCity) {
       console.log(this.idCity);
 
       this.cityService.getCityById(this.idCity).subscribe({
-        next: (response) => {
+        next: async (response) => {
           this.city = response;
-          this.city.isVisible = false;
           if (this.city.photo && this.city.photo.length > 0) {
             for (let picture of this.city.photo) {
-              this.photoService.getImageById(picture.id).subscribe({
-                next: (data: Blob) => {
-                  this.cityBlob = data;
-                  this.createCityImageFromBlob(this.cityBlob, picture.id);
-                },
-                error: (error) => {
-                  console.error('Erreur lors de la récupération de la photo', error);
-                },
-              });
+              try {
+                const data: Blob = await lastValueFrom(
+                  this.photoService.getImageById(picture.id)
+                );
+                this.createCityImageFromBlob(picture.id, data!);
+              } catch (error) {
+                console.error(
+                  'Erreur lors de la récupération de la photo',
+                  error
+                );
+              }
             }
-            
           }
         },
         error: (error) => {
@@ -52,12 +54,18 @@ export class GalleriaComponent implements OnChanges {
     }
   }
 
-  createCityImageFromBlob(image: Blob, id: number) {
-    let reader = new FileReader();
-    reader.readAsDataURL(image);
+  sanitizeImageUrl(imageUrl: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+  }
+
+  createCityImageFromBlob(id: number, data: Blob) {
     this.cityPicture = this.city.photo.find((x) => x.id === id);
+    const reader = new FileReader();
+    reader.readAsDataURL(data);
     reader.addEventListener('load', () => {
-      if (this.cityPicture) this.cityPicture.picture = reader.result;
+      if (this.cityPicture) {
+        this.cityPicture.picture = reader.result;
+      }
     });
   }
 

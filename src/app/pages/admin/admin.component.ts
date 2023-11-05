@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { City } from 'src/app/models/city';
 import { Country } from 'src/app/models/country';
@@ -15,7 +19,7 @@ import { ItineraryService } from 'src/app/services/itinerary.service';
 import { LanguageService } from 'src/app/services/language.service';
 import { TravelDocumentService } from 'src/app/services/travel-document.service';
 import { UserService } from 'src/app/services/user.service';
-
+import * as emailjs from 'emailjs-com';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -86,27 +90,27 @@ export class AdminComponent implements OnInit {
             ),
           ];
           this.allUsersItineraries = [...this.itinerariesToDisplay];
-        }
-      },
-    });
+          this.userService.getAllUsers().subscribe({
+            next: (response) => {
+              {
+                this.allUsers = [...response];
+                this.usersToDisplay = [...response];
 
-    this.userService.getAllUsers().subscribe({
-      next: (response) => {
-        {
-          this.allUsers = [...response];
-          this.usersToDisplay = [...response];
-
-          this.candidateUser = [
-            ...this.usersToDisplay.filter((user) => !user.access),
-          ];
-          this.adminUser = [
-            ...this.usersToDisplay.filter(
-              (user) => user.access && !user.full_access
-            ),
-          ];
+                this.candidateUser = [
+                  ...this.usersToDisplay.filter((user) => !user.access),
+                ];
+                this.adminUser = [
+                  ...this.usersToDisplay.filter(
+                    (user) => user.access && !user.full_access
+                  ),
+                ];
+              }
+              if (this.full_access) {
+                this.onCount();
+              }
+            },
+          });
         }
-        if(this.full_access) {
-        this.onCount();}
       },
     });
 
@@ -165,18 +169,18 @@ export class AdminComponent implements OnInit {
   }
 
   onCount() {
+    if (this.allItineraries && this.adminUser) {
+      this.adminUser.forEach((admin) => {
+        const adminItineraries = [
+          ...this.allItineraries.filter(
+            (itinerary) => itinerary.id_user === admin.id
+          ),
+        ];
+        this.itinerariesCountByAdmin[admin.id] = adminItineraries.length;
+      });
 
-    this.adminUser.forEach((admin) => {
-      // Filtrer les itinéraires créés par l'administrateur actuel
-      const adminItineraries = [...this.allItineraries.filter(
-        (itinerary) => itinerary.id_user === admin.id
-      )];
-
-      // Compter le nombre d'itinéraires pour cet administrateur
-      this.itinerariesCountByAdmin[admin.id] = adminItineraries.length;
-    });
-
-    console.log('Itineraries Count By Admin:', this.itinerariesCountByAdmin);
+      console.log('Itineraries Count By Admin:', this.itinerariesCountByAdmin);
+    }
   }
 
   onSubmit() {
@@ -199,6 +203,9 @@ export class AdminComponent implements OnInit {
     const updateUser = {
       access: true,
     };
+
+    
+
     this.userService.updateAdminStatus(idUser, updateUser).subscribe({
       next: (response) => {
         this.messageService.add({
@@ -206,7 +213,35 @@ export class AdminComponent implements OnInit {
           summary: 'Félicitations',
           detail: 'Utilisateur accepté.',
         });
-        location.reload();
+        const user = this.allUsers.find((user) => user.id === idUser);
+    console.log(user);
+
+    if (user) {
+      const templateParams = {
+        to_email: user.email,
+        user_name: user.name,
+        user_id: user.id,
+        from_name: 'EuroTrain',
+        message:
+          'Votre compte a été validé, félicitations et bienvenue parmi nos contributeurs.',
+      };
+
+      emailjs
+        .send(
+          'service_73hokvk',
+          'template_uxjaxkd',
+          templateParams,
+          '4cxfky9LnJQXAKYwU'
+        )
+        .then((response) => {
+          console.log('Email sent successfully:', response);
+          location.reload();
+        })
+        .catch((error) => {
+          console.error('Error sending email:', error);
+        });
+    }
+        
       },
       error: (error) => {
         console.error('Erreur lors de la mise à jour', error);
@@ -273,7 +308,7 @@ export class AdminComponent implements OnInit {
 
   onFilterItineraries(userIdsTab: number[]) {
     this.idsChecked = userIdsTab;
-console.log(this.idsChecked);
+    console.log(this.idsChecked);
 
     this.onUserInteractionFiltre();
   }
@@ -287,36 +322,35 @@ console.log(this.idsChecked);
   onUserInteractionFiltre() {
     this.itinerariesToDisplay = [...this.allItineraries];
     if (this.userInput) {
-      this.itinerariesToDisplay = [...this.itinerariesToDisplay.filter((way) => {
-        const originCityName = way.originCity.name.toLowerCase();
-        const destinationCityName = way.destinationCity.name.toLowerCase();
+      this.itinerariesToDisplay = [
+        ...this.itinerariesToDisplay.filter((way) => {
+          const originCityName = way.originCity.name.toLowerCase();
+          const destinationCityName = way.destinationCity.name.toLowerCase();
 
-        // Check if originCity or destinationCity includes userInput
-        const isOriginMatch = originCityName.includes(
-          this.userInput.toLowerCase()
-        );
-        const isDestinationMatch = destinationCityName.includes(
-          this.userInput.toLowerCase()
-        );
-
-        // Check if any cityStop name includes userInput
-        const isCityStopMatch = way.cityStop.some((stop) => {
-          return (
-            stop.name &&
-            stop.name.toLowerCase().includes(this.userInput.toLowerCase())
+          const isOriginMatch = originCityName.includes(
+            this.userInput.toLowerCase()
           );
-        });
-
-        // Include the itinerary if any of the conditions are true
-        return isOriginMatch || isDestinationMatch || isCityStopMatch;
-      })];
+          const isDestinationMatch = destinationCityName.includes(
+            this.userInput.toLowerCase()
+          );
+          const isCityStopMatch = way.cityStop.some((stop) => {
+            return (
+              stop.name &&
+              stop.name.toLowerCase().includes(this.userInput.toLowerCase())
+            );
+          });
+          return isOriginMatch || isDestinationMatch || isCityStopMatch;
+        }),
+      ];
     }
     if (this.idsChecked && this.idsChecked.length > 0) {
       console.log(this.idsChecked);
-      
-      this.itinerariesToDisplay = [...this.itinerariesToDisplay.filter((way) =>
-        this.idsChecked.includes(way.id_user)
-      )];
+
+      this.itinerariesToDisplay = [
+        ...this.itinerariesToDisplay.filter((way) =>
+          this.idsChecked.includes(way.id_user)
+        ),
+      ];
     }
   }
 }

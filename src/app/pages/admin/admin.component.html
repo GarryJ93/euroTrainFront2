@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <div *ngIf="full_access" class="column is-touch is-full border-right mb-2">
+  <div *ngIf="full_access && itinerariesCountByAdmin" class="column is-touch is-full border-right mb-2">
     <h2 class="column is-full has-text-weight-bold is-size-4 has-text-right">
       Utilisateurs
     </h2>
@@ -220,6 +220,6 @@
     (userIdsTab)="onFilterItineraries($event)"
     (userInput)="onSearch($event)"
     [full_access]="full_access"
-    class="column"
+    class="column is-full is-touch"
   ></app-admin-itineraries-list>
 </div></div>

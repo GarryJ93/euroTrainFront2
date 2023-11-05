@@ -12,6 +12,6 @@ export interface Itinerary {
     destinationCity: City;
     company: TransportCompany[],
     type: TransportType[],
-    cityStop: Partial<City>[],
+    cityStop: City[],
     creator: User,
 }

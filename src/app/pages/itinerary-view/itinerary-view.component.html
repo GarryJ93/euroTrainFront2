@@ -1,1 +1,71 @@
-<p>itinerary-view works!</p>
+<button class="button is-responsive back m-4" [routerLink]="['/itinerary']">
+  Retour
+</button>
+<div class="columns is-multiline p-4 m-3">
+<div *ngIf="itinerary" class="column is-full has-text-centered is-size-4-desktop is-size-6-touch ">
+    <h3 class=" has-text-weight-bold mb-6">Découvrez <a [routerLink]="[('/destinations/'), itinerary.destinationCity.id]"> {{itinerary.destinationCity.name}} </a> depuis {{itinerary.originCity.name}}</h3>
+    <div *ngIf="itinerary.destinationCity.photo.length > 0" class="container is-max-desktop">
+        <p-carousel
+          [value]="itinerary.destinationCity.photo"
+          [numVisible]="1"
+          [numScroll]="1"
+          [circular]="true"
+        >
+          <ng-template let-photo pTemplate="item">
+            <div>
+              <figure class="image is-3by2 is-touch is-desktop mt-2">
+                <img class="has-ratio" src="{{photo.picture}}" loading="lazy"/>
+              </figure>
+            </div>
+          </ng-template>
+        </p-carousel>
+</div></div>
+<div *ngIf="itinerary && itinerary.cityStop && itinerary.cityStop.length === 0" class="column is-half block">Trajet direct !</div>
+<div *ngIf="itinerary && itinerary.cityStop && itinerary.cityStop.length > 0" class="columns is-multiline column is-half block">
+    <div class="column is-full block">Profitez d'une correspondance pour découvrir et passer quelques nuits dans les villes d'escale proposées :</div>
+        
+<div *ngFor="let city of itinerary.cityStop" class="card column is-5 is-offset-1 block custom-card">
+  <div class="card-image"><div  class="columns is-multiline"> <div *ngIf="city.photo.length > 0" class="container is-max-desktop p-2">
+        <p-carousel
+          [value]="city.photo"
+          [numVisible]="1"
+          [numScroll]="1"
+          [circular]="true"
+        >
+          <ng-template let-photo pTemplate="item">
+            <div>
+              <figure class="image is-3by2 is-touch is-desktop mt-2">
+                <img  class="has-ratio" src="{{photo.picture}}" loading="lazy" />
+              </figure>
+            </div>
+          </ng-template>
+        </p-carousel>
+
+    
+  
+  <div class="card-content">
+    <div class="content has-text-centered has-text-weight-bold">
+        <span [routerLink]="[('/destinations/'), city.id]">
+      {{city.name}} </span>
+    </div>
+  </div>
+</div>
+</div>
+    </div>
+</div></div>
+<div *ngIf="itinerary && itinerary.type.length > 0" class="column is-half has-text-centered block">
+    <div>Pour cet itinéraire nous vous proposons des transports en :</div>
+    <div class="m-4 is-flex is-flex-direction-row is-justify-content-center">
+        <div *ngFor="let type of itinerary.type"><i class="{{type.icon_code}}"></i></div>
+    </div>
+</div>
+<div *ngIf="itinerary && itinerary.company.length > 0" class="column is-full block">
+    <div class="company">
+    <div class="p-4 m-2 company-head has-text-centered">Pour vous renseigner sur les horaires et acheter vos billets nous vous recommandons de consulter les sites officiels des transporteurs :</div></div>
+    <div class="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-between">
+        <div *ngFor="let company of itinerary.company" class="m-4">
+            <div><a href="{{company.link_url}}" target="_blank">
+      <img src="{{company.logo_url}}" width="100">
+    </a></div></div></div>
+
+</div>

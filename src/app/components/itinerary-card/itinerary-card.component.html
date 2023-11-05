@@ -43,8 +43,11 @@
           </li>
         </ul>
       </div>
-      <div>
-      <p *ngFor="let company of itineraries.company" class="mt-4"><a href="{{company.link_url}}"><img src="{{ company.logo_url }}" width="100px" alt=""><span *ngIf="itineraries.company.indexOf(company) !== itineraries.company.length -1"></span></a></p></div>
+      <div class="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-between mt-4">
+        <div *ngFor="let company of itineraries.company" class="m-4">
+            <div><a href="{{company.link_url}}" target="_blank">
+      <img src="{{company.logo_url}}" width="100">
+    </a></div></div></div>
       <div class="columns">
       <div *ngFor="let type of itineraries.type" class="type-icon column">
         <span class="icon is-large">

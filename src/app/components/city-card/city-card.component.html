@@ -11,7 +11,7 @@
           <ng-template let-photo pTemplate="item">
             <div>
               <figure class="image is-3by2 is-touch is-desktop mt-2">
-                <img class="has-ratio" src="{{ photo.picture }}" />
+                <img *ngIf="photo && photo.picture" class="has-ratio" [src]="sanitizeImageUrl(photo.picture)" />
               </figure>
             </div>
           </ng-template>

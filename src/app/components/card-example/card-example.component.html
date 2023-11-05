@@ -1,5 +1,5 @@
-<div class="card is-touch is-half block m-2">
-  <div *ngIf="myExample && myExample.destinationCity && myExample.destinationCity.photo && myExample.destinationCity.photo.length > 0" class="card-image">
+<div *ngIf="myExample && myExample.destinationCity && myExample.destinationCity.photo && myExample.destinationCity.photo.length > 0" class="card is-touch is-half block m-2">
+  <div class="card-image">
     <div class="is-touch is-responsive">
       <div id="conteneur_slider" class="is-responsive is-touch">
       </div>
@@ -12,9 +12,10 @@
           >
         </p>
       </div>
-      <img
-        [src]="myExample.destinationCity.photo[0].picture"
+      <img *ngIf="myExample && cityImage"
+        [src]="sanitizeImageUrl(cityImage.picture)"
         style="width: 100%"
+        alt="{{myExample.destinationCity.name}}"
         loading="lazy"
       />
     </div>
@@ -43,8 +44,11 @@
           </li>
         </ul>
       </div>
-      <div>
-      <p *ngFor="let company of myExample.company"><a href="{{company.link_url}}"><img src="{{ company.logo_url }}" width="100px" alt=""><span *ngIf="myExample.company.indexOf(company) !== myExample.company.length -1"></span></a></p></div>
+      <div class="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-between">
+        <div *ngFor="let company of myExample.company" class="m-4">
+            <div><a href="{{company.link_url}}" target="_blank">
+      <img src="{{company.logo_url}}" width="100">
+    </a></div></div></div>
       <div class="columns">
       <div *ngFor="let type of myExample.type" class="type-icon column">
         <span class="icon is-large">

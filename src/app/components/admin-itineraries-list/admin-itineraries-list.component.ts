@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Itinerary } from 'src/app/models/itinerary';
 import { User } from 'src/app/models/user';
 
@@ -40,7 +39,7 @@ export class AdminItinerariesListComponent {
 
     if (target.checked) {
       this.allItineraries = [...this.allItineraries]
-      // Checkbox cochée
+      
       if (target.value === 'deleted') {
         if (this.checkedUserId.length > 1) {
           this.idsUser = Array.from(
@@ -78,15 +77,15 @@ export class AdminItinerariesListComponent {
         this.checkedUserId = this.checkedUserId.concat(deletedId);
         console.log(this.checkedUserId);}
       } else {
-        // Checkbox autre que 'deleted' cochée, ajoutez l'ID au tableau s'il n'est pas déjà présent
+      
         if (!this.checkedUserId.includes(+target.value)) {
           this.checkedUserId.push(+target.value);
         }
       }
     } else {
-      // Checkbox décochée
+     
       if (target.value === 'deleted') {
-        // Checkbox 'deleted' décochée, réinitialisez le tableau avec les profils non supprimés
+        
         this.itinerariesList = [...this.allItineraries]
         this.idsUser = Array.from(
           new Set(this.usersToFilter.map((user) => user.id))
@@ -98,13 +97,13 @@ export class AdminItinerariesListComponent {
             `${id}`
           ) as HTMLInputElement;
 
-          // Ajouter l'ID à checkedUserId seulement si la checkbox correspondante est cochée
+         
           return this.idsUser.includes(id) && userCheckbox.checked;
         });
 
 
       } else {
-        // Checkbox autre que 'deleted' décochée, supprimez l'ID du tableau
+        
         this.checkedUserId = this.checkedUserId.filter(
           (id) => id !== +target.value
         );
@@ -113,7 +112,7 @@ export class AdminItinerariesListComponent {
 
     console.log('Updated checkedUserId:', this.checkedUserId);
 
-    // Émettez le tableau mis à jour
+   
     this.userIdsTab.emit(this.checkedUserId);
   }
 

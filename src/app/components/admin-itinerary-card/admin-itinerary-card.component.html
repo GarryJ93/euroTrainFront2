@@ -1,7 +1,7 @@
-<div class="card is-touch block m-2">
+<div class="card is-full block m-2">
   <div *ngIf="itineraries.destinationCity.photo.length > 0" class="card-image">
-    <div class="is-until-widescreen is-responsive">
-      <div id="conteneur_slider" class="is-responsive is-until-widescreen">
+    <div class="is-responsive">
+      <div id="conteneur_slider" class="is-responsive">
         <button
           class="button deleteWay"
           (click)="onDeleteItinerary(itineraries.id!)"
@@ -53,7 +53,7 @@
         </ul>
       </div>
       <div>
-      <p *ngFor="let company of itineraries.company"><a href="{{company.link_url}}"><img src="{{ company.logo_url }}" width="100px" alt=""><span *ngIf="itineraries.company.indexOf(company) !== itineraries.company.length -1"></span></a></p></div>
+      <p *ngFor="let company of itineraries.company" class="mt-2"><a href="{{company.link_url}}"><img src="{{ company.logo_url }}" width="100px" alt=""><span *ngIf="itineraries.company.indexOf(company) !== itineraries.company.length -1"></span></a></p></div>
       <div class="columns">
       <div *ngFor="let type of itineraries.type" class="type-icon column">
         <span class="icon is-large">

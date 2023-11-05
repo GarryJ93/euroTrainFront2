@@ -26,7 +26,7 @@ export class BlobButtonComponent {
     this.myFile = e.target.files[0];
     if (this.myFile) {
       const formData = new FormData();
-      formData.append('monFichier', this.myFile);
+      formData.append('image', this.myFile);
       console.log(formData);
       
       this.photoService

@@ -13,4 +13,5 @@ export interface City {
     photo: Photo[];
     picture: any;
     isVisible: boolean;
+   
 }
