@@ -11,53 +11,62 @@ import { PhotoService } from 'src/app/services/photo.service';
 })
 export class CardExampleComponent implements OnChanges {
   @Input() myExample!: Itinerary;
+  itinerary!: Itinerary;
   cityBlob!: Blob;
   cityImage!: any;
+  imageUrl: string = 'http://localhost:3000/';
 
   constructor(
     private photoService: PhotoService,
-    private sanitizer: DomSanitizer 
+    private itineraryService: ItineraryService
   ) {}
 
   ngOnChanges() {
-    console.log('myExample card', this.myExample);
-    if (this.myExample && this.myExample.destinationCity.photo.length > 0) {
-      let picture =
-        this.myExample.destinationCity.photo[
-          Math.round(
-            Math.random() * (this.myExample.destinationCity.photo.length - 1)
-          )
-        ];
-      if (picture.id && picture && this.myExample.destinationCity.id === picture.id_city )
-        this.photoService.getImageById(picture.id).subscribe({
-          next: (data: Blob) => {
-            this.cityBlob = data;
-            console.log(data, "mydata");
-            
-            this.createCityImageFromBlob(this.cityBlob, picture.id);
-          },
-        });
+    if (this.myExample) {
+      this.itineraryService.getItineraryById(this.myExample.id!).subscribe({
+        next: (response) => {
+          this.itinerary = response;
+        },
+      });
     }
-  }
-  sanitizeImageUrl(imageUrl: string): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-  }
+    //   console.log('myExample card', this.myExample);
+    //   if (this.myExample && this.myExample.destinationCity && this.myExample.destinationCity.photo.length > 0) {
+    //     let picture =
+    //       this.myExample.destinationCity.photo[
+    //         Math.round(
+    //           Math.random() * (this.myExample.destinationCity.photo.length - 1)
+    //         )
+    //       ];
+    //     if (picture.id && picture && this.myExample.destinationCity.id === picture.id_city )
+    //       this.photoService.getImageById(picture.id).subscribe({
+    //         next: (data: Blob) => {
+    //           this.cityBlob = data;
+    //           console.log(data, "mydata");
 
-  createCityImageFromBlob(image: Blob, id: number) {
-    console.log('Blob', this.cityBlob);
-    let reader = new FileReader();
-    reader.readAsDataURL(image);
-    const currentPicture = this.myExample.destinationCity.photo.find(
-      (x) => x.id === id
-    );
+    //           this.createCityImageFromBlob(this.cityBlob, picture.id);
+    //         },
+    //       });
+    //   }
+    // }
+    // sanitizeImageUrl(imageUrl: string): SafeUrl {
+    //   return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+    // }
 
-    reader.addEventListener('load', () => {
-      console.log('ma photo', currentPicture);
-      if (currentPicture) {
-        this.cityImage = currentPicture;
-        currentPicture.picture = reader.result;
-        console.log(currentPicture.picture);
-      }
-    });
+    // createCityImageFromBlob(image: Blob, id: number) {
+    //   console.log('Blob', this.cityBlob);
+    //   let reader = new FileReader();
+    //   reader.readAsDataURL(image);
+    //   const currentPicture = this.myExample.destinationCity.photo.find(
+    //     (x) => x.id === id
+    //   );
+
+    //   reader.addEventListener('load', () => {
+    //     console.log('ma photo', currentPicture);
+    //     if (currentPicture) {
+    //       this.cityImage = currentPicture;
+    //       currentPicture.picture = reader.result;
+    //       console.log(currentPicture.picture);
+    //     }
+    //   });
   }
 }

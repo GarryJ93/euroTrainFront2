@@ -1,10 +1,10 @@
 <div class="card is-full block m-2">
-  <div *ngIf="itineraries.destinationCity.photo.length > 0" class="card-image">
+  <div *ngIf="itinerary && itinerary.destinationCity.photo.length > 0" class="card-image">
     <div class="is-responsive">
       <div id="conteneur_slider" class="is-responsive">
         <button
           class="button deleteWay"
-          (click)="onDeleteItinerary(itineraries.id!)"
+          (click)="onDeleteItinerary(itinerary.id!)"
         >
           <span class="icon is-small">
             <i class="fas fa-trash-can"></i>
@@ -16,55 +16,55 @@
         <p>
           Depuis :
           <span class="has-text-weight-semibold"
-            >{{ itineraries.originCity.name }},
-            {{ itineraries.originCity.country.name }}</span
+            >{{ itinerary.originCity.name }},
+            {{ itinerary.originCity.country.name }}</span
           >
         </p>
       </div>
       <img
-        [src]="itineraries.destinationCity.photo[0].picture"
+        [src]="imageUrl + itinerary.destinationCity.photo[0].name"
         style="width: 100%"
         loading="lazy"
       />
     </div>
   </div>
   <div class="card-content">
-    <!-- <button class="button is-danger" (click)="onDeleteItinerary(itineraries.id!)">
+    <!-- <button class="button is-danger" (click)="onDeleteItinerary(itinerary.id!)">
           <span class="icon is-small">
             <i class="fas fa-trash-can"></i>
           </span>
         </button> -->
 
-    <div class="content">
+    <div *ngIf="itinerary && itinerary.destinationCity" class="content">
       <p>
         Vers :
         <span class="title has-text-weight-bold is-size-4-desktop is-size-5-touch"
-          >{{ itineraries.destinationCity.name }},
-          {{ itineraries.destinationCity.country.name }}</span
+          >{{ itinerary.destinationCity.name }},
+          {{ itinerary.destinationCity.country.name }}</span
         >
       </p>
-      <div *ngIf="itineraries.cityStop.length > 0">
+      <div *ngIf="itinerary.cityStop.length > 0">
         Possibilité de faire escale à :
         <ul>
-          <li *ngFor="let stop of itineraries.cityStop">
+          <li *ngFor="let stop of itinerary.cityStop">
             {{ stop.name }},
             <span *ngIf="stop.country">{{ stop.country.name }}</span>
           </li>
         </ul>
       </div>
       <div>
-      <p *ngFor="let company of itineraries.company" class="mt-2"><a href="{{company.link_url}}"><img src="{{ company.logo_url }}" width="100px" alt=""><span *ngIf="itineraries.company.indexOf(company) !== itineraries.company.length -1"></span></a></p></div>
+      <p *ngFor="let company of itinerary.company" class="mt-2"><a href="{{company.link_url}}"><img src="{{ company.logo_url }}" width="100px" alt=""><span *ngIf="itinerary.company.indexOf(company) !== itinerary.company.length -1"></span></a></p></div>
       <div class="columns">
-      <div *ngFor="let type of itineraries.type" class="type-icon column">
+      <div *ngFor="let type of itinerary.type" class="type-icon column">
         <span class="icon is-large">
           <i class="{{type.icon_code}}"></i>
         </span>
-      </div><div *ngIf="itineraries.destinationCity.photo.length === 0">
+      </div><div *ngIf="itinerary.destinationCity.photo.length === 0">
     <div class="is-until-widescreen is-responsive">
       <div class="is-responsive is-until-widescreen">
         <button
           class="button deleteWay"
-          (click)="onDeleteItinerary(itineraries.id!)"
+          (click)="onDeleteItinerary(itinerary.id!)"
         >
           <span class="icon is-small">
             <i class="fas fa-trash-can"></i>

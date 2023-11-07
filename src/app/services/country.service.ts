@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Country } from '../models/country';
 import { Observable } from 'rxjs';
@@ -7,30 +7,51 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CountryService {
+  bddUrl = 'http://localhost:3000';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
   constructor(private http: HttpClient) {}
 
   getAllCountries(): Observable<Country[]> {
-    return this.http.get<Country[]>('http://localhost:3000/api/country');
+    return this.http.get<Country[]>(
+      this.bddUrl + '/api/country',
+      this.httpOptions
+    );
   }
 
   getCountryById(id: number): Observable<Country> {
-    return this.http.get<Country>(`http://localhost:3000/api/country/${id}`);
+    return this.http.get<Country>(
+      this.bddUrl + `/api/country/${id}`,
+      this.httpOptions
+    );
   }
 
   addCountry(country: Country): Observable<Country> {
     return this.http.post<Country>(
-      'http://localhost:3000/api/country',
-      country
+      this.bddUrl + '/api/country',
+      country,
+      this.httpOptions
     );
   }
 
-  updateCountry(id: number, updateData: Partial<Country>): Observable<Partial<Country>> {
+  updateCountry(
+    id: number,
+    updateData: Partial<Country>
+  ): Observable<Partial<Country>> {
     return this.http.patch<Country>(
-      `http://localhost:3000/api/country/${id}`,
-      updateData )
+      this.bddUrl + `/api/country/${id}`,
+      updateData,
+      this.httpOptions
+    );
   }
 
-  deleteCountry(id: number): Observable<Country>{
-    return this.http.delete<Country>(`http://localhost:3000/api/country/${id}`);
+  deleteCountry(id: number): Observable<Country> {
+    return this.http.delete<Country>(
+      this.bddUrl + `/api/country/${id}`,
+      this.httpOptions
+    );
   }
 }

@@ -10,27 +10,33 @@ import { Observable } from 'rxjs';
 })
 export class PhotoService {
   photos: Photo[] = [];
+  bddUrl = 'http://localhost:3000';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
 
   constructor(private http: HttpClient) {}
 
-  getImage() {
-    return this.http.get('http://localhost:3000/api/photo', {
-      responseType: 'blob',
-    });
-  }
   getImageById(id: number) {
-    return this.http.get(`http://localhost:3000/api/photo/${id}`, {
-      responseType: 'blob',
-    });
+    return this.http.get(this.bddUrl + `/api/photo/${id}`, this.httpOptions);
   }
 
   postImage(formData: FormData, idCity: number, idCountry: number) {
     formData.append('idCity', idCity.toString());
     formData.append('idCountry', idCountry.toString());
-    return this.http.post('http://localhost:3000/api/photo', formData);
+    return this.http.post(
+      this.bddUrl + '/api/photo',
+      formData,
+      this.httpOptions
+    );
   }
 
   deletePicture(id: number): Observable<Photo> {
-    return this.http.delete<Photo>(`http://localhost:3000/api/photo/${id}`);
+    return this.http.delete<Photo>(
+      this.bddUrl + `/api/photo/${id}`,
+      this.httpOptions
+    );
   }
 }

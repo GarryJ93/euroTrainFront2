@@ -71,13 +71,13 @@
   <ng-template pTemplate="body" let-city>
     <tr>
       <td class="is-size-4 has-text-weight-bold">{{ city.name }}</td>
-      <td *ngIf="city.photo && city.photo.length > 0">
-        <div>
+      <td *ngIf="city.photo.length > 0">
+        <div >
           <button class="button accept" (click)="showModalGalleria(city)">
             Voir la galerie
           </button>
           <p-dialog
-            *ngIf="city.photo"
+            *ngIf="city && city.photo"
             class="galleria"
             header="{{ city.name }}"
             [modal]="true"
@@ -94,14 +94,13 @@
         </div>
       </td>
 
-      <td *ngIf="!city.photo || city.photo.length === 0">
+       <td *ngIf="city && !city.photo || city.photo.length === 0">
         Pas encore de photo
       </td>
       <td>
         <app-blob-button
           (click)="getCityId(city.id.toString())"
           [idCity]="idCityForPicture"
-          [idCountry]="idCountryForPicture"
         ></app-blob-button>
       </td>
       <td>

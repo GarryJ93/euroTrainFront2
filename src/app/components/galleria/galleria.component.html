@@ -20,14 +20,14 @@
         </button>
       </div>
       
-      <img *ngIf="photo && photo.picture" [src]="sanitizeImageUrl(photo.picture)" style="width: 100%" loading="lazy" alt="{{city.name}}" />
+      <img *ngIf="photo && photo.name" [src]="(imageUrl + photo.name)" style="width: 100%" loading="lazy" alt="{{city.name}}" />
      
     </div>
   </ng-template>
   <ng-template pTemplate="thumbnail" let-item>
     <div class="grid grid-nogutter justify-content-center">
-      <img *ngIf="item && item.picture"
-        [src]="sanitizeImageUrl(item.picture)"
+      <img *ngIf="item && item.name"
+        [src]="(imageUrl + item.name)"
         class="image is-64x64 is-responsive"
         loading="lazy"
       />

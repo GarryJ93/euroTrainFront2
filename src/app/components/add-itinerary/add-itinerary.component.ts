@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { firstValueFrom } from 'rxjs';
@@ -22,7 +22,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './add-itinerary.component.html',
   styleUrls: ['./add-itinerary.component.css'],
 })
-export class AddItineraryComponent implements OnInit {
+export class AddItineraryComponent implements OnInit, OnChanges {
   visible: boolean = false;
   @Input() cityList!: City[];
   itineraryForm!: FormGroup;
@@ -46,13 +46,14 @@ export class AddItineraryComponent implements OnInit {
   typeIds!: number[];
   cityStopIds!: number[];
   dynamicFieldsFormArray!: FormArray;
+  uniqueCountries: Country[] =[];
   constructor(
     private companyService: CompanyService,
     private typeService: TypeService,
     private itineraryService: ItineraryService,
     private cityService: CityService,
     private formBuilder: FormBuilder,
-    private messageService: MessageService,
+    private messageService: MessageService
   ) {
     this.itineraryForm = this.formBuilder.group({
       selectedDepartureCity: ['', Validators.required],
@@ -68,6 +69,8 @@ export class AddItineraryComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    
     this.companyService.getAllCompanies().subscribe({
       next: (response) => {
         this.allCompanies = [...response];
@@ -87,34 +90,45 @@ export class AddItineraryComponent implements OnInit {
       });
   }
 
-  uniqueCountries(): Country[] {
-    const uniqueCountries: Country[] = [];
+  ngOnChanges() {
+    this.getUniqueCountries();
+  }
+
+  getUniqueCountries() {
+    
     const countryIds: Set<number> = new Set();
     if (this.cityList) {
       this.cityList.forEach((city) => {
-        if (!countryIds.has(city.id_country)) {
-          countryIds.add(city.id_country);
-          this.country = {
-            id: city.id_country,
-            name: city.country.name,
-            initial: city.country.initial,
-            schengen: city.country.schengen,
-            observation: city.country.observation,
-            id_language: city.country.id_language,
-            id_currency: city.country.id_currency,
-            id_travel_document: city.country.id_travel_document,
-            language: city.country.language,
-            currency: city.country.currency,
-            docs: city.country.docs,
-            photo: city.country.photo,
-            picture: city.country.picture,
-          };
-          uniqueCountries.push(this.country);
-        }
+        this.cityService.getCityByIdWithCountry(city.id).subscribe({
+          next: (response) => {
+            if (!countryIds.has(city.id_country)) {
+              countryIds.add(city.id_country);
+              this.country = {
+                id: response.id_country,
+                name: response.country.name,
+                initial: response.country.initial,
+                schengen: response.country.schengen,
+                observation: response.country.observation,
+                id_language: response.country.id_language,
+                id_currency: response.country.id_currency,
+                id_travel_document: response.country.id_travel_document,
+                language: response.country.language,
+                currency: response.country.currency,
+                docs: response.country.docs,
+                photo: response.country.photo,
+              };
+              this.uniqueCountries.push(this.country);
+              console.log(this.uniqueCountries);
+            
+              this.uniqueCountries.sort((a, b) => a.name.localeCompare(b.name));
+              // }
+            }
+          }
+        });
       });
     }
-    uniqueCountries.sort((a, b) => a.name.localeCompare(b.name));
-    return uniqueCountries;
+    
+    
   }
 
   sortedCitiesByCountry(country: Country): City[] {
@@ -164,7 +178,6 @@ export class AddItineraryComponent implements OnInit {
         type: [],
       };
 
-      
       if (formValue.selectedCompany) {
         this.companyService
           .getCompanyById(+formValue.selectedCompany)
@@ -172,7 +185,6 @@ export class AddItineraryComponent implements OnInit {
             next: (response) => {
               newItinerary.company!.push(response);
 
-              
               this.handleNextOperation(newItinerary, formValue);
             },
             error: (error) => {
@@ -180,19 +192,17 @@ export class AddItineraryComponent implements OnInit {
             },
           });
       } else {
-       
         await this.handleNextOperation(newItinerary, formValue);
       }
     }
   }
 
   async handleNextOperation(newItinerary: Partial<Itinerary>, formValue: any) {
-   
     if (formValue.selectedTransportType) {
       this.typeService.getTypeById(+formValue.selectedTransportType).subscribe({
         next: (response) => {
           newItinerary.type!.push(response);
-        
+
           this.handleDynamicFieldsOperation(newItinerary, formValue);
         },
         error: (error) => {
@@ -200,7 +210,6 @@ export class AddItineraryComponent implements OnInit {
         },
       });
     } else {
-      
       await this.handleDynamicFieldsOperation(newItinerary, formValue);
     }
   }
@@ -209,7 +218,6 @@ export class AddItineraryComponent implements OnInit {
     newItinerary: Partial<Itinerary>,
     formValue: any
   ) {
-    
     if (formValue.dynamicFields) {
       const companyIdArray = formValue.dynamicFields.map(
         (data: { companyId: number }) => data.companyId
@@ -221,33 +229,30 @@ export class AddItineraryComponent implements OnInit {
         (data: { stopId: number }) => data.stopId
       );
 
-     
       cityStopIdArray.pop();
 
-      
+      await Promise.all(
+        companyIdArray.map(async (id: number) => {
+          const company = await firstValueFrom(
+            this.companyService.getCompanyById(id)
+          );
+          newItinerary.company!.push(company);
+        })
+      );
 
-       await Promise.all(
-         companyIdArray.map(async (id: number) => {
-           const company = await firstValueFrom(
-             this.companyService.getCompanyById(id)
-           );
-           newItinerary.company!.push(company);
-         })
-       );
+      await Promise.all(
+        typeIdArray.map(async (id: number) => {
+          const type = await firstValueFrom(this.typeService.getTypeById(id));
+          newItinerary.type!.push(type);
+        })
+      );
 
-       await Promise.all(
-         typeIdArray.map(async (id: number) => {
-           const type = await firstValueFrom(this.typeService.getTypeById(id));
-           newItinerary.type!.push(type);
-         })
-       );
-
-       await Promise.all(
-         cityStopIdArray.map(async (id: number) => {
-           const city = await firstValueFrom(this.cityService.getCityById(id));
-           newItinerary.cityStop!.push(city);
-         })
-       );
+      await Promise.all(
+        cityStopIdArray.map(async (id: number) => {
+          const city = await firstValueFrom(this.cityService.getCityById(id));
+          newItinerary.cityStop!.push(city);
+        })
+      );
 
       this.createItinerary(newItinerary);
     }
@@ -260,8 +265,8 @@ export class AddItineraryComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Opération réussie',
-          detail: 'Itinéraire ajouté'
-        })
+          detail: 'Itinéraire ajouté',
+        });
         this.closeDialog();
       },
       error: (error) => {

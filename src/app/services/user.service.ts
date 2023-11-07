@@ -7,21 +7,31 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 export class UserService {
+  bddUrl = 'http://localhost:3000';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
   constructor(private http: HttpClient) {}
 
   addUser(user: User): Observable<User> {
     return this.http.post<User>(
-      'http://localhost:3000/api/auth/register',
-      user
+      this.bddUrl + '/api/auth/register',
+      user,
+      this.httpOptions
     );
   }
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>('http://localhost:3000/api/user');
+    return this.http.get<User[]>(this.bddUrl + '/api/user', this.httpOptions);
   }
 
   getUserById(id: number): Observable<User> {
-    return this.http.get<User>(`http://localhost:3000/api/user/${id}`);
+    return this.http.get<User>(
+      this.bddUrl + `/api/user/${id}`,
+      this.httpOptions
+    );
   }
 
   updateAdminStatus(
@@ -29,18 +39,23 @@ export class UserService {
     updateData: Partial<User>
   ): Observable<Partial<User>> {
     return this.http.patch<User>(
-      `http://localhost:3000/api/user/${id}`,
-      updateData
+      this.bddUrl + `/api/user/${id}`,
+      updateData,
+      this.httpOptions
     );
   }
 
   deleteUserAndData(id: number) {
-    return this.http.delete<User>(`http://localhost:3000/api/user/${id}`);
+    return this.http.delete<User>(
+      this.bddUrl + `/api/user/${id}`,
+      this.httpOptions
+    );
   }
 
   softDeleteUser(id: number) {
     return this.http.delete<User>(
-      `http://localhost:3000/api/user/softDelete/${id}`
+      this.bddUrl + `/api/user/softDelete/${id}`,
+      this.httpOptions
     );
   }
 }

@@ -16,7 +16,7 @@ export class CityListComponent implements OnChanges {
   @Input() cityList!: City[];
   @Input() countriesToDisplay!: Country[];
   city!: City;
-  idCityForPicture!: number | null;
+  idCityForPicture!: number;
   idCountryForPicture!: number;
   cityBlob!: Blob;
   cityPicture!: any;
@@ -45,20 +45,15 @@ export class CityListComponent implements OnChanges {
         }
       },
     });
-
     this.initialForm();
   }
   
   getCityId(id: number) {
     this.idCityForPicture = +id;
-    this.cityService.getCityById(this.idCityForPicture).subscribe({
-      next: (response) => {
-        this.city = response;
-        this.idCountryForPicture = this.city.id_country;
-        console.log(this.city);
-      },
-    });
-  }
+        console.log('id-city',this.idCityForPicture);
+      }
+    
+  
 
   private initialForm() {
     this.select = this.fb.group({
@@ -82,7 +77,7 @@ export class CityListComponent implements OnChanges {
 
   closeModalGalleria(city: City) {
     city.isVisible = false;
-    this.idCityForPicture = null;
+    this.idCityForPicture = NaN;
     console.log('fermeture', city);
   }
 

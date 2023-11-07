@@ -16,6 +16,7 @@ export class GalleriaComponent implements OnChanges {
   @Input() idCity!: number | null;
   cityBlob!: Blob;
   cityPicture!: any;
+  imageUrl: string = 'http://localhost:3000/';
 
   constructor(
     private cityService: CityService,
@@ -26,48 +27,56 @@ export class GalleriaComponent implements OnChanges {
 
   ngOnChanges() {
     if (this.idCity) {
-      console.log(this.idCity);
-
       this.cityService.getCityById(this.idCity).subscribe({
-        next: async (response) => {
+        next: (response) => {
           this.city = response;
-          if (this.city.photo && this.city.photo.length > 0) {
-            for (let picture of this.city.photo) {
-              try {
-                const data: Blob = await lastValueFrom(
-                  this.photoService.getImageById(picture.id)
-                );
-                this.createCityImageFromBlob(picture.id, data!);
-              } catch (error) {
-                console.error(
-                  'Erreur lors de la récupération de la photo',
-                  error
-                );
-              }
-            }
-          }
-        },
-        error: (error) => {
-          console.error('Erreur lors de la récupération de la ville', error);
+          console.log('galleria',this.city);
         },
       });
     }
+    // if (this.idCity) {
+    //   console.log(this.idCity);
+
+    //   this.cityService.getCityById(this.idCity).subscribe({
+    //     next: async (response) => {
+    //       this.city = response;
+    //       if (this.city.photo && this.city.photo.length > 0) {
+    //         for (let picture of this.city.photo) {
+    //           try {
+    //             const data: Blob = await lastValueFrom(
+    //               this.photoService.getImageById(picture.id)
+    //             );
+    //             this.createCityImageFromBlob(picture.id, data!);
+    //           } catch (error) {
+    //             console.error(
+    //               'Erreur lors de la récupération de la photo',
+    //               error
+    //             );
+    //           }
+    //         }
+    //       }
+    //     },
+    //     error: (error) => {
+    //       console.error('Erreur lors de la récupération de la ville', error);
+    //     },
+    //   });
+    // }
   }
 
-  sanitizeImageUrl(imageUrl: string): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-  }
+  // sanitizeImageUrl(imageUrl: string): SafeUrl {
+  //   return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+  // }
 
-  createCityImageFromBlob(id: number, data: Blob) {
-    this.cityPicture = this.city.photo.find((x) => x.id === id);
-    const reader = new FileReader();
-    reader.readAsDataURL(data);
-    reader.addEventListener('load', () => {
-      if (this.cityPicture) {
-        this.cityPicture.picture = reader.result;
-      }
-    });
-  }
+  // createCityImageFromBlob(id: number, data: Blob) {
+  //   this.cityPicture = this.city.photo.find((x) => x.id === id);
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(data);
+  //   reader.addEventListener('load', () => {
+  //     if (this.cityPicture) {
+  //       this.cityPicture.picture = reader.result;
+  //     }
+  //   });
+  // }
 
   onDeletePicture(idPicture: number) {
     console.log(idPicture);

@@ -1,4 +1,4 @@
-<div *ngIf="myExample && myExample.destinationCity && myExample.destinationCity.photo && myExample.destinationCity.photo.length > 0" class="card is-touch is-half block m-2">
+<div *ngIf="itinerary && itinerary.destinationCity && itinerary.destinationCity.photo && itinerary.destinationCity.photo.length > 0" class="card is-touch is-half block m-2">
   <div class="card-image">
     <div class="is-touch is-responsive">
       <div id="conteneur_slider" class="is-responsive is-touch">
@@ -7,50 +7,50 @@
         <p>
           Au départ de :
           <span class="has-text-weight-semibold"
-            >{{ myExample.originCity.name }},
-            {{ myExample.originCity.country.name }}</span
+            >{{ itinerary.originCity.name }},
+            {{ itinerary.originCity.country.name }}</span
           >
         </p>
       </div>
-      <img *ngIf="myExample && cityImage"
-        [src]="sanitizeImageUrl(cityImage.picture)"
+      <img 
+        [src]= "imageUrl + itinerary.destinationCity.photo[0].name"
         style="width: 100%"
-        alt="{{myExample.destinationCity.name}}"
+        alt="{{itinerary.destinationCity.name}}"
         loading="lazy"
       />
     </div>
   </div>
   <div class="card-content">
-    <!-- <button class="button is-danger" (click)="onDeleteItinerary(myExample.id!)">
+    <!-- <button class="button is-danger" (click)="onDeleteItinerary(itinerary.id!)">
           <span class="icon is-small">
             <i class="fas fa-trash-can"></i>
           </span>
         </button> -->
 
-    <div *ngIf="myExample && myExample.destinationCity" class="content">
+    <div *ngIf="itinerary && itinerary.destinationCity" class="content">
       <p>
         À destination de :
         <span class="title has-text-weight-bold is-size-4-desktop is-size-5-touch"
-          >{{ myExample.destinationCity.name }},
-          {{ myExample.destinationCity.country.name }}</span
+          >{{ itinerary.destinationCity.name }},
+          {{ itinerary.destinationCity.country.name }}</span
         >
       </p>
-      <div *ngIf="myExample.cityStop.length > 0">
+      <div *ngIf="itinerary.cityStop.length > 0">
         Possibilité de faire escale à :
         <ul>
-          <li *ngFor="let stop of myExample.cityStop">
+          <li *ngFor="let stop of itinerary.cityStop">
             {{ stop.name }},
             <span *ngIf="stop.country">{{ stop.country.name }}</span>
           </li>
         </ul>
       </div>
       <div class="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-between">
-        <div *ngFor="let company of myExample.company" class="m-4">
+        <div *ngFor="let company of itinerary.company" class="m-4">
             <div><a href="{{company.link_url}}" target="_blank">
       <img src="{{company.logo_url}}" width="100">
     </a></div></div></div>
       <div class="columns">
-      <div *ngFor="let type of myExample.type" class="type-icon column">
+      <div *ngFor="let type of itinerary.type" class="type-icon column">
         <span class="icon is-large">
           <i class="{{type.icon_code}}"></i>
         </span>

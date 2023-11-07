@@ -1,19 +1,30 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TransportCompany } from '../models/transport-company';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CompanyService {
-
-  constructor(private http: HttpClient) { }
+  bddUrl = 'http://localhost:3000';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
+  constructor(private http: HttpClient) {}
 
   getAllCompanies(): Observable<TransportCompany[]> {
-    return this.http.get<TransportCompany[]>('http://localhost:3000/api/transport-company');
+    return this.http.get<TransportCompany[]>(
+      this.bddUrl + '/api/transport-company',
+      this.httpOptions
+    );
   }
   getCompanyById(id: number): Observable<TransportCompany> {
-    return this.http.get<TransportCompany>(`http://localhost:3000/api/transport-company/${id}`);
+    return this.http.get<TransportCompany>(
+      this.bddUrl + `/api/transport-company/${id}`,
+      this.httpOptions
+    );
   }
 }

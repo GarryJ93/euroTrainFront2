@@ -16,5 +16,4 @@ export interface Country {
     currency: Currency;
     docs: TravelDocument;
     photo: Photo[];
-    picture: any;
 }

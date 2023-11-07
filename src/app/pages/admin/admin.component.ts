@@ -56,7 +56,8 @@ export class AdminComponent implements OnInit {
   idsChecked!: number[];
   userInput!: string;
   itinerariesCountByAdmin: Record<number, number> = {};
-
+  citiesByCountryWithPictures: City[] = [];
+  cityWithPicture!: City;
   constructor(
     private itineraryService: ItineraryService,
     private languageService: LanguageService,
@@ -190,10 +191,20 @@ export class AdminComponent implements OnInit {
       this.citiesByCountry = [
         ...this.citiesToDisplay.filter((city) => city.id_country === countryId),
       ];
-      this.citiesByCountry = this.citiesByCountry.map((city) => ({
+      this.citiesByCountryWithPictures = [];
+       this.citiesByCountry.forEach(city => {
+         this.cityService.getCityById(city.id).subscribe({
+           next: (response) => {
+             console.log(response);
+             this.cityWithPicture = response;
+             this.citiesByCountryWithPictures.push(this.cityWithPicture);
+           }
+         });
+         this.citiesByCountryWithPictures = this.citiesByCountryWithPictures.map((city) => ({
         ...city,
         isVisible: false,
       }));
+      })
       console.log(this.citiesByCountry);
     }
   }

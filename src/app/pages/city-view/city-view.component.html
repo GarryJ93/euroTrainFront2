@@ -12,7 +12,7 @@
           <ng-template let-photo pTemplate="item">
             <div>
               <figure class="image is-3by2 is-touch is-desktop mt-2">
-                <img *ngIf="photo && photo.picture" class="has-ratio" [src]="sanitizeImageUrl(photo.picture)" loading="lazy"/>
+                <img *ngIf="photo && photo.name" class="has-ratio" [src]="imageUrl + photo.name" loading="lazy"/>
               </figure>
             </div>
           </ng-template>
@@ -20,7 +20,7 @@
   </div>
   <div
     *ngIf="city"
-    class="columns is-multiline column is-half block city-view ml-2 mt-2 rounded"
+    class="columns is-multiline column is-half block city-view mt-2 rounded"
   >
     <div
       class="column is-full has-text-centered has-text-weight-bold is-size-4-desktop is-size-5-touch"

@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { City } from 'src/app/models/city';
 import { Photo } from 'src/app/models/photo';
+import { CityService } from 'src/app/services/city.service';
 import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
@@ -10,19 +12,43 @@ import { PhotoService } from 'src/app/services/photo.service';
 })
 export class BlobButtonComponent {
   myFile!: File;
+  @Input() idCity!: number;
   @Input() idCountry!: number;
-  @Input() idCity!: number | null;
-
+  cityWithCountry!: City;
   constructor(
     private photoService: PhotoService,
     private messageService: MessageService,
+    private cityService: CityService,
   ) {}
   onChange(e: any) {
-    if (!this.idCity) {
-      this.idCity = NaN;
-    }
+    console.log('city and country',this.idCity, this.idCountry);
     
-    console.log(e.target.files);
+    if (!this.idCity && this.idCountry) {
+      this.idCity = NaN;
+      this.myFile = e.target.files[0];
+      if (this.myFile) {
+        const formData = new FormData();
+        formData.append('image', this.myFile);
+        console.log(formData);
+
+        this.photoService
+          .postImage(formData, this.idCity, this.idCountry)
+          .subscribe((photo: Partial<Photo>) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Opération réussie',
+              detail: 'Photo ajoutée avec succès',
+            });
+          });
+      }
+    }
+    if (this.idCity && !this.idCountry) {
+      this.cityService.getCityById(this.idCity).subscribe({
+        next: (response) => {
+          this.cityWithCountry = response;
+          this.idCountry = this.cityWithCountry.country.id;
+          console.log(response);
+          console.log(e.target.files);
     this.myFile = e.target.files[0];
     if (this.myFile) {
       const formData = new FormData();
@@ -39,6 +65,14 @@ export class BlobButtonComponent {
           });
           
         });
+    }
+      console.log('idcountry', this.idCountry);
+          
+          
+        }
+      })
+    
+    
     }
   }
 }

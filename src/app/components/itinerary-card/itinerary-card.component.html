@@ -1,5 +1,5 @@
 <div class="card is-touch block m-4">
-  <div *ngIf="itineraries.destinationCity.photo[0]" class="card-image">
+  <div *ngIf="itinerary && itinerary.destinationCity.photo[0]" class="card-image">
     <div class="is-touch is-responsive">
       <div id="conteneur_slider" class="is-responsive is-touch">
       </div>
@@ -7,13 +7,13 @@
         <p>
           Depuis :
           <span class="has-text-weight-semibold"
-            >{{ itineraries.originCity.name }},
-            {{ itineraries.originCity.country.name }}</span
+            >{{ itinerary.originCity.name }},
+            {{ itinerary.originCity.country.name }}</span
           >
         </p>
       </div>
       <img
-        [src]="itineraries.destinationCity.photo[0].picture"
+        [src]="imageUrl + itinerary.destinationCity.photo[0].name"
         style="width: 100%"
         loading="lazy"
       />
@@ -26,30 +26,30 @@
           </span>
         </button> -->
 
-    <div class="content">
+    <div *ngIf="itinerary && itinerary.destinationCity" class="content">
       <p>
         Vers :
         <span class="title has-text-weight-bold is-size-4-desktop is-size-5-touch"
-          >{{ itineraries.destinationCity.name }},
-          {{ itineraries.destinationCity.country.name }}</span
+          >{{ itinerary.destinationCity.name }},
+          {{ itinerary.destinationCity.country.name }}</span
         >
       </p>
-      <div *ngIf="itineraries.cityStop.length > 0">
+      <div *ngIf="itinerary.cityStop.length > 0">
         Possibilité de faire escale à :
         <ul>
-          <li *ngFor="let stop of itineraries.cityStop">
+          <li *ngFor="let stop of itinerary.cityStop">
             {{ stop.name }},
             <span *ngIf="stop.country">{{ stop.country.name }}</span>
           </li>
         </ul>
       </div>
       <div class="is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-between mt-4">
-        <div *ngFor="let company of itineraries.company" class="m-4">
+        <div *ngFor="let company of itinerary.company" class="m-4">
             <div><a href="{{company.link_url}}" target="_blank">
       <img src="{{company.logo_url}}" width="100">
     </a></div></div></div>
       <div class="columns">
-      <div *ngFor="let type of itineraries.type" class="type-icon column">
+      <div *ngFor="let type of itinerary.type" class="type-icon column">
         <span class="icon is-large">
           <i class="{{type.icon_code}}"></i>
         </span>

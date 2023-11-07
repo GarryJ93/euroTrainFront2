@@ -5,6 +5,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpClient,
+  HttpHeaders,
 } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Connection } from '../models/connection';
@@ -14,8 +15,15 @@ import { Connection } from '../models/connection';
 })
 export class AuthInterceptorService implements HttpInterceptor {
   private bddURL = 'http://localhost:3000/api/auth';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
   // isConnected: boolean = false;
-  public isConnected$ = new BehaviorSubject(localStorage.getItem('access_token'));
+  public isConnected$ = new BehaviorSubject(
+    localStorage.getItem('access_token')
+  );
 
   constructor(private http: HttpClient) {}
   intercept(

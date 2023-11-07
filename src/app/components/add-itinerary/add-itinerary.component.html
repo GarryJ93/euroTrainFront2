@@ -14,7 +14,7 @@
 >
   <div class="card flex justify-content-center">
     <!-- <select [(ngModel)]="selectedCity">
-  <ng-container *ngFor="let country of uniqueCountries()">
+  <ng-container *ngFor="let country of uniqueCountries">
     <optgroup [label]="country.name">
       <option *ngFor="let city of sortedCitiesByCountry(country)" [ngValue]="city.id">
         {{ city.name }}
@@ -28,15 +28,15 @@
       (ngSubmit)="onSubmit()"
       id="addForm"
       class="section is-full"
-    >
-      <!-- Ville de départ -->
-      <div class="field is-full">
+    > 
+    
+       <div class="field is-full">
         <label class="label">Ville de départ:</label>
         <div class="control">
           <div class="select">
             <select formControlName="selectedDepartureCity" class="input">
               <option value="">Choisissez votre ville</option>
-              <ng-container *ngFor="let country of uniqueCountries()">
+              <ng-container *ngFor="let country of uniqueCountries">
                 <optgroup [label]="country.name">
                   <option
                     *ngFor="let city of sortedCitiesByCountry(country)"
@@ -49,16 +49,16 @@
             </select>
           </div>
         </div>
-      </div>
+      </div> 
 
-      <!-- Ville d'arrivée -->
+      
       <div class="field">
         <label class="label">Ville d'arrivée:</label>
         <div class="control">
           <div class="select">
             <select formControlName="selectedArrivalCity" class="input">
               <option value="">Choisissez votre ville</option>
-              <ng-container *ngFor="let country of uniqueCountries()">
+              <ng-container *ngFor="let country of uniqueCountries">
                 <optgroup [label]="country.name">
                   <option
                     *ngFor="let city of sortedCitiesByCountry(country)"
@@ -78,8 +78,8 @@
         [ngModelOptions]="{ standalone: true }"
         >Trajet direct</p-inputSwitch
       >
-      <div *ngIf="checked">
-        <!-- Type de transport -->
+      <div *ngIf="checked"> 
+       
         <div class="field" *ngIf="checked">
           <label class="label">Type de transport:</label>
           <div class="control">
@@ -91,9 +91,9 @@
               </select>
             </div>
           </div>
-        </div>
+        </div> 
 
-        <!-- Compagnie -->
+        
         <div class="field" *ngIf="checked">
           <label class="label">Compagnie:</label>
           <div class="control">
@@ -109,9 +109,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> 
       <div *ngIf="!checked">
-        <!-- Champs dynamiques -->
+      
         <div formArrayName="dynamicFields">
           <div
             *ngFor="
@@ -120,14 +120,14 @@
             "
             class="field"
             [formGroupName]="i"
-          >
-            <!-- Début du trajet -->
-            <label class="label">Début du trajet:</label>
+          > 
+            
+             <label class="label">Début du trajet:</label>
             <div class="control">
               <div class="select">
                 <select formControlName="departureId" class="input">
                   <option value="">Choisissez votre ville</option>
-                  <ng-container *ngFor="let country of uniqueCountries()">
+                  <ng-container *ngFor="let country of uniqueCountries">
                     <optgroup [label]="country.name">
                       <option
                         *ngFor="let city of sortedCitiesByCountry(country)"
@@ -146,7 +146,8 @@
               <div class="select">
                 <select formControlName="stopId" class="input">
                   <option value="">Choisissez votre ville</option>
-                  <ng-container *ngFor="let country of uniqueCountries()">
+                  <ng-container 
+                  *ngFor="let country of uniqueCountries">
                     <optgroup [label]="country.name">
                       <option
                         *ngFor="let city of sortedCitiesByCountry(country)"

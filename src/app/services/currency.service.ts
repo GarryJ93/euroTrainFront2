@@ -1,21 +1,32 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Currency } from '../models/currency';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CurrencyService {
-
-    constructor(private http: HttpClient) {}
+  bddUrl = 'http://localhost:3000';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
+  constructor(private http: HttpClient) {}
 
   getAllCurrencies(): Observable<Currency[]> {
-    return this.http.get<Currency[]>('http://localhost:3000/api/Currency');
+    return this.http.get<Currency[]>(
+      this.bddUrl + '/api/Currency',
+      this.httpOptions
+    );
   }
 
   getCurrencyById(id: number): Observable<Currency> {
-    return this.http.get<Currency>(`http://localhost:3000/api/currency/${id}`);
+    return this.http.get<Currency>(
+      this.bddUrl + `/api/currency/${id}`,
+      this.httpOptions
+    );
   }
 }
 

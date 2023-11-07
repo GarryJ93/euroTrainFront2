@@ -13,7 +13,8 @@ import { PhotoService } from 'src/app/services/photo.service';
 export class AdminItineraryCardComponent implements OnInit {
   @Input() itineraries!: Itinerary;
   @Input() country!: Country;
-
+  itinerary!: Itinerary;
+  imageUrl: string = "http://localhost:3000/"
   cityBlob!: Blob;
   cityImage!: any;
 
@@ -22,32 +23,39 @@ export class AdminItineraryCardComponent implements OnInit {
     private messageService: MessageService) { }
 
   ngOnInit() {
-    if (this.itineraries.destinationCity.photo[0]) {
-      for (let picture of this.itineraries.destinationCity.photo) {
-        if (this.itineraries.destinationCity.id === picture.id_city)
-          this.photoService.getImageById(picture.id).subscribe({
-            next: (data: Blob) => {
-              this.cityBlob = data;
-              this.createDestinationCityImageFromBlob(
-                this.cityBlob,
-                picture.id
-              );
-            },
-          });
+
+    this.itineraryService.getItineraryById(this.itineraries.id!).subscribe({
+      next: (response) => {
+        this.itinerary = response;
       }
-    }
-  }
+    })
+    //   if (this.itineraries.destinationCity.photo[0]) {
+    //     for (let picture of this.itineraries.destinationCity.photo) {
+    //       if (this.itineraries.destinationCity.id === picture.id_city)
+    //         this.photoService.getImageById(picture.id).subscribe({
+    //           next: (data: Blob) => {
+    //             this.cityBlob = data;
+    //             this.createDestinationCityImageFromBlob(
+    //               this.cityBlob,
+    //               picture.id
+    //             );
+    //           },
+    //         });
+    //     }
+    //   }
+    // }
 
-  createDestinationCityImageFromBlob(image: Blob, id: number) {
-    let reader = new FileReader();
-    reader.readAsDataURL(image);
-    const currentPicture = this.itineraries.destinationCity.photo.find(
-      (x) => x.id === id
-    );
+    // createDestinationCityImageFromBlob(image: Blob, id: number) {
+    //   let reader = new FileReader();
+    //   reader.readAsDataURL(image);
+    //   const currentPicture = this.itineraries.destinationCity.photo.find(
+    //     (x) => x.id === id
+    //   );
 
-    reader.addEventListener('load', () => {
-      if (currentPicture) currentPicture.picture = reader.result;
-    });
+    //   reader.addEventListener('load', () => {
+    //     if (currentPicture) currentPicture.picture = reader.result;
+    //   });
+    // }
   }
 
   onDeleteItinerary(idItinerary: number) {
