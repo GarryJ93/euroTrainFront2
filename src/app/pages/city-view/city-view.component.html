@@ -2,7 +2,7 @@
   Retour
 </button>
 <div class="columns is-multiline is-touch p-4 m-2">
-  <div *ngIf="city && city.photo.length > 0" class="column is-half block">
+  <div *ngIf="city && city.photo.length > 0" class="column is-full block">
     <p-carousel
           [value]="city.photo"
           [numVisible]="1"
@@ -20,7 +20,7 @@
   </div>
   <div
     *ngIf="city"
-    class="columns is-multiline column is-half block city-view mt-2 rounded"
+    class="columns is-multiline column is-full block city-view ml-2 mt-2 mobile-margin rounded"
   >
     <div
       class="column is-full has-text-centered has-text-weight-bold is-size-4-desktop is-size-5-touch"

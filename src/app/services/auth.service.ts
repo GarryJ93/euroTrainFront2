@@ -20,7 +20,7 @@ export class AuthInterceptorService implements HttpInterceptor {
       'Content-Type': 'application/json',
     }),
   };
-  // isConnected: boolean = false;
+  isConnected: boolean = false;
   public isConnected$ = new BehaviorSubject(
     localStorage.getItem('access_token')
   );
@@ -43,11 +43,15 @@ export class AuthInterceptorService implements HttpInterceptor {
 
   login(email: string, password: string): Observable<Connection> {
     const body = { email: email, password: password };
-    return this.http.post<Connection>(this.bddURL + '/login', body);
+    return this.http.post<Connection>(
+      this.bddURL + '/login',
+      body,
+      this.httpOptions
+    );
   }
 
-  // checkConnexion(): boolean {
-  //   this.isConnected = !!localStorage.getItem('access_token');
-  //   return this.isConnected;
-  // }
+  checkConnexion(): boolean {
+    this.isConnected = !!localStorage.getItem('access_token');
+    return this.isConnected;
+  }
 }

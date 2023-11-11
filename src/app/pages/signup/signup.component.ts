@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { User } from 'src/app/models/user';
@@ -55,6 +60,13 @@ export class SignupComponent implements OnInit {
     }
     this.userService.addUser(newUser).subscribe({
       next: () => {
+        // this.userService.getAllUsers().subscribe({
+        //   next: (response) => {
+        //     this.userService.allUsers$.next(response);
+        //     this.userService.adminUsers$.next(response);
+        //     this.userService.candidateUsers$.next(response);
+        //   }
+        // })
         this.showMessageSignIn();
         if (newUser) {
           const templateParams = {
@@ -83,7 +95,6 @@ export class SignupComponent implements OnInit {
           this.addUser.reset();
           this.router.navigate(['']);
         }, 3000);
-        
       },
       error: (error) => {
         console.error("Erreur lors de l'ajout de l'utilisateur", error);
@@ -107,6 +118,4 @@ export class SignupComponent implements OnInit {
       detail: "Impossible d'ajouter l'utilisateur !",
     });
   }
-
- 
 }

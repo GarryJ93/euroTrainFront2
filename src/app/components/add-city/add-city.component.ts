@@ -1,5 +1,10 @@
-import { Component, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { City } from 'src/app/models/city';
 import { Country } from 'src/app/models/country';
@@ -10,21 +15,22 @@ import { StayCatService } from 'src/app/services/stay-cat.service';
 @Component({
   selector: 'app-add-city',
   templateUrl: './add-city.component.html',
-  styleUrls: ['./add-city.component.css']
+  styleUrls: ['./add-city.component.css'],
 })
 export class AddCityComponent {
- visible: boolean = false;
+  visible: boolean = false;
   addCity!: FormGroup;
   @Input() countries!: Country[];
   allCategories!: StayCat[];
-  categoriesToDisplay!: StayCat[]; 
-  
+  categoriesToDisplay!: StayCat[];
+  @Output() countryId = new EventEmitter<number>();
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private cityService: CityService,
     private stayCatService: StayCatService,
-    private messageService: MessageService,
-  ) { }
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.initialForm();
@@ -33,8 +39,8 @@ export class AddCityComponent {
       next: (response) => {
         this.allCategories = [...response];
         this.categoriesToDisplay = [...response];
-      }
-    })
+      },
+    });
   }
   private initialForm() {
     this.addCity = this.fb.group({
@@ -57,9 +63,8 @@ export class AddCityComponent {
       ...this.addCity.value,
     };
 
-    newCity.id_country = +(newCity.country);
-    newCity.id_stay_cat = +(newCity.cat);
-    
+    newCity.id_country = +newCity.country;
+    newCity.id_stay_cat = +newCity.cat;
 
     console.log(newCity);
 
@@ -67,19 +72,23 @@ export class AddCityComponent {
     if (!this.addCity.valid) {
       newCity = {
         ...this.addCity.value,
-        
       };
     }
     this.cityService.addCity(newCity).subscribe({
       next: () => {
+        this.cityService.getAllCities().subscribe({
+          next: (response) => {
+            this.cityService.cityList$.next(response);
+          },
+        });
         this.messageService.add({
           severity: 'success',
           summary: 'Opération réussie',
           detail: 'Ville ajoutée avec succès',
         });
-      
+        this.countryId.emit(newCity.id_country);
         this.addCity.reset();
-        this.closeDialog()
+        this.closeDialog();
       },
       error: (error) => {
         console.error("Erreur lors de l'ajout du Ville", error);
@@ -87,4 +96,3 @@ export class AddCityComponent {
     });
   }
 }
-

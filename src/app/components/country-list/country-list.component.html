@@ -1,4 +1,4 @@
-<div class="p-6 m-6 box" *ngIf="sortedCountries">
+<div class="p-6 m-2 box" *ngIf="sortedCountries">
     <app-search-bar (inputUser)="onEnterSearch($event)"></app-search-bar>
 <app-accordion *ngFor="let country of sortedCountries" [country]="country"></app-accordion>
 </div>

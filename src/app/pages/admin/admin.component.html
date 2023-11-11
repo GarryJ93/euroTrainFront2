@@ -64,46 +64,15 @@
             <div class="m-2">
             <button
               class="card-footer-item button is-responsive refuse m-2"
-              (click)="showDialog()"
+              (click)="showDialog(user.id)"
             >
               Supprimer
-            </button></div>
+            </button>
+          
+          </div>
           </footer>
         </div>
-        <p-dialog
-          header="Attention"
-          [(visible)]="visible"
-          [breakpoints]="{ '960px': '75vw' }"
-          [style]="{ width: '50vw' }"
-          [draggable]="false"
-          [resizable]="false"
-          [modal]="true"
-        >
-          <p>
-            Vous allez supprimer un utilisateur, voulez-vous effacer les
-            itinéraires créés par cet utilisateur également ?
-          </p>
-          <div class="buttons m-4">
-            <button
-              class="button refuse is-responsive"
-              (click)="OnSoftDeleteUser(user.id)"
-            >
-              Supprimer et conserver les itinéraires
-            </button>
-            <button
-              class="button refuse is-responsive"
-              (click)="OnDeleteAllDataUser(user.id)"
-            >
-              Tout supprimer
-            </button>
-            <button
-              class="button accept is-responsive"
-              (click)="closeDialog()"
-            >
-              Annuler
-            </button>
-          </div>
-        </p-dialog>
+        <app-delete-modal [idUser]="idUser" [visible]="visible" (newVisible)="handleNewVisible($event)"></app-delete-modal>
       </div>
     </div>
   </div>
@@ -125,7 +94,7 @@
     header="Liste des pays"
     filterBy="name"
     filterPlaceholder="Filtrer par Nom"
-    [dragdrop]="true"
+    [dragdrop]="false"
     class="custom-orderlist-header"
   >
     <ng-template let-country pTemplate="countriesToDisplay">
@@ -166,7 +135,7 @@
   </h2>
 
   <div>
-    <form [formGroup]="select" (ngSubmit)="onSubmit()" class="field">
+    <form [formGroup]="select" (ngSubmit)="onSubmit(+select.value.country)" class="field">
       <div class="control has-icons-left">
         <div class="select is-medium">
           <select formControlName="country">
@@ -191,6 +160,7 @@
     <app-city-list
       [cityList]="citiesByCountryWithPictures"
       [countriesToDisplay]="countriesToDisplay"
+      (countryId)="onSubmit($event)"
     ></app-city-list>
   </div>
 </div>

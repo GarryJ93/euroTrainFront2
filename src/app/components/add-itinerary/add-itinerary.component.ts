@@ -14,8 +14,6 @@ import { CityService } from 'src/app/services/city.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { ItineraryService } from 'src/app/services/itinerary.service';
 import { TypeService } from 'src/app/services/type.service';
-import { UserService } from 'src/app/services/user.service';
-
 
 @Component({
   selector: 'app-add-itinerary',
@@ -46,7 +44,7 @@ export class AddItineraryComponent implements OnInit, OnChanges {
   typeIds!: number[];
   cityStopIds!: number[];
   dynamicFieldsFormArray!: FormArray;
-  uniqueCountries: Country[] =[];
+  uniqueCountries: Country[] = [];
   constructor(
     private companyService: CompanyService,
     private typeService: TypeService,
@@ -69,8 +67,6 @@ export class AddItineraryComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-
-    
     this.companyService.getAllCompanies().subscribe({
       next: (response) => {
         this.allCompanies = [...response];
@@ -95,7 +91,6 @@ export class AddItineraryComponent implements OnInit, OnChanges {
   }
 
   getUniqueCountries() {
-    
     const countryIds: Set<number> = new Set();
     if (this.cityList) {
       this.cityList.forEach((city) => {
@@ -118,17 +113,14 @@ export class AddItineraryComponent implements OnInit, OnChanges {
                 photo: response.country.photo,
               };
               this.uniqueCountries.push(this.country);
-              console.log(this.uniqueCountries);
-            
+
               this.uniqueCountries.sort((a, b) => a.name.localeCompare(b.name));
               // }
             }
-          }
+          },
         });
       });
     }
-    
-    
   }
 
   sortedCitiesByCountry(country: Country): City[] {
@@ -261,6 +253,11 @@ export class AddItineraryComponent implements OnInit, OnChanges {
   createItinerary(newItinerary: Partial<Itinerary>) {
     this.itineraryService.createItinerary(newItinerary).subscribe({
       next: (createdItinerary) => {
+        this.itineraryService.getAllItineraries().subscribe({
+          next: (response) => {
+            this.itineraryService.itineraryList$.next(response);
+          },
+        });
         console.log('Itinerary created successfully:', createdItinerary);
         this.messageService.add({
           severity: 'success',

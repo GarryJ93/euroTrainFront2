@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AccordionModule } from 'primeng/accordion'; 
+import { AccordionModule } from 'primeng/accordion';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -52,7 +52,7 @@ import { CityCardComponent } from './components/city-card/city-card.component';
 import { DestinationListComponent } from './components/destination-list/destination-list.component';
 import { CityViewComponent } from './pages/city-view/city-view.component';
 import { ItineraryViewComponent } from './pages/itinerary-view/itinerary-view.component';
-
+import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
 
 @NgModule({
   declarations: [
@@ -87,9 +87,7 @@ import { ItineraryViewComponent } from './pages/itinerary-view/itinerary-view.co
     DestinationListComponent,
     CityViewComponent,
     ItineraryViewComponent,
-    
-  
-  
+    DeleteModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -114,10 +112,8 @@ import { ItineraryViewComponent } from './pages/itinerary-view/itinerary-view.co
     InputSwitchModule,
     SelectButtonModule,
     SidebarModule,
-  
-    
   ],
   providers: [MessageService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

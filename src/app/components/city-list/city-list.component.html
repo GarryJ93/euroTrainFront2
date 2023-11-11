@@ -12,7 +12,7 @@
 <p-toolbar styleClass="mb-4 gap-2 is-touch">
   <ng-template pTemplate="left">
     <div class="m-4">
-      <app-add-city [countries]="countriesToDisplay"></app-add-city>
+      <app-add-city [countries]="countriesToDisplay" (countryId)="sendCountry($event)"></app-add-city>
     </div>
   </ng-template>
 </p-toolbar>
@@ -26,8 +26,8 @@
   [(selection)]="city"
   dataKey="city.id"
   [rowHover]="true"
-  currentPageReportTemplate="Montre de {first} à {last} sur {totalRecords} entrées"
-  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Montre de {{cityList.indexOf(city) + 1}} à {{cityList.indexOf(city) +1}} sur {{cityList.length}} entrées"
+  [showCurrentPageReport]="false"
 >
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between is-touch">
@@ -89,7 +89,7 @@
             (onHide)="closeModalGalleria(city)"
             
           >
-            <app-galleria [idCity]="idCityForPicture"></app-galleria>
+            <app-galleria [idCity]="idCityForPicture" (countryId)="sendCountry($event)"></app-galleria>
           </p-dialog>
         </div>
       </td>
@@ -101,10 +101,11 @@
         <app-blob-button
           (click)="getCityId(city.id.toString())"
           [idCity]="idCityForPicture"
+          (countryId)="sendCountry($event)"
         ></app-blob-button>
       </td>
       <td>
-        <div *ngIf="isEditing">
+        <div *ngIf="city.isEditing">
           <form
             [formGroup]="select"
             (ngSubmit)="onSubmit(city.id)"
@@ -137,12 +138,12 @@
             </div>
           </form>
         </div>
-        <div *ngIf="!isEditing"><button
+        <div *ngIf="!city.isEditing"><button
             pButton
             pRipple
             icon="fa-solid fa-pencil"
             class="button accept mr-2"
-            (click)="onEditing()"
+            (click)="onEditing(city.id)"
           ></button>
           {{ city.cat.name }}
           

@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { City } from 'src/app/models/city';
 import { CityService } from 'src/app/services/city.service';
 import { MessageService } from 'primeng/api';
@@ -26,8 +33,7 @@ export class CityListComponent implements OnChanges {
   allCategory!: StayCat[];
   categoryList!: StayCat[];
   select!: FormGroup;
-  isEditing: boolean = false;
-  
+  @Output() countryId = new EventEmitter<number>();
 
   constructor(
     private cityService: CityService,
@@ -47,13 +53,11 @@ export class CityListComponent implements OnChanges {
     });
     this.initialForm();
   }
-  
+
   getCityId(id: number) {
     this.idCityForPicture = +id;
-        console.log('id-city',this.idCityForPicture);
-      }
-    
-  
+    console.log('id-city', this.idCityForPicture);
+  }
 
   private initialForm() {
     this.select = this.fb.group({
@@ -101,7 +105,16 @@ export class CityListComponent implements OnChanges {
           detail: 'Donnée mise à jour !',
         });
         setTimeout(() => {
-          this.isEditing = false;
+          this.city.isEditing = false;
+          this.cityService.getAllCities().subscribe({
+            next: (response) => {
+              this.cityService.cityList$.next(response);
+              const updatedCity = this.cityList.find(
+                (city) => city.id === idCity
+              );
+              this.countryId.emit(updatedCity?.id_country);
+            },
+          });
         }, 2000);
       },
       error: (error) => {
@@ -113,19 +126,30 @@ export class CityListComponent implements OnChanges {
   OnDeleteCity(idCity: number) {
     this.cityService.deleteCity(idCity).subscribe({
       next: (response) => {
+        this.cityService.getAllCities().subscribe({
+          next: (response) => {
+            this.cityService.cityList$.next(response);
+            const deletedCity = this.cityList.find(
+              (city) => city.id === idCity
+            );
+            this.countryId.emit(deletedCity?.id_country);
+          },
+        });
         this.messageService.add({
           severity: 'error',
           summary: 'Supprimé',
           detail: 'Ville supprimée !',
         });
-        
       },
     });
   }
 
-  onEditing() {
-    this.isEditing = true;
+  onEditing(id: number) {
+    this.city = this.cityList.find((city) => city.id === id)!;
+    this.city.isEditing = true;
   }
 
-  
+  sendCountry(countryId: number) {
+    this.countryId.emit(countryId);
+  }
 }

@@ -1,0 +1,35 @@
+<p-dialog *ngIf="user"
+          header="Attention"
+          [(visible)]="visible"
+          [breakpoints]="{ '960px': '75vw' }"
+          [style]="{ width: '50vw' }"
+          [draggable]="false"
+          [resizable]="false"
+          [modal]="true"
+          (onHide)="closeDialog()"
+        >
+          <p>
+            Vous allez supprimer un utilisateur, voulez-vous effacer les
+            itinéraires créés par cet utilisateur également ?
+          </p>
+          <div class="buttons m-4">
+            <button
+              class="button refuse is-responsive"
+              (click)="OnSoftDeleteUser(idUser)"
+            >
+              Supprimer et conserver les itinéraires
+            </button>
+            <button
+              class="button refuse is-responsive"
+              (click)="OnDeleteAllDataUser(idUser)"
+            >
+              Tout supprimer
+            </button>
+            <button
+              class="button accept is-responsive"
+              (click)="closeDialog()"
+            >
+              Annuler
+            </button>
+          </div>
+        </p-dialog>

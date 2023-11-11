@@ -1,4 +1,5 @@
 
+
 <div>
 <p-sidebar [(visible)]="sidebarVisible" styleClass="w-30rem custom-side-bar">
     
@@ -38,5 +39,5 @@
   <div *ngIf="itinerariesList && itinerariesList.length === 0" class="column is-10 is-offset-2 is-size-3-desktop is-size-6-touch">
     Pas encore d'itinéraire proposé par cet utilisateur.
   </div>
-<app-admin-itinerary-card *ngFor="let itineraries of itinerariesList" [itineraries]="itineraries" class="column is-half is-touch block"></app-admin-itinerary-card>
+<app-admin-itinerary-card *ngFor="let itineraries of itinerariesList" [itineraries]="itineraries" class="column is-half is-full-touch is-touch block"></app-admin-itinerary-card>
 </div>

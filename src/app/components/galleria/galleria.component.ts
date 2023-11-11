@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { lastValueFrom } from 'rxjs';
@@ -17,6 +24,7 @@ export class GalleriaComponent implements OnChanges {
   cityBlob!: Blob;
   cityPicture!: any;
   imageUrl: string = 'http://localhost:3000/';
+  @Output() countryId = new EventEmitter<number>();
 
   constructor(
     private cityService: CityService,
@@ -30,7 +38,7 @@ export class GalleriaComponent implements OnChanges {
       this.cityService.getCityById(this.idCity).subscribe({
         next: (response) => {
           this.city = response;
-          console.log('galleria',this.city);
+          console.log('galleria', this.city);
         },
       });
     }
@@ -83,12 +91,12 @@ export class GalleriaComponent implements OnChanges {
 
     this.photoService.deletePicture(idPicture).subscribe({
       next: (response) => {
+        this.countryId.emit(this.city.id_country);
         this.messageService.add({
           severity: 'warn',
           summary: 'Opération réussie',
           detail: 'Photo supprimé',
         });
-        this.ngOnChanges();
       },
     });
   }

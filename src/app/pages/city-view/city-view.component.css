@@ -21,3 +21,10 @@
     border: 2px solid rgb(253, 253, 0);
     border-radius: 25px; 
 }
+
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .mobile-margin {
+        margin-left: 0px;
+    }
+}

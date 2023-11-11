@@ -10,23 +10,25 @@ import { CountryComponent } from './pages/country/country.component';
 import { DestinationsComponent } from './pages/destinations/destinations.component';
 import { CityViewComponent } from './pages/city-view/city-view.component';
 import { ItineraryViewComponent } from './pages/itinerary-view/itinerary-view.component';
+import { authGuard } from './guards/auth.guard';
+import { connectedGuard } from './guards/connected.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'itinerary', component: ItineraryComponent },
-  { path: 'itinerary/:id', component: ItineraryViewComponent},
+  { path: 'itinerary/:id', component: ItineraryViewComponent },
   { path: 'country', component: CountryComponent },
   { path: 'destinations', component: DestinationsComponent },
-  { path: 'destinations/:id', component: CityViewComponent},
-  { path: 'signup', component: SignupComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'admin', component: AdminComponent},
-  { path: '**', component: Page404Component}
+  { path: 'destinations/:id', component: CityViewComponent },
+  { path: 'signup', component: SignupComponent, canActivate: [connectedGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [connectedGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [authGuard] },
+  { path: '**', component: Page404Component },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

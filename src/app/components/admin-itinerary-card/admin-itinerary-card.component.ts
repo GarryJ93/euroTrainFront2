@@ -14,21 +14,22 @@ export class AdminItineraryCardComponent implements OnInit {
   @Input() itineraries!: Itinerary;
   @Input() country!: Country;
   itinerary!: Itinerary;
-  imageUrl: string = "http://localhost:3000/"
+  imageUrl: string = 'http://localhost:3000/';
   cityBlob!: Blob;
   cityImage!: any;
 
-  constructor(private photoService: PhotoService,
+  constructor(
+    private photoService: PhotoService,
     private itineraryService: ItineraryService,
-    private messageService: MessageService) { }
+    private messageService: MessageService
+  ) {}
 
   ngOnInit() {
-
     this.itineraryService.getItineraryById(this.itineraries.id!).subscribe({
       next: (response) => {
         this.itinerary = response;
-      }
-    })
+      },
+    });
     //   if (this.itineraries.destinationCity.photo[0]) {
     //     for (let picture of this.itineraries.destinationCity.photo) {
     //       if (this.itineraries.destinationCity.id === picture.id_city)
@@ -63,14 +64,17 @@ export class AdminItineraryCardComponent implements OnInit {
 
     this.itineraryService.deleteItinerary(idItinerary).subscribe({
       next: (response) => {
+        this.itineraryService.getAllItineraries().subscribe({
+          next: (response) => {
+            this.itineraryService.itineraryList$.next(response);
+          },
+        });
         this.messageService.add({
           severity: 'warn',
           summary: 'Opération réussie',
           detail: 'Itinéraire supprimé',
         });
-  
-      }
-    })
+      },
+    });
   }
 }
-

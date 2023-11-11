@@ -1,9 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { City } from 'src/app/models/city';
 import { Country } from 'src/app/models/country';
@@ -20,12 +16,14 @@ import { LanguageService } from 'src/app/services/language.service';
 import { TravelDocumentService } from 'src/app/services/travel-document.service';
 import { UserService } from 'src/app/services/user.service';
 import * as emailjs from 'emailjs-com';
+import { Subscription } from 'rxjs';
+import { response } from 'express';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnChanges, OnDestroy {
   access!: Boolean;
   full_access!: Boolean;
   allItineraries!: Itinerary[];
@@ -44,7 +42,7 @@ export class AdminComponent implements OnInit {
   select!: FormGroup;
   user!: User;
   card!: HTMLElement | null;
-  visible: boolean = false;
+  visible!: boolean;
   currentId!: number;
   allLanguages!: Language[];
   languagesToDisplay!: Language[];
@@ -58,6 +56,8 @@ export class AdminComponent implements OnInit {
   itinerariesCountByAdmin: Record<number, number> = {};
   citiesByCountryWithPictures: City[] = [];
   cityWithPicture!: City;
+  idUser!: number;
+  private subscriptions: Subscription[] = [];
   constructor(
     private itineraryService: ItineraryService,
     private languageService: LanguageService,
@@ -71,10 +71,8 @@ export class AdminComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.full_access = JSON.parse(localStorage.getItem('full_access')!);
-    console.log(this.full_access);
 
     this.access = JSON.parse(localStorage.getItem('access')!);
-    console.log(this.access);
 
     this.currentId = +localStorage.getItem('id')!;
 
@@ -82,45 +80,72 @@ export class AdminComponent implements OnInit {
 
     this.itineraryService.getAllItineraries().subscribe({
       next: (response) => {
-        {
-          this.allItineraries = [...response];
-          this.itinerariesToDisplay = [...response];
-          this.itinerariesToDisplayUser = [
-            ...this.itinerariesToDisplay.filter(
-              (itinerary) => itinerary.id_user === this.currentId
-            ),
-          ];
-          this.allUsersItineraries = [...this.itinerariesToDisplay];
-          this.userService.getAllUsers().subscribe({
-            next: (response) => {
-              {
-                this.allUsers = [...response];
-                this.usersToDisplay = [...response];
-
-                this.candidateUser = [
-                  ...this.usersToDisplay.filter((user) => !user.access),
-                ];
-                this.adminUser = [
-                  ...this.usersToDisplay.filter(
-                    (user) => user.access && !user.full_access
-                  ),
-                ];
-              }
-              if (this.full_access) {
-                this.onCount();
-              }
-            },
-          });
-        }
+        this.itineraryService.itineraryList$.next(response);
       },
     });
 
+    const obsItinerary = this.itineraryService.itineraryList$.subscribe({
+      next: (response) => {
+        this.allItineraries = [...response];
+        this.itinerariesToDisplay = [...response];
+        this.itinerariesToDisplayUser = [
+          ...this.itinerariesToDisplay.filter(
+            (itinerary) => itinerary.id_user === this.currentId
+          ),
+        ];
+        this.allUsersItineraries = [...this.itinerariesToDisplay];
+
+        this.userService.getAllUsers().subscribe({
+          next: (response) => {
+            this.userService.allUsers$.next(response);
+            this.userService.candidateUsers$.next(response);
+            this.userService.adminUsers$.next(response);
+            const obsAllUsers = this.userService.allUsers$.subscribe({
+              next: (response) => {
+                this.allUsers = [...response];
+                this.usersToDisplay = [...response];
+              },
+            });
+            this.subscriptions.push(obsAllUsers);
+
+            const obsCandidate = this.userService.candidateUsers$.subscribe({
+              next: (response) => {
+                this.candidateUser = [
+                  ...response.filter((user) => !user.access),
+                ];
+              },
+            });
+            this.subscriptions.push(obsCandidate);
+
+            const obsAdmin = this.userService.adminUsers$.subscribe({
+              next: (response) => {
+                this.adminUser = [
+                  ...response.filter(
+                    (user) => user.access && !user.full_access
+                  ),
+                ];
+              },
+            });
+            this.subscriptions.push(obsAdmin);
+            this.onCount();
+          },
+        });
+      },
+    });
+    this.subscriptions.push(obsItinerary);
+
+    const obsCountryList = this.countryService.countryList$.subscribe({
+      next: (response) => {
+        this.allCountries = [...response];
+        this.countriesToDisplay = [...response];
+        this.countriesToDisplay.sort((a, b) => a.name.localeCompare(b.name));
+      },
+    });
+    this.subscriptions.push(obsCountryList);
+
     this.countryService.getAllCountries().subscribe({
       next: (response) => {
-        {
-          this.allCountries = [...response];
-          this.countriesToDisplay = [...response];
-        }
+        this.countryService.countryList$.next(response);
       },
     });
 
@@ -147,13 +172,16 @@ export class AdminComponent implements OnInit {
         {
           this.allTravelDocuments = [...response];
           this.travelDocumentsToDisplay = [...response];
-
-          console.log(this.travelDocumentsToDisplay);
         }
       },
     });
-
     this.cityService.getAllCities().subscribe({
+      next: (response) => {
+        this.cityService.cityList$.next(response);
+      },
+    });
+
+    const obsCities = this.cityService.cityList$.subscribe({
       next: (response) => {
         {
           this.allCities = [...response];
@@ -161,7 +189,10 @@ export class AdminComponent implements OnInit {
         }
       },
     });
+    this.subscriptions.push(obsCities);
   }
+
+  ngOnChanges() {}
 
   private initialForm() {
     this.select = this.fb.group({
@@ -179,34 +210,39 @@ export class AdminComponent implements OnInit {
         ];
         this.itinerariesCountByAdmin[admin.id] = adminItineraries.length;
       });
-
-      console.log('Itineraries Count By Admin:', this.itinerariesCountByAdmin);
     }
   }
 
-  onSubmit() {
-    console.log(this.citiesToDisplay);
-    if (this.select.valid) {
-      let countryId: number = +this.select.value.country;
-      this.citiesByCountry = [
-        ...this.citiesToDisplay.filter((city) => city.id_country === countryId),
-      ];
-      this.citiesByCountryWithPictures = [];
-       this.citiesByCountry.forEach(city => {
-         this.cityService.getCityById(city.id).subscribe({
-           next: (response) => {
-             console.log(response);
-             this.cityWithPicture = response;
-             this.citiesByCountryWithPictures.push(this.cityWithPicture);
-           }
-         });
-         this.citiesByCountryWithPictures = this.citiesByCountryWithPictures.map((city) => ({
-        ...city,
-        isVisible: false,
-      }));
-      })
-      console.log(this.citiesByCountry);
-    }
+  onSubmit(countryId: number) {
+    console.log(countryId);
+    this.cityService.getAllCities().subscribe({
+      next: (response) => {
+        this.cityService.cityList$.next(response);
+        // let countryId: number = +this.select.value.country;
+        this.citiesByCountry = [
+          ...this.citiesToDisplay.filter(
+            (city) => city.id_country === countryId
+          ),
+        ];
+        this.citiesByCountryWithPictures = [];
+        this.citiesByCountry.forEach((city) => {
+          this.cityService.getCityById(city.id).subscribe({
+            next: (response) => {
+              console.log(response);
+              this.cityWithPicture = response;
+              this.citiesByCountryWithPictures.push(this.cityWithPicture);
+            },
+          });
+          this.citiesByCountryWithPictures =
+            this.citiesByCountryWithPictures.map((city) => ({
+              ...city,
+              isVisible: false,
+              isEditing: false,
+            }));
+        });
+        console.log(this.citiesByCountry);
+      },
+    });
   }
 
   OnAcceptNewAdmin(idUser: number) {
@@ -215,54 +251,67 @@ export class AdminComponent implements OnInit {
       access: true,
     };
 
-    
-
     this.userService.updateAdminStatus(idUser, updateUser).subscribe({
       next: (response) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Félicitations',
-          detail: 'Utilisateur accepté.',
-        });
-        const user = this.allUsers.find((user) => user.id === idUser);
-    console.log(user);
+        this.userService.getAllUsers().subscribe({
+          next: (response) => {
+            this.userService.adminUsers$.next(response);
+            this.userService.candidateUsers$.next(response);
+            this.userService.allUsers$.next(response);
 
-    if (user) {
-      const templateParams = {
-        to_email: user.email,
-        user_name: user.name,
-        user_id: user.id,
-        from_name: 'EuroTrain',
-        message:
-          'Votre compte a été validé, félicitations et bienvenue parmi nos contributeurs.',
-      };
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Félicitations',
+              detail: 'Utilisateur accepté.',
+            });
+            const user = this.allUsers.find((user) => user.id === idUser);
+            console.log(user);
 
-      emailjs
-        .send(
-          'service_73hokvk',
-          'template_uxjaxkd',
-          templateParams,
-          '4cxfky9LnJQXAKYwU'
-        )
-        .then((response) => {
-          console.log('Email sent successfully:', response);
-          location.reload();
-        })
-        .catch((error) => {
-          console.error('Error sending email:', error);
+            if (user) {
+              const templateParams = {
+                to_email: user.email,
+                user_name: user.name,
+                user_id: user.id,
+                from_name: 'EuroTrain',
+                message:
+                  'Votre compte a été validé, félicitations et bienvenue parmi nos contributeurs.',
+              };
+
+              emailjs
+                .send(
+                  'service_73hokvk',
+                  'template_uxjaxkd',
+                  templateParams,
+                  '4cxfky9LnJQXAKYwU'
+                )
+                .then((response) => {
+                  console.log('Email sent successfully:', response);
+                })
+                .catch((error) => {
+                  console.error('Error sending email:', error);
+                });
+            }
+          },
+          error: (error) => {
+            console.error('Erreur lors de la mise à jour', error);
+          },
         });
-    }
-        
-      },
-      error: (error) => {
-        console.error('Erreur lors de la mise à jour', error);
       },
     });
   }
 
   OnDeleteAllDataUser(idUser: number) {
+    console.log(idUser);
+
     this.userService.deleteUserAndData(idUser).subscribe({
       next: (response) => {
+        this.userService.getAllUsers().subscribe({
+          next: (response) => {
+            this.userService.adminUsers$.next(response);
+            this.userService.candidateUsers$.next(response);
+            this.userService.allUsers$.next(response);
+          },
+        });
         this.messageService.add({
           severity: 'error',
           summary: 'Supprimé',
@@ -275,25 +324,14 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  OnSoftDeleteUser(idUser: number) {
-    this.userService.softDeleteUser(idUser).subscribe({
-      next: (response) => {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Supprimé',
-          detail: 'Utilisateur supprimé et itinéraires conservés.',
-        });
-        this.closeDialog();
-      },
-      error: (error) => {
-        console.error('Erreur lors de la suppression', error);
-      },
-    });
-  }
-
   OnDeleteCountry(idCountry: number) {
     this.countryService.deleteCountry(idCountry).subscribe({
       next: (response) => {
+        this.countryService.getAllCountries().subscribe({
+          next: (response) => {
+            this.countryService.countryList$.next(response);
+          },
+        });
         this.messageService.add({
           severity: 'error',
           summary: 'Supprimé',
@@ -303,12 +341,16 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  showDialog() {
+  showDialog(id: number) {
     this.visible = true;
+    console.log(response);
+    this.idUser = id;
+    console.log(this.visible, 'visible', this.idUser);
   }
 
-  closeDialog() {
-    this.visible = false;
+  handleNewVisible(value: boolean) {
+    this.visible = value;
+    console.log('New visible value:', value);
   }
 
   getCountryId(id: string) {
@@ -363,5 +405,10 @@ export class AdminComponent implements OnInit {
         ),
       ];
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    console.log(this.subscriptions, 'after');
   }
 }
