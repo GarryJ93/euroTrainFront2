@@ -2,6 +2,9 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Country } from '../models/country';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { AuthInterceptorService } from './auth.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +25,7 @@ export class CountryService {
     return headers;
   }
   public countryList$ = new Subject<Country[]>();
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private jwtService: JwtService) {}
 
   getAllCountries(): Observable<Country[]> {
     return this.http.get<Country[]>(
@@ -39,6 +42,7 @@ export class CountryService {
   }
 
   addCountry(country: Country): Observable<Country> {
+    this.jwtService.checkTokenExpiration();
     return this.http.post<Country>(this.bddUrl + '/api/country', country, {
       headers: this.getHeaders(),
     });
@@ -48,6 +52,7 @@ export class CountryService {
     id: number,
     updateData: Partial<Country>
   ): Observable<Partial<Country>> {
+    this.jwtService.checkTokenExpiration();
     return this.http.patch<Country>(
       this.bddUrl + `/api/country/${id}`,
       updateData,
@@ -56,6 +61,7 @@ export class CountryService {
   }
 
   deleteCountry(id: number): Observable<Country> {
+    this.jwtService.checkTokenExpiration();
     return this.http.delete<Country>(this.bddUrl + `/api/country/${id}`, {
       headers: this.getHeaders(),
     });

@@ -9,10 +9,10 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./delete-modal.component.css'],
 })
 export class DeleteModalComponent {
-  @Input() visible!: boolean;
-  @Input() idUser!: number;
+  visible!: boolean;
+  @Input() user!: User;
   @Output() newVisible = new EventEmitter<boolean>();
-  user!: User;
+  
   constructor(
     private userService: UserService,
     private messageService: MessageService
@@ -20,10 +20,10 @@ export class DeleteModalComponent {
   
   
 
-  OnDeleteAllDataUser(idUser: number) {
-    console.log(idUser);
+  OnDeleteAllDataUser(user: User) {
+    console.log(user);
 
-    this.userService.deleteUserAndData(idUser).subscribe({
+    this.userService.deleteUserAndData(user.id).subscribe({
       next: (response) => {
         this.userService.getAllUsers().subscribe({
           next: (response) => {
@@ -45,8 +45,8 @@ export class DeleteModalComponent {
     });
   }
 
-  OnSoftDeleteUser(idUser: number) {
-    this.userService.softDeleteUser(idUser).subscribe({
+  OnSoftDeleteUser(user: User) {
+    this.userService.softDeleteUser(user.id).subscribe({
       next: (response) => {
         this.userService.getAllUsers().subscribe({
           next: (response) => {

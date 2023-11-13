@@ -64,15 +64,15 @@
             <div class="m-2">
             <button
               class="card-footer-item button is-responsive refuse m-2"
-              (click)="showDialog(user.id)"
+              (click)="showDialog(user)"
             >
               Supprimer
             </button>
-          
+          <app-delete-modal [user]="user" (newVisible)="handleNewVisible($event)"></app-delete-modal>
           </div>
           </footer>
         </div>
-        <app-delete-modal [idUser]="idUser" [visible]="visible" (newVisible)="handleNewVisible($event)"></app-delete-modal>
+        
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { City } from '../models/city';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-// import { JwtService } from './jwt.service';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,7 @@ export class CityService {
 
   public cityList$ = new Subject<City[]>();
   constructor(
-    private http: HttpClient // private jwtService: JwtService
+    private http: HttpClient , private jwtService: JwtService
   ) {}
 
   getAllCities(): Observable<City[]> {
@@ -47,21 +47,21 @@ export class CityService {
   }
 
   addCity(city: City): Observable<City> {
-    // this.jwtService.checkTokenExpiration();
+    this.jwtService.checkTokenExpiration();
     return this.http.post<City>(this.bddUrl + '/api/city', city, {
       headers: this.getHeaders(),
     });
   }
 
   updateCity(id: number, updateData: Partial<City>): Observable<Partial<City>> {
-    // this.jwtService.checkTokenExpiration();
+    this.jwtService.checkTokenExpiration();
     return this.http.patch<City>(this.bddUrl + `/api/city/${id}`, updateData, {
       headers: this.getHeaders(),
     });
   }
 
   deleteCity(id: number): Observable<City> {
-    // this.jwtService.checkTokenExpiration();
+    this.jwtService.checkTokenExpiration();
     return this.http.delete<City>(this.bddUrl + `/api/city/${id}`, {
       headers: this.getHeaders(),
     });

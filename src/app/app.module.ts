@@ -53,6 +53,8 @@ import { DestinationListComponent } from './components/destination-list/destinat
 import { CityViewComponent } from './pages/city-view/city-view.component';
 import { ItineraryViewComponent } from './pages/itinerary-view/itinerary-view.component';
 import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { JwtService } from './services/jwt.service';
 
 @NgModule({
   declarations: [
@@ -90,6 +92,11 @@ import { DeleteModalComponent } from './components/delete-modal/delete-modal.com
     DeleteModalComponent,
   ],
   imports: [
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('access_token'),
+      },
+    }),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -113,7 +120,7 @@ import { DeleteModalComponent } from './components/delete-modal/delete-modal.com
     SelectButtonModule,
     SidebarModule,
   ],
-  providers: [MessageService],
+  providers: [MessageService, JwtService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

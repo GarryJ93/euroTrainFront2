@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,10 +22,10 @@ export class UserService {
     }
     return headers;
   }
-  public allUsers$ = new Subject<User[]>();
-  public adminUsers$ = new Subject<User[]>();
-  public candidateUsers$ = new Subject<User[]>();
-  constructor(private http: HttpClient) {}
+  public allUsers$ = new BehaviorSubject<User[]>([]);
+  public adminUsers$ = new BehaviorSubject<User[]>([]);
+  public candidateUsers$ = new BehaviorSubject<User[]>([]);
+  constructor(private http: HttpClient, private jwtService: JwtService) {}
 
   addUser(user: User): Observable<User> {
     return this.http.post<User>(
@@ -35,12 +36,14 @@ export class UserService {
   }
 
   getAllUsers(): Observable<User[]> {
+    this.jwtService.checkTokenExpiration();
     return this.http.get<User[]>(this.bddUrl + '/api/user', {
       headers: this.getHeaders(),
     });
   }
 
   getUserById(id: number): Observable<User> {
+    this.jwtService.checkTokenExpiration();
     return this.http.get<User>(this.bddUrl + `/api/user/${id}`, {
       headers: this.getHeaders(),
     });
@@ -50,18 +53,21 @@ export class UserService {
     id: number,
     updateData: Partial<User>
   ): Observable<Partial<User>> {
+    this.jwtService.checkTokenExpiration();
     return this.http.patch<User>(this.bddUrl + `/api/user/${id}`, updateData, {
       headers: this.getHeaders(),
     });
   }
 
   deleteUserAndData(id: number) {
+    this.jwtService.checkTokenExpiration();
     return this.http.delete<User>(
       this.bddUrl + `/api/user/${id}`,
       { headers: this.getHeaders() })
   }
 
   softDeleteUser(id: number) {
+    this.jwtService.checkTokenExpiration();
     return this.http.delete<User>(this.bddUrl + `/api/user/softDelete/${id}`, {
       headers: this.getHeaders(),
     });

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Itinerary } from '../models/itinerary';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class ItineraryService {
     return headers;
   }
   public itineraryList$ = new Subject<Itinerary[]>();
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private jwtService: JwtService) {}
 
   getAllItineraries(): Observable<Itinerary[]> {
     const url = `${this.bddUrl}/api/itinerary`;
@@ -36,6 +37,7 @@ export class ItineraryService {
   }
 
   createItinerary(newItinerary: Partial<Itinerary>): Observable<Itinerary> {
+    this.jwtService.checkTokenExpiration();
     console.log(newItinerary);
 
     return this.http
@@ -52,6 +54,7 @@ export class ItineraryService {
   }
 
   deleteItinerary(id: number): Observable<Itinerary> {
+    this.jwtService.checkTokenExpiration();
     return this.http.delete<Itinerary>(this.bddUrl + `/api/itinerary/${id}`, {
       headers: this.getHeaders(),
     });

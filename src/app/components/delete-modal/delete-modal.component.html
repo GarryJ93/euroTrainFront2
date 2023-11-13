@@ -1,6 +1,6 @@
 <p-dialog *ngIf="user"
           header="Attention"
-          [(visible)]="visible"
+          [(visible)]="user.visible"
           [breakpoints]="{ '960px': '75vw' }"
           [style]="{ width: '50vw' }"
           [draggable]="false"
@@ -15,13 +15,13 @@
           <div class="buttons m-4">
             <button
               class="button refuse is-responsive"
-              (click)="OnSoftDeleteUser(idUser)"
+              (click)="OnSoftDeleteUser(user)"
             >
               Supprimer et conserver les itinéraires
             </button>
             <button
               class="button refuse is-responsive"
-              (click)="OnDeleteAllDataUser(idUser)"
+              (click)="OnDeleteAllDataUser(user)"
             >
               Tout supprimer
             </button>

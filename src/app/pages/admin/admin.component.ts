@@ -123,6 +123,8 @@ export class AdminComponent implements OnInit, OnChanges, OnDestroy {
                     (user) => user.access && !user.full_access
                   ),
                 ];
+                console.log(this.adminUser);
+                
               },
             });
             this.subscriptions.push(obsAdmin);
@@ -340,10 +342,11 @@ export class AdminComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  showDialog(id: number) {
-    this.visible = true;
-    this.idUser = id;
-    console.log(this.visible, 'visible', this.idUser);
+  showDialog(user: User) {
+    if(user)this.user = user;
+    this.user.visible = true;
+    
+    console.log(this.user.visible, 'visible');
   }
 
   handleNewVisible(value: boolean) {
