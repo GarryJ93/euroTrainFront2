@@ -11,7 +11,6 @@ import { Photo } from 'src/app/models/photo';
 import { CityService } from 'src/app/services/city.service';
 import { PhotoService } from 'src/app/services/photo.service';
 import { Subscription } from 'rxjs';
-import { response } from 'express';
 
 @Component({
   selector: 'app-blob-button',

@@ -17,7 +17,6 @@ import { TravelDocumentService } from 'src/app/services/travel-document.service'
 import { UserService } from 'src/app/services/user.service';
 import * as emailjs from 'emailjs-com';
 import { Subscription } from 'rxjs';
-import { response } from 'express';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -343,7 +342,6 @@ export class AdminComponent implements OnInit, OnChanges, OnDestroy {
 
   showDialog(id: number) {
     this.visible = true;
-    console.log(response);
     this.idUser = id;
     console.log(this.visible, 'visible', this.idUser);
   }
