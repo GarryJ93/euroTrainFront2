@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
 })
 export class BlobButtonComponent implements OnDestroy {
   myFile!: File;
-  @Input() idCity!: number | null;
+  @Input() idCity!: number ;
   @Input() idCountry!: number;
   cityWithCountry!: City;
   uploading!: boolean;
@@ -37,7 +37,7 @@ export class BlobButtonComponent implements OnDestroy {
     this.uploading = true;
 
     if (this.idCity === null && this.idCountry !== undefined) {
-      this.uploadPhoto(this.idCity!, this.idCountry, e.target.files[0]);
+      this.uploadPhoto(this.idCity, this.idCountry, e.target.files[0]);
     } else if (this.idCity !== null && this.idCountry === undefined) {
       this.subscriptions.push(
         this.cityService.getCityById(this.idCity).subscribe({
@@ -58,7 +58,7 @@ export class BlobButtonComponent implements OnDestroy {
     }
   }
 
-  private uploadPhoto(idCity: number, idCountry: number, file: File) {
+  private uploadPhoto(idCity: number | null, idCountry: number, file: File) {
     if (file) {
       const formData = new FormData();
       formData.append('image', file);
@@ -82,7 +82,11 @@ export class BlobButtonComponent implements OnDestroy {
           },
           error: (error: any) => {
             console.error('Erreur lors du téléchargement de la photo', error);
-            // Gérer l'erreur, afficher un message à l'utilisateur, etc.
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Échec',
+              detail: "Impossible d'ajouter la photo",
+            });
           },
         })
       );

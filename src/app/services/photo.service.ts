@@ -32,10 +32,15 @@ export class PhotoService {
     return this.http.get(this.bddUrl + `/api/photo/${id}`, this.httpOptions);
   }
 
-  postImage(formData: FormData, idCity: number, idCountry: number) {
+  postImage(formData: FormData, idCity: number | null, idCountry: number) {
     this.jwtService.checkTokenExpiration();
-    formData.append('idCity', idCity.toString());
+
+    if (idCity) {
+      formData.append('idCity', idCity.toString());
+    }
+
     formData.append('idCountry', idCountry.toString());
+
     return this.http.post(this.bddUrl + '/api/photo', formData, {
       headers: this.getHeaders(),
     });

@@ -1,5 +1,3 @@
-
-
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -19,11 +17,6 @@ export class JwtService {
   
 
   constructor(private jwtHelper: JwtHelperService, private authService: AuthInterceptorService, private router : Router, private messageService: MessageService) {}
-
- 
-
-  
-
   
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
