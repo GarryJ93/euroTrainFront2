@@ -16,6 +16,14 @@ export class PhotoService {
       'Content-Type': 'application/json',
     }),
   };
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('access_token');
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', 'Bearer ' + token);
+    }
+    return headers;
+  }
 
   constructor(private http: HttpClient) {}
 
@@ -26,17 +34,14 @@ export class PhotoService {
   postImage(formData: FormData, idCity: number, idCountry: number) {
     formData.append('idCity', idCity.toString());
     formData.append('idCountry', idCountry.toString());
-    return this.http.post(
-      this.bddUrl + '/api/photo',
-      formData,
-      this.httpOptions
-    );
+    return this.http.post(this.bddUrl + '/api/photo', formData, {
+      headers: this.getHeaders(),
+    });
   }
 
   deletePicture(id: number): Observable<Photo> {
-    return this.http.delete<Photo>(
-      this.bddUrl + `/api/photo/${id}`,
-      this.httpOptions
-    );
+    return this.http.delete<Photo>(this.bddUrl + `/api/photo/${id}`, {
+      headers: this.getHeaders(),
+    });
   }
 }

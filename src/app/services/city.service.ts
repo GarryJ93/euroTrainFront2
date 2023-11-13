@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { City } from '../models/city';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 // import { JwtService } from './jwt.service';
 
 @Injectable({
@@ -22,9 +22,11 @@ export class CityService {
     }
     return headers;
   }
-  public cityList$ = new BehaviorSubject<City[]>([]);
-  constructor(private http: HttpClient) // private jwtService: JwtService
-  {}
+
+  public cityList$ = new Subject<City[]>();
+  constructor(
+    private http: HttpClient // private jwtService: JwtService
+  ) {}
 
   getAllCities(): Observable<City[]> {
     return this.http.get<City[]>(this.bddUrl + '/api/city', this.httpOptions);

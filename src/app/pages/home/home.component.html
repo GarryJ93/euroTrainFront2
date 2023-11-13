@@ -1,46 +1,86 @@
 
-import { Component, OnInit } from '@angular/core';
-import { Itinerary } from 'src/app/models/itinerary';
-import { TransportCompany } from 'src/app/models/transport-company';
-import { CompanyService } from 'src/app/services/company.service';
-import { ItineraryService } from 'src/app/services/itinerary.service';
 
-@Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
-})
-export class HomeComponent implements OnInit {
-  allItineraries!: Itinerary[];
-  itinerariesToDisplay!: Itinerary[];
-  exampleOfWay!: Itinerary;
-  allCompanies!: TransportCompany[];
-  companiesToDisplay!: TransportCompany[];
+<div class="columns is-multiline is-centered is-touch block">
+<!-- <figure class="image is-2by1 column is-full is-fluid block">
+    <img src="http://localhost:3000/1699260287396-IMG_4184.webp" alt="">
+</figure> -->
 
-  constructor(
-    private itineraryService: ItineraryService,
-    private companyService: CompanyService
-  ) {}
+<section class="columns is-centered is-multiline column is-full is-touch block home mx-2">
+<div class="hero column is-narrow is-three-quarters block is-touch mx-4 mt-6">
 
-  ngOnInit() {
-    this.itineraryService.getAllItineraries().subscribe({
-      next: (response) => {
-        {
-          this.allItineraries = [...response];
-          this.itinerariesToDisplay = [...response];
-          this.exampleOfWay =
-            this.itinerariesToDisplay[
-              Math.floor(Math.random() * (this.itinerariesToDisplay.length - 1))
-            ];
-        }
-      },
-    });
+  <div class="hero-body is-touch  m-2 welcome">
+    <h2 class="has-text-centered is-size-4-desktop is-size-6-touch is-size-8-mobile has-text-weight-semibold">
+      Bienvenue à bord d'EuroTrain, où chaque voyage est une destination en soi. Embarquez avec nous pour une aventure ferroviaire inoubliable en Europe !
+    </h2>
+  </div>
+  </div>
+</section>
+<div class="columns column is-full is-centered divBtn">
+<button class="button is-responsive itinerary" [routerLink]="['/itinerary']">Voir nos itinéraires</button>
+</div>
 
-    this.companyService.getAllCompanies().subscribe({
-      next: (response) => {
-        this.allCompanies = [...response];
-        this.companiesToDisplay = [...response];
-      },
-    });
-  }
-}
+<section class="columns column is-full is-multiline is-touch block m-4 ">
+<div class="column gap-2 is-5 block mx-2">
+  <h3 class="has-text-centered is-size-3-desktop is-size-5-touch has-text-weight-semibold">Consultez nos idées d'itinéraires et laissez vous inspirer.</h3>
+  <app-card-example [myExample]="exampleOfWay" [routerLink]="['/itinerary']"></app-card-example></div>
+<div class=" is-touch column is-5-offset-1 block mx-4">
+  <h3 class="has-text-centered is-size-3-desktop is-size-5-touch has-text-weight-semibold mb-2">Consultez les informations de chaque pays</h3>
+  <div class="introduction p-6" [routerLink]="['/country']">
+  <p class="mb-4">Pour préparer au mieux votre voyage, vous trouverez des informations utiles pour organiser des trajets mémorables.</p>
+  <img src="../../../assets/Capture d'écran 2023-10-25 201700.png" alt=""></div>
+</div></section>
+<section class="columns is-centered column is-full is-multiline is-touch block mx-4 p-4 ">
+<div class="column is-4 block mx-2">
+  <div class="about">
+  <h3 class="has-text-centered is-size-3-desktop is-size-5-touch has-text-weight-semibold p-4 mb-2 why">Pourquoi EuroTrain ?</h3>
+  <div class=" p-4">
+<p class="mt-2" > 
+Chez EuroTrain, nous comprenons que chaque voyageur a ses propres motivations, qu'il s'agisse de choisir des alternatives écologiques, de surmonter une phobie de l'avion ou simplement de vivre l'expérience du voyage d'une manière nouvelle et enrichissante. C'est pourquoi nous avons créé une plateforme dédiée à la découverte de l'Europe à travers des itinéraires ferroviaires soigneusement sélectionnés.
+<p class="mt-2" >
+Pourquoi le train ? Parce que le voyage en train offre bien plus qu'un simple moyen de transport. C'est une aventure pittoresque à travers des paysages divers, une immersion dans la culture locale et une opportunité de connecter les gens tout en réduisant l'impact sur l'environnement.
+</p>
+<p class="mt-2">
+EuroTrain est bien plus qu'un simple guide de voyage. Nous encourageons la communauté à devenir une partie intégrante de notre plateforme en devenant contributeur. Vous avez un itinéraire secret, une découverte inédite ou une escapade mémorable à partager ? Devenez membre et partagez votre passion pour le voyage en train avec d'autres âmes avides d'exploration.
+</p>
+<p class="mt-2">
+Explorez nos itinéraires préconçus, trouvez l'inspiration, et si l'aventure vous appelle, créez votre propre itinéraire personnalisé. Chez EuroTrain, chaque trajet est une invitation à élargir vos horizons, à vivre des expériences authentiques et à contribuer à une communauté passionnée.
+</p></div>
+</div></div>
+<div class="column is-3-offset-2 block p-4">
+  <h3 class="has-text-centered is-size-3-desktop is-size-5-touch has-text-weight-semibold mb-2">Rejoignez-nous</h3>
+  <div class="p-4 introduction">
+  <p  class="mt-2">En souhaitant devenir contributeur vous pourrez partager votre amour des voyages en train avec nos visiteurs.</p>
+  <div class="columns is-vcentered is-touch is-multiline mt-4">
+    
+    <img src="../../../assets/pays.png" class="image is-fluid column is-half block" max-width="400px" alt="">
+    <p class="column is-half">Vous pourrez en effet, nous aider à enrichir nos informations, en proposant de nouveaux pays de destination et en ajoutant des photos pour illustrer vos voyages.</p>
+    <p class="column is-half">Vous pourrez également consulter notre liste de villes disponibles par pays et bien sûr proposer de nouvelles destinations, origines ou escales et les illustrer par vos photos.</p>
+    <img src="../../../assets/ville.png" class="image is-fluid column is-half block" max-width="400px" alt="">
+    <img src="../../../assets/itineraires.png" class="image is-fluid column is-half block" max-width="400px" alt="">
+    <p class="column is-half">Pour partager vos idées de voyage avec nos visiteurs, vous aurez la possibilité de créer et gérer vos propres itinéraires depuis votre espace personnel.</p>
+    <div class="columns column is-full is-centered contributor p-4">
+<button class="button is-responsive signupBtn p-4 m-2" [routerLink]="['/signup']">Devenez contributeur</button>
+</div>
+  </div>
+</div></div>
+<div class="columns is-multiline is-centered is-touch column block is-2">
+  <h3 class="has-text-centered column is-full is-size-3-desktop is-size-5-touch has-text-weight-semibold">
+    Pour acheter vos billets
+  </h3>
+  <div class="column is-full company">
+  <div *ngFor="let company of companiesToDisplay" class="m-2">
+    
+    <a href="{{company.link_url}}" target="_blank">
+      <img src="{{company.logo_url}}" width="100%" style="max-width: 85px;">
+    </a>
+  </div></div></div>
+
+
+
+
+
+
+
+
+</section>
+</div>

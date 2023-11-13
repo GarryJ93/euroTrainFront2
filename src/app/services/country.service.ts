@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Country } from '../models/country';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,15 @@ export class CountryService {
       'Content-Type': 'application/json',
     }),
   };
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('access_token');
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', 'Bearer ' + token);
+    }
+    return headers;
+  }
+  public countryList$ = new Subject<Country[]>();
   constructor(private http: HttpClient) {}
 
   getAllCountries(): Observable<Country[]> {
@@ -30,11 +39,9 @@ export class CountryService {
   }
 
   addCountry(country: Country): Observable<Country> {
-    return this.http.post<Country>(
-      this.bddUrl + '/api/country',
-      country,
-      this.httpOptions
-    );
+    return this.http.post<Country>(this.bddUrl + '/api/country', country, {
+      headers: this.getHeaders(),
+    });
   }
 
   updateCountry(
@@ -44,14 +51,13 @@ export class CountryService {
     return this.http.patch<Country>(
       this.bddUrl + `/api/country/${id}`,
       updateData,
-      this.httpOptions
+      { headers: this.getHeaders() }
     );
   }
 
   deleteCountry(id: number): Observable<Country> {
-    return this.http.delete<Country>(
-      this.bddUrl + `/api/country/${id}`,
-      this.httpOptions
-    );
+    return this.http.delete<Country>(this.bddUrl + `/api/country/${id}`, {
+      headers: this.getHeaders(),
+    });
   }
 }

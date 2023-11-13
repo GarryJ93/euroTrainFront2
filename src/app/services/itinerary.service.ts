@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Itinerary } from '../models/itinerary';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,15 @@ export class ItineraryService {
       'Content-Type': 'application/json',
     }),
   };
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('access_token');
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', 'Bearer ' + token);
+    }
+    return headers;
+  }
+  public itineraryList$ = new Subject<Itinerary[]>();
   constructor(private http: HttpClient) {}
 
   getAllItineraries(): Observable<Itinerary[]> {
@@ -30,11 +39,9 @@ export class ItineraryService {
     console.log(newItinerary);
 
     return this.http
-      .post<Itinerary>(
-        this.bddUrl + '/api/itinerary',
-        newItinerary,
-        this.httpOptions
-      )
+      .post<Itinerary>(this.bddUrl + '/api/itinerary', newItinerary, {
+        headers: this.getHeaders(),
+      })
       .pipe(
         tap((createdItinerary) => this.itinerarySubject.next(createdItinerary))
       );
@@ -45,7 +52,9 @@ export class ItineraryService {
   }
 
   deleteItinerary(id: number): Observable<Itinerary> {
-    return this.http.delete<Itinerary>(this.bddUrl + `/api/itinerary/${id}`);
+    return this.http.delete<Itinerary>(this.bddUrl + `/api/itinerary/${id}`, {
+      headers: this.getHeaders(),
+    });
   }
 }
 
