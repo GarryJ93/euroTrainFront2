@@ -1,4 +1,4 @@
-<div *ngIf="cityCard" class="card is-touch custom-card mx-2" >
+<div *ngIf="cityCard && cityCard.photo" class="card is-touch custom-card mx-2" >
   <div class="columns is-centered is-touch pb-4">
   <div class="column card-image">
     <div *ngIf="cityCard.photo.length > 0" class="container is-max-desktop">
@@ -11,7 +11,7 @@
           <ng-template let-photo pTemplate="item">
             <div>
               <figure class="image is-3by2 is-touch is-desktop mt-2">
-                <img *ngIf="photo" class="has-ratio" [src]="imageUrl + photo.name" />
+                <img *ngIf="photo" class="has-ratio" [src]="imageUrl + photo.name" loading="lazy" />
               </figure>
             </div>
           </ng-template>

@@ -1,13 +1,18 @@
 .welcome {
     color: white;
-    background: rgba(8, 8, 88, 0.733);
+    background: #080858bb;
     border-radius: 25px;
     margin: 0;
     transition: 2s;
+    max-height: 200px;
 }
 
-h3 {
-    color: rgb(8, 8, 88);
+.frame {
+    max-height: 220px;
+}
+
+h2 {
+    color: #080859
 }
 
 .why {
@@ -37,8 +42,13 @@ h3 {
 
 .home {
     background-image: url(../../../assets/plan-moyen-femme-voyageant-train.jpg);
-    background-size: cover;
-    
+    background-size:cover;
+    background-repeat: no-repeat;
+    min-height: 450px;
+}
+
+.page {
+    margin-right: -1rem !important;
 }
 
 .itinerary {

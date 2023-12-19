@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { forkJoin, Observable } from 'rxjs';
 import { City } from 'src/app/models/city';
 import { CityService } from 'src/app/services/city.service';
 import { PhotoService } from 'src/app/services/photo.service';

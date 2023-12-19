@@ -46,8 +46,8 @@ export class AddCityComponent {
     this.addCity = this.fb.group({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      country: new FormControl(''),
-      cat: new FormControl(''),
+      country: new FormControl('', Validators.required),
+      cat: new FormControl('', Validators.required),
     });
   }
   showDialog() {
@@ -66,21 +66,13 @@ export class AddCityComponent {
     newCity.id_country = +newCity.country;
     newCity.id_stay_cat = +newCity.cat;
 
-    console.log(newCity);
-
-    console.log(this.addCity);
-    if (!this.addCity.valid) {
-      newCity = {
-        ...this.addCity.value,
-      };
-    }
     this.cityService.addCity(newCity).subscribe({
       next: () => {
-        this.cityService.getAllCities().subscribe({
-          next: (response) => {
-            this.cityService.cityList$.next(response);
-          },
-        });
+        // this.cityService.getAllCities().subscribe({
+        //   next: (response) => {
+        //     this.cityService.cityList$.next(response);
+        //   },
+        // });
         this.messageService.add({
           severity: 'success',
           summary: 'Opération réussie',

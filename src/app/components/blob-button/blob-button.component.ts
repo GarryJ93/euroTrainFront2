@@ -94,7 +94,7 @@ export class BlobButtonComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    // Nettoyer les abonnements lors de la destruction du composant
+    
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }

@@ -13,27 +13,27 @@
 
   <div id="navMenu" class="navbar-menu" #navMenu>
     <div class="navbar-start">
-      <a class="navbar-item" [routerLink]="(['/home'])"> Accueil </a>
-      <a class="navbar-item" [routerLink]="(['/itinerary'])"> Itinéraires </a>
-      <a class="navbar-item" [routerLink]="(['/country'])"> Conditions de voyage </a>
-      <a class="navbar-item" [routerLink]="(['/destinations'])"> Destinations </a>
+      <a class="navbar-item" [routerLink]="(['/home'])" (click)="toggleNavbar()"> Accueil </a>
+      <a class="navbar-item" [routerLink]="(['/itinerary'])" (click)="toggleNavbar()"> Itinéraires </a>
+      <a class="navbar-item" [routerLink]="(['/country'])" (click)="toggleNavbar()"> Conditions de voyage </a>
+      <a class="navbar-item" [routerLink]="(['/destinations'])" (click)="toggleNavbar()"> Destinations </a>
     </div>
 
     <div class="navbar-end">
     <div class="navbar-item has-dropdown is-hoverable">
       
-      <a class="navbar-link" [routerLink]="['/admin']"><span class="icon is-small is-left">
+      <a class="navbar-link" [routerLink]="['/admin']" (click)="toggleNavbar()"><span class="icon is-small is-left">
               <i class="fas fa-lock"></i>
             </span> <span id="admin" class="m-1">Espace admin</span> </a>
       <div class="navbar-dropdown is-boxed">
-        <a *ngIf="!access_token" class="navbar-item" [routerLink]="['/signup']"> Inscription </a>
-        <a *ngIf="!access_token" class="navbar-item" [routerLink]="['/login']"> Connexion </a>
-        <a *ngIf="access_token" class="navbar-item" [routerLink]="['/admin']"> Mon espace </a>
+        <a *ngIf="!access_token" class="navbar-item" [routerLink]="['/signup']" (click)="toggleNavbar()"> Inscription </a>
+        <a *ngIf="!access_token" class="navbar-item" [routerLink]="['/login']" (click)="toggleNavbar()"> Connexion </a>
+        <a *ngIf="access_token" class="navbar-item" [routerLink]="['/admin']" (click)="toggleNavbar()"> Mon espace </a>
       </div></div>
       
         <div class="navbar-item">
           <div class="field is-grouped">
-            <p class="control">
+            <!-- <p class="control">
               <a
                 class="bd-tw-button button social"
                 data-social-network="Instagram"
@@ -47,7 +47,7 @@
                 </span>
                 <span> Instagram </span>
               </a>
-            </p>
+            </p> -->
             <p *ngIf="access_token" class="control">
               <button class="button disconnect" (click)="showDialog()">
                 Se déconnecter

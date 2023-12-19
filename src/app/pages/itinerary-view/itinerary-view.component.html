@@ -3,7 +3,7 @@
 </button>
 <div class="columns is-multiline p-4 m-3">
 <div *ngIf="itinerary" class="column is-full has-text-centered is-size-4-desktop is-size-6-touch ">
-    <h3 class=" has-text-weight-bold mb-6">Découvrez <a [routerLink]="[('/destinations/'), itinerary.destinationCity.id]"> {{itinerary.destinationCity.name}} </a> depuis {{itinerary.originCity.name}}</h3>
+    <h2 class=" has-text-weight-bold mb-6">Découvrez <a [routerLink]="[('/destinations/'), itinerary.destinationCity.id]"> {{itinerary.destinationCity.name}} </a> depuis {{itinerary.originCity.name}}</h2>
     <div *ngIf="itinerary.destinationCity.photo.length > 0" class="container is-max-desktop">
         <p-carousel
           [value]="itinerary.destinationCity.photo"

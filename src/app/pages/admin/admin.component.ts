@@ -193,7 +193,47 @@ export class AdminComponent implements OnInit, OnChanges, OnDestroy {
     this.subscriptions.push(obsCities);
   }
 
-  ngOnChanges() {}
+  ngOnChanges() {
+    this.userService.getAllUsers().subscribe({
+          next: (response) => {
+            this.userService.allUsers$.next(response);
+            this.userService.candidateUsers$.next(response);
+            this.userService.adminUsers$.next(response);
+            const obsAllUsers = this.userService.allUsers$.subscribe({
+              next: (response) => {
+                this.allUsers = [...response];
+                this.usersToDisplay = [...response];
+              },
+            });
+            this.subscriptions.push(obsAllUsers);
+
+            const obsCandidate = this.userService.candidateUsers$.subscribe({
+              next: (response) => {
+                this.candidateUser = [
+                  ...response.filter((user) => !user.access),
+                ];
+              },
+            });
+            this.subscriptions.push(obsCandidate);
+
+            const obsAdmin = this.userService.adminUsers$.subscribe({
+              next: (response) => {
+                this.adminUser = [
+                  ...response.filter(
+                    (user) => user.access && !user.full_access
+                  ),
+                ];
+                console.log(this.adminUser);
+                
+              },
+            });
+            this.subscriptions.push(obsAdmin);
+            this.onCount();
+          },
+        });
+      }
+    
+  
 
   private initialForm() {
     this.select = this.fb.group({

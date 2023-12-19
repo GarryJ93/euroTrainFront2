@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
             console.error('Token non reçu dans la réponse.');
           }
         },
-        error: (error: any) => {
+        error: (error: Error) => {
           console.error('Erreur lors de la connexion:', error);
           this.showMessageError();
         },

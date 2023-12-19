@@ -2,7 +2,7 @@
   <div class="column block">
     <app-btn-confirm-suppression></app-btn-confirm-suppression>
   </div>
-  <div *ngIf="full_access" class="column is-touch is-full block border-left">
+  <div *ngIf="candidateUser && full_access" class="column is-touch is-full block border-left">
     <div class="columns is-multiline">
       <h2 class="column is-full has-text-weight-bold is-size-4">
         Utilisateurs en attente de validation

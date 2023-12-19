@@ -6,12 +6,13 @@
   color: white;
 }
 
-.navbar-item:hover, .navbar-item .navbar-dropdown a:hover, #admin:hover, .navbar-link i:hover {
-  color: rgb(253, 253, 0);
+.navbar-item:hover, .navbar-dropdown .navbar-item:hover, #admin:hover,.navbar-dropdown:hover, .navbar-link:hover {
+  background-color: rgb(8, 8, 88) !important;
+  color: rgb(253, 253, 0) !important ;
 }
 
-.navbar-item:focus, .navbar-item .navbar-dropdown:focus, #admin:focus, .navbar-list:focus {
-  color: rgb(159, 4, 92) !important;
+.navbar-item:focus, .navbar-item .navbar-dropdown:focus, .navbar-link:focus, #admin:focus, .navbar-list:focus {
+  color: #9f045c !important;
   font-weight: bold;
 }
 
